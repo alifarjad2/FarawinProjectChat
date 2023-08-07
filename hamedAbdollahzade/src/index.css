@@ -23,3 +23,6 @@ body {
 #root {
   height: 100%;
 }
+.btn {
+  background: -webkit-linear-gradient(right,#00dbde,#fc00ff,#00dbde,#fc00ff)
+}

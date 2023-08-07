@@ -1,34 +1,24 @@
-import farawin from "farawin";
+import Login from "./Login";
+import Register from "./Register";
+import { useState } from "react";
 
 // 1- کاربر بتونه درست لاگین و رجیستر کنه
 // ۲- کارکرد صحیح سناریو های گفته شده
 export default function FormAuth() {
+  
+  const [currentForm, setCurrentForm] = useState('login');
+
+  const toggleForm = (formName) => {
+    setCurrentForm (formName);
+  }
+
+
   return (
     <div
-      className="h-full"
+      className="bg-white h-[550px] flex flex-col items-center w-[350px] mx-auto mt-6"
     >
-      {/* TODO Insert Form Here*/}
-      <div className="bg-white h-[550px] flex flex-col items-center w-[450px] mx-auto mt-6">
-        Login
-      <button
-        className="bg-red-600 mx-2 w-10"
-        onClick={() => {
-          farawin.testLogin("09393013397", "12345678");
-        }}
-      >
-        login
-      </button>
+      { currentForm === 'login' ? <Login onFormSwitch = {toggleForm} /> : <Register /> }
 
-      <button
-        className="bg-blue-600 mx-2 w-10"
-        onClick={() => {
-          farawin.testRegister("09393013397", "12345678", "Ali Farjad");
-        }}
-      >
-        register
-      </button>
-
-      </div>
       
     </div>
   );
