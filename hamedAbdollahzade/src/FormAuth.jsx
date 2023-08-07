@@ -15,10 +15,9 @@ export default function FormAuth() {
 
   return (
     <div
-      className="bg-white h-[550px] flex flex-col items-center w-[350px] mx-auto mt-6"
+      className="bg-white rounded-lg h-[550px] flex flex-col items-center w-[350px] mx-auto mt-6"
     >
-      { currentForm === 'login' ? <Login onFormSwitch = {toggleForm} /> : <Register /> }
-
+      { currentForm === 'login' ? <Login onFormSwitch = {toggleForm} /> : <Register onFormSwitch = {toggleForm}/> }
       
     </div>
   );
