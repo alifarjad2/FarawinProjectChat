@@ -6,31 +6,30 @@ export default function FormAuth() {
   return (
     <div
       className="h-full"
-      style={{
-        background: `url(
-          https://colorlib.com/etc/lf/Login_v4/images/bg-01.jpg
-        )`,
-      }}
     >
       {/* TODO Insert Form Here*/}
-
+      <div className="bg-white h-[550px] flex flex-col items-center w-[450px] mx-auto mt-6">
+        Login
       <button
-        className="mx-2 w-10"
+        className="bg-red-600 mx-2 w-10"
         onClick={() => {
           farawin.testLogin("09393013397", "12345678");
         }}
       >
-        test login
+        login
       </button>
 
       <button
-        className="mx-2 w-10"
+        className="bg-blue-600 mx-2 w-10"
         onClick={() => {
           farawin.testRegister("09393013397", "12345678", "Ali Farjad");
         }}
       >
-        test register
+        register
       </button>
+
+      </div>
+      
     </div>
   );
 }

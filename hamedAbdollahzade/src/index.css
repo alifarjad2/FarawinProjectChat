@@ -12,11 +12,12 @@ html {
   font-family: Estedad, "Estedad", Inter, system-ui, Avenir, Helvetica, Arial,
     sans-serif;
 
-  height: 100%;
+  height:fit-content;
 }
 
 body {
   height: 100%;
+  background-image: url(https://colorlib.com/etc/lf/Login_v4/images/bg-01.jpg);
 }
 
 #root {
