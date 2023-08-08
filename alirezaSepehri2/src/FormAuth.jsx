@@ -19,6 +19,7 @@ export default function FormAuth() {
   );
 }
 
+// کامپوننت برای تولید باکس لاگین
 function BoxLogin() {
   return <div className="w-72 h-4/5 bg-white rounded-md pt-11 px-6">
     <header>
@@ -46,6 +47,7 @@ function BoxLogin() {
   </div>
 }
 
+// کامپوننت برای تولید کادرهای دریافت نام کاربری و پسورد
 function InputBox({label, type, placeholder}) {
   return (
     <div className="mt-2.5">
@@ -60,6 +62,7 @@ function InputBox({label, type, placeholder}) {
   )
 }
 
+// کامپوننت برای تولید دکمه فراموشی رمز 
 function ForgotPass() {
   return <span className="text-xs cursor-pointer" 
             onClick={() => {alert('این امکان هنوز پیاده سازی نشده است')}}>
@@ -67,6 +70,7 @@ function ForgotPass() {
         </span>
 }
 
+// کامپوننت برای تولید دکمه لاگین کردن
 function LoginBtn(){
   return <button className="w-full rounded-full text-white py-1 my-7"
           id="LoginBtn"
