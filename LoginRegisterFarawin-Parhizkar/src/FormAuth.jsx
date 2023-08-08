@@ -26,8 +26,9 @@ export default function FormAuth() {
   const [isValid, setIsValid] = useState(null);
   // مرحله 2 : در این قسمت یک تابع تعریف کردم تا با استفاده از یوز استیت های بالا 3 شرط را برای درستی شماره تلفن و نشان دادن پیغام مربوطه چک بکند
   const handleChange = (event) => {
-    const phoneNumber = event.target.value;
+    var phoneNumber = event.target.value;
     const mobileRegex = farawin.mobileRegex;
+    phoneNumber = farawin.toEnDigit(phoneNumber);
     // ایف کلمه کلیدی ساختتن یک بلاک شرط است و با الس ایف میتوان شروط متعددی را پشت سر هم چک کرد
     // در اینجا سه شرط خالی بودن درست بودن طبق ریجکس فراوین و غلط بودن چک میشود
     if (phoneNumber === "") {
