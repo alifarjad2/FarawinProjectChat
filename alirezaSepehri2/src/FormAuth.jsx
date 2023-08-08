@@ -15,31 +15,65 @@ export default function FormAuth() {
       {/* TODO Insert Form Here*/}
       <BoxLogin />
 
-      {/* <button
-        className="mx-2 w-10"
-        onClick={() => {
-          farawin.testLogin("09393013397", "12345678");
-        }}
-      >
-        test login
-      </button>
-
-      <button
-        className="mx-2 w-10"
-        onClick={() => {
-          farawin.testRegister("09393013397", "12345678", "Ali Farjad");
-        }}
-      >
-        test register
-      </button> */}
     </div>
   );
 }
 
 function BoxLogin() {
-  return <div className="w-72 h-4/5 bg-white rounded-md p-4">
+  return <div className="w-72 h-4/5 bg-white rounded-md pt-11 px-6">
     <header>
-      <h1 className="text-center font-bold">LOGIN</h1>
+      <h1 className="text-center font-bold pb-3">Login</h1>
     </header>
+
+    <InputBox label={'username'} type={'text'} placeholder={'Type your username'}/>
+    <InputBox label={'password'} type={'password'}  placeholder={'Type your password'}/>
+    
+    <div className="text-right">
+        <ForgotPass />
+    </div>
+
+    <LoginBtn />
+
+    <button
+        className="mx-2 w-full text-center text-xs"
+        onClick={() => {
+          farawin.testRegister("09393013397", "12345678", "Ali Farjad");
+        }}
+      >
+        SIGN UP
+    </button>
+
   </div>
+}
+
+function InputBox({label, type, placeholder}) {
+  return (
+    <div className="mt-2.5">
+      <label className="text-xs ml-2" 
+        htmlFor={label}>{label}</label>
+      <input className="w-full p-2 text-sm outline-none"
+        id={label}
+        type={type} 
+        placeholder={placeholder}
+      />
+    </div>
+  )
+}
+
+function ForgotPass() {
+  return <span className="text-xs cursor-pointer" 
+            onClick={() => {alert('این امکان هنوز پیاده سازی نشده است')}}>
+          Forgot password?
+        </span>
+}
+
+function LoginBtn(){
+  return <button className="w-full rounded-full text-white py-1 my-7"
+          id="LoginBtn"
+          onClick={() => {
+            farawin.testLogin("09393013397", "12345678");
+          }}
+         >
+            login
+  </button>
 }
