@@ -22,3 +22,7 @@ body {
 #root {
   height: 100%;
 }
+
+#LoginBtn {
+  background: -webkit-linear-gradient(right,#00dbde 20%,#fc00ff,#00dbde 20%,#fc00ff);
+}
