@@ -3,13 +3,19 @@ import farawin from "farawin";
 
 const Register = ({ onFormSwitch }) => {
   const [userName, setUserName] = useState("");
-  const [password, setPassword] = useState("");
+  const [password1, setPassword1] = useState("");
+  const [passwoord2, setPassword2] = useState("");
   const [flName, setflName] = useState("");
 
+  let validate = false;
+  if (password1 === passwoord2 && flName.length > 2 && userName) {
+    validate = true;
+  }
+
   const ErsalForm = async () => {
-    await farawin.testRegister(userName, password, flName, (res) =>
-      alert(res.message)
-    );
+    await farawin.testRegister(userName, password1, flName, (res) => {
+      alert(res.message);
+    });
   };
 
   return (
@@ -21,6 +27,7 @@ const Register = ({ onFormSwitch }) => {
       </label>
       <input
         type="tel"
+        onChange={(event) => setUserName(event.target.value)}
         value={userName}
         placeholder="Type your mobile number"
         id="username"
@@ -32,7 +39,8 @@ const Register = ({ onFormSwitch }) => {
       </label>
       <input
         type="password"
-        value={password}
+        onChange={(event) => setPassword1(event.target.value)}
+        value={password1}
         placeholder="Type your password"
         id="password1"
         className="border-b-2 outline-none"
@@ -43,6 +51,8 @@ const Register = ({ onFormSwitch }) => {
       </label>
       <input
         type="password"
+        onChange={(event) => setPassword2(event.target.value)}
+        value={passwoord2}
         placeholder="Retry password"
         id="password2"
         className="border-b-2 outline-none"
@@ -52,7 +62,8 @@ const Register = ({ onFormSwitch }) => {
         name :
       </label>
       <input
-        type="password"
+        type="text"
+        onChange={(event) => setflName(event.target.value)}
         value={flName}
         placeholder="First name Last name"
         id="flName"
@@ -60,6 +71,7 @@ const Register = ({ onFormSwitch }) => {
       />
 
       <button
+        disabled={validate ? false : true}
         type="button"
         className="border mx-2 h-8 w-4/5 btn rounded-full  mt-8 self-center "
         onClick={ErsalForm}
