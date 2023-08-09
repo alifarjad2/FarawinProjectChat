@@ -1,27 +1,28 @@
 import { useState } from "react";
 import farawin from "farawin";
 
-const Register = ({onFormSwitch}) => {
+const Register = ({ onFormSwitch }) => {
+  const [userName, setUserName] = useState("");
+  const [password, setPassword] = useState("");
+  const [flName, setflName] = useState("");
 
-  const [userName,setUserName] = useState('')
-  const[password,setPassword] =  useState('')
-  const[flName,setflName] = useState('')
-  
-  const handlerSubmit = () => {
-    alert("test register");
-  }
+  const ErsalForm = async () => {
+    await farawin.testRegister(userName, password, flName, (res) =>
+      alert(res.message)
+    );
+  };
 
   return (
-    <form className="h-full w-full flex flex-col px-5" onSubmit={handlerSubmit}>
+    <form className="h-full w-full flex flex-col px-5">
       <h1 className="flex justify-center text-4xl m-8 font-bold"> Register </h1>
 
       <label className="text-xs mt-6" htmlFor="username">
         Username :
-      </label >
+      </label>
       <input
         type="tel"
         value={userName}
-        placeholder="Type your username"
+        placeholder="Type your mobile number"
         id="username"
         className="border-b-2 outline-none"
       />
@@ -37,6 +38,16 @@ const Register = ({onFormSwitch}) => {
         className="border-b-2 outline-none"
       />
 
+      <label className="text-xs mt-6" htmlFor="password2">
+        Retry Password :
+      </label>
+      <input
+        type="password"
+        placeholder="Retry password"
+        id="password2"
+        className="border-b-2 outline-none"
+      />
+
       <label className="text-xs mt-6" htmlFor="flName">
         name :
       </label>
@@ -49,16 +60,18 @@ const Register = ({onFormSwitch}) => {
       />
 
       <button
+        type="button"
         className="border mx-2 h-8 w-4/5 btn rounded-full  mt-8 self-center "
-        onClick={() => {
-        const resualt =farawin.testRegister("09333536546","12345678", "hamedAbdollahzade");
-        alert (resualt.message)
-      }}
+        onClick={ErsalForm}
       >
         register
       </button>
 
-      <button onClick={() => onFormSwitch("login")} className=" text-xs mt-8">
+      <button
+        type="button"
+        onClick={() => onFormSwitch("login")}
+        className=" text-xs mt-8"
+      >
         Or Sign In Using <br /> <b>SIGN In</b>{" "}
       </button>
     </form>
