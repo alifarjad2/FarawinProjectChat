@@ -1,12 +1,16 @@
+// برای استفاده از هوک استیت اونو از ری اکت ایمپورت کردم
 import { useState } from "react";
+// برای استفاده از توابع و متد های موجود در فراوین ایمپورت کردم
 import farawin from "farawin";
 
+// اینجا برای تمام مقادیری ک از کاربر میگیریم استیت تعریف کردم
 const Register = ({ onFormSwitch }) => {
   const [userName, setUserName] = useState("");
   const [password1, setPassword1] = useState("");
   const [passwoord2, setPassword2] = useState("");
   const [flName, setflName] = useState("");
 
+  // اینجا هم ی ولیدیت کوچیک کردم ک فقط درست مقدار دهی بشه و دکمه ارسال فعال بشه بقیه الرت هارو سپردم به پیام هایی ک از سمت سرور میاد
   let validate = false;
   if (password1 === passwoord2 && flName.length > 2 && userName) {
     validate = true;
@@ -82,7 +86,7 @@ const Register = ({ onFormSwitch }) => {
       <button
         type="button"
         onClick={() => onFormSwitch("login")}
-        className=" text-xs mt-8"
+        className="underline text-xs mt-8"
       >
         Or Sign In Using <br /> <b>SIGN In</b>{" "}
       </button>

@@ -1,15 +1,19 @@
+// اینجا کتابخونه فراوین و هوک استیت رو از کتابخونه ری اکت ایمپورت کردم ک بتونم ازش استفاده کنم
 import farawin from "farawin";
 import { useState } from "react";
 
 const Login = ({ onFormSwitch }) => {
+  // اینجا دو تا هوک استفاده کردم از ری اکت برای نگه داری مقادیر در استیت
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
 
+// چون ای پی ای درخواستی ک میفرستیم پیام خطا مربوط به درست نبودن موبایل و پسورد 8 رقم بیشتر رو میده فقط بررسی کردم خالی نباشه تا دکمه ارسال فعال بشه
   let validate = false;
   if (userName && password) {
     validate = true;
   }
-
+  
+// اینجا هم مقدار داخل استیت مربوطه رو اپدیت کردم
   const updateStatepass = (e) => {
     setPassword(e);
   };
@@ -17,8 +21,9 @@ const Login = ({ onFormSwitch }) => {
   const updateStateUser = (e) => {
     setUserName(e);
   };
-
+ 
   const validateLogin = async () => {
+    // برای بررسی صحیح بودن موبایل از regex موجود کتابخانه فراوین استفاده شود. farawin.mobileRegex (این نکته رعایت شود که اعداد فارسی به انگلیسی تبدیل شوند می توان از تابع farawin.toEnDigit برای این منظور استفاده نمود)
     const EnMobile = farawin.toEnDigit(userName);
     const mobileRegex = farawin.mobileRegex;
 
@@ -74,7 +79,7 @@ const Login = ({ onFormSwitch }) => {
       </button>
 
       <button
-        className="mt-14 text-xs"
+        className="underline mt-14 text-xs"
         onClick={() => onFormSwitch("Register")}
         type="button"
       >
