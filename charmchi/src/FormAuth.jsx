@@ -1,4 +1,6 @@
 import farawin from "farawin";
+import LoginPage from "./loginPage";
+import RegisterPage from "./registerPage";
 
 // 1- کاربر بتونه درست لاگین و رجیستر کنه
 // ۲- کارکرد صحیح سناریو های گفته شده
@@ -13,8 +15,9 @@ export default function FormAuth() {
       }}
     >
       {/* TODO Insert Form Here*/}
-
-      <button
+      <LoginPage/>
+      <RegisterPage/>
+      {/* <button
         className="mx-2 w-10"
         onClick={() => {
           farawin.testLogin("09393013397", "12345678");
@@ -30,7 +33,7 @@ export default function FormAuth() {
         }}
       >
         test register
-      </button>
+      </button> */}
     </div>
   );
 }
