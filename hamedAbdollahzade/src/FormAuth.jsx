@@ -6,6 +6,7 @@ import { useState } from "react";
 // ۲- کارکرد صحیح سناریو های گفته شده
 export default function FormAuth() {
   
+
   const [currentForm, setCurrentForm] = useState('login');
 
   const toggleForm = (formName) => {
@@ -14,11 +15,11 @@ export default function FormAuth() {
 
 
   return (
+    
     <div
       className="bg-white rounded-lg h-[550px] flex flex-col items-center w-[350px] mx-auto mt-6"
     >
-      { currentForm === 'login' ? <Login onFormSwitch = {toggleForm} /> : <Register onFormSwitch = {toggleForm}/> }
-      
+      { currentForm === 'login' ? <Login onFormSwitch = {toggleForm} /> : <Register onFormSwitch = {toggleForm}/> } 
     </div>
   );
 }

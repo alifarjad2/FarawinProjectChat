@@ -3,8 +3,8 @@ import { useState } from "react";
 
 const Login = ({ onFormSwitch }) => {
   
-  const [userName,setUserName] = useState('');
-  const [password , setPassword] =  useState('');
+  const [userName,setUserName] = useState("");
+  const [password , setPassword] =  useState("");
   
   const updateStatepass = (e) =>{
     setPassword (e)
@@ -14,12 +14,19 @@ const Login = ({ onFormSwitch }) => {
     setUserName(e)
   }
   
-  const handlerSubmit = () => {
-    alert('test login')
+  const validateLogin = async () => {
+
+    const EnMobile = farawin.toEnDigit(userName);
+    const mobileRegex = farawin.mobileRegex;
+    
+    if(mobileRegex.test(EnMobile))
+    {  
+      await farawin.testLogin(EnMobile,password,(res)=>alert(res.message))
+    }
   }
 
   return (
-    <form className="h-full w-full flex flex-col px-5 " onSubmit={handlerSubmit}>
+    <form className="h-full w-full flex flex-col px-5 " >
       <h1 className="flex justify-center text-4xl m-8 font-bold"> Login </h1>
 
       <label className="text-xs mt-6" htmlFor="username">Username</label>
@@ -27,7 +34,7 @@ const Login = ({ onFormSwitch }) => {
         onChange={(e)=>updateStateUser(e.target.value)}
         type="tel"
         value={userName}
-        placeholder="Type your username"
+        placeholder="Type your mobile number"
         id="username"
         className="border-b-2 outline-none"
       />
@@ -55,12 +62,8 @@ const Login = ({ onFormSwitch }) => {
 
       <button
         className="text-white text-sm border mx-2 h-8 w-4/5 btn rounded-full  mt-9 self-center "
-        type="submit"
-        onClick={() => {
-          farawin.testLogin(`${userName}`, `${password}` , 
-          (response) => {alert (response.message)}
-          );
-        }}
+        type="button"
+        onClick={validateLogin}
       >
         LOGIN
       </button>
@@ -68,6 +71,7 @@ const Login = ({ onFormSwitch }) => {
       <button
         className="mt-14 text-xs"
         onClick={() => onFormSwitch("Register")}
+        type="button"
       >
         Or Sign Up Using <br /> <b>SIGN UP</b>{" "}
       </button>
