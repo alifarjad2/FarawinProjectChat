@@ -1,0 +1,21 @@
+
+@font-face {
+  font-family: "BYekan";
+  src: url("../fonts/BYekan.eot") format("eot"),
+  url("../fonts/BYekan.ttf") format("ttf"),
+  url("../fonts/BYekan.woff")format("woff"),
+  url("../fonts/BYekan.woff2")format("woff2");
+  font-weight: normal;
+  font-style: normal;
+}
+.Toastify__toast{
+  font-family: "BYekan" !important;
+}
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+ font-family: sans-serif; 
+ 
+}
