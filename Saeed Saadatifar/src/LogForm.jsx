@@ -1,5 +1,5 @@
 import farawin from "farawin";
-import { useState } from "react";
+import { Fragment, useState } from "react";
 
 export default function RegForm() {
   // #region States

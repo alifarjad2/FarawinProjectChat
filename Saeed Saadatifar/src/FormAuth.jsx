@@ -19,20 +19,22 @@ export default function FormAuth() {
       }}
     >
       {/* TODO Insert Form Here*/}
-      <div className="flex flex-col items-center py-20 w-3/5 max-w-[546px] min-h-max px-[100px] bg-white rounded-lg">
-        {isRegPage && <RegForm></RegForm>}
-        {!isRegPage && <LogForm></LogForm>}
-        <span className="mt-10 text-[12px] opacity-60">
-          {isRegPage ? "Or You Have Account" : "Or You Have Not Account"}
-        </span>
-        <span
-          className="mt-1 cursor-pointer"
-          onClick={() => {
-            setIsRegPage((RegPage) => !RegPage);
-          }}
-        >
-          {isRegPage ? "Login" : "Sign Up"}
-        </span>
+      <div className="md:py-20 md:w-[546px] min-h-max md:px-[100px] w-fit py-10 px-[40px] bg-white rounded-lg">
+        <div className="w-full flex flex-col items-center">
+          {isRegPage && <RegForm></RegForm>}
+          {!isRegPage && <LogForm></LogForm>}
+          <span className="mt-10 text-[12px] opacity-60">
+            {isRegPage ? "Or You Have Account" : "Or You Have Not Account"}
+          </span>
+          <span
+            className="mt-1 cursor-pointer"
+            onClick={() => {
+              setIsRegPage((RegPage) => !RegPage);
+            }}
+          >
+            {isRegPage ? "Login" : "Sign Up"}
+          </span>
+        </div>
       </div>
       {/* <button
         className="mx-2 w-10"
