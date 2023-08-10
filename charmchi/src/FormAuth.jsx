@@ -1,22 +1,36 @@
 import farawin from "farawin";
 import LoginPage from "./loginPage";
 import RegisterPage from "./registerPage";
+import { useState } from "react";
 
 // 1- کاربر بتونه درست لاگین و رجیستر کنه
 // ۲- کارکرد صحیح سناریو های گفته شده
 export default function FormAuth() {
+  const [isDivVisible, setDivVisible] = useState(false);
   return (
     <div
-      className="h-full"
+      className="h-full box-border py-8"
       style={{
         background: `url(
           https://colorlib.com/etc/lf/Login_v4/images/bg-01.jpg
         )`,
+        backgroundSize: "100% 100%",
       }}
     >
-      {/* TODO Insert Form Here*/}
-      <LoginPage/>
-      <RegisterPage/>
+      {/* TODO Insert Form Here*/} 
+      <div className="w-[350px] h-[600px] rounded-md m-auto px-10 pt-8 bg-white text-center">
+        {isDivVisible ? <RegisterPage/> : <LoginPage/>}
+        <p className="text-gray-600 mt-10">
+          {isDivVisible ? "DO YOU HAVE AN ACCOUNT READY?" : "Or Sign Up Using"}
+        </p>
+
+        <p
+          className="mt-2 cursor-pointer"
+          onClick={() => setDivVisible(!isDivVisible)}
+        >
+          {isDivVisible ? "SIGN UP" : "SIGN IN"}
+        </p>
+      </div>
       {/* <button
         className="mx-2 w-10"
         onClick={() => {
