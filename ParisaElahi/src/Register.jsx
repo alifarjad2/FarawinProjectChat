@@ -6,11 +6,34 @@ export const Register = (props) => {
 
     const [phone, setPhone] = useState ('');
     const [pass, setPass] = useState ('');
+    const [repassword, setRepassword] = useState ('');
+    const [isValidPhone, setisValidPhone] = useState("");
+
+    const handelPhone = (e) => {
+      let phoneNumber = farawin.toEnDigit(e.target.value);
+      console.log("phoneNumber :" + phoneNumber);
+      setPhone(phoneNumber);
+      if (farawin.mobileRegex.test(phoneNumber)) {
+        setisValidPhone(true);
+      } else {
+        setisValidPhone(false);
+      }
+    };
  
     const handleSubmit = (e) => {
       e.preventdefault ()
     }
-
+  
+    const validForm = async () => {
+     {
+        const phoneData = phone;
+        const passData = pass;
+        const repassData = repassword;
+        const res = await farawin.testRegister(phoneData, passData, repassData);
+        console.log(phone , pass)
+        alert(res.message);
+      }
+    }
 
       return (
         <form onSubmit={handleSubmit}>
@@ -28,7 +51,7 @@ export const Register = (props) => {
     
           {/* استایل کلی باکس  */}
           <form className="bg-white w-[400px] h-[700px] rounded-xl flex flex-col p-10">
-            <h1 className="font-bold text-center text-[2.5rem] h-4 m-4 mb-8">Register</h1>
+            <h1 className="font-bold text-center text-[2.5rem] h-4 m-2 mb-8">Register</h1>
     
             {/* یوزرنیم */}
             <label htmlFor="phoneNum" 
@@ -36,41 +59,50 @@ export const Register = (props) => {
             Username </label>
     
           <div className="mt-2" style={{ position:"relative"}} >
-            <input type="text" 
-            value= {phone} onChange={(e) => setPhone(e.target.value)}
-            placeholder="Type your username"  
-            className=" w-full cursor-pointer text-md border-b-[1.7px] pl-6 focus:outline-0"/>
+            <input 
+            type="text" 
+            value= {phone} onChange={handelPhone} 
+            placeholder="Type your username"   
+            className= " w-full cursor-pointer text-md border-b-[1.7px] pl-6 focus:outline-0 required"
+            />
             <svg xmlns="http://www.w3.org/2000/svg" 
             style={{ position:"absolute"}} fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor" className=" text-gray-400 w-4 h-4 top-1 ">
             <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
             </svg>
+            {  phone.length != 0 && phone.length != 11  && <p className="text-[12px] m-0 text-red-400">wrong Phone Number  </p> }
           </div >
-          <span  className= "text-sm text-red-500 self-start "></span>
+          
           {/* پسوورد */}
             <label htmlFor="pass" className="m-1 mt-6 text-sm minLenght=8 "> Password </label>
     
           <div className="mt-2 block" style={{ position:"relative" }} >
-            <input type="password" 
+            <input 
+            type="password" 
             name ="pass"
-            value={pass} onChange={(e) => setPass(e.target.value)}
+            value={pass} onChange={(e) => setPass(e.target.value) }
             placeholder="Type your password" 
             className=" w-full cursor-pointer text-md border-b-[1.7px] pl-6 mb-2 focus:outline-0"/>
             <svg xmlns="http://www.w3.org/2000/svg" style={{ position:"absolute"}} fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor" className=" text-gray-400 w-4 h-4 top-1">
             <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
             </svg>
+            { pass.length !=0 && pass.length <8 && <p className="text-[12px] m-0 text-red-400" > Password not too long, Enter atleast 8 characters </p> } 
           </div>
 {/* پسوورد مجدد */}
-          <label htmlFor="pass" className="m-1 mt-6 text-sm minLenght=8 "> Retriy Password </label>
+          <label htmlFor="pass" className="m-1 mt-6 text-sm minLenght=8 "> Retry Password </label>
     
           <div className="mt-2 block" style={{ position:"relative" }} >
-            <input type="password" 
-            name ="pass"
-            value={pass} onChange={(e) => setPass(e.target.value)}
+            <input 
+            type="password" 
+            name ="repassword"
+            value={repassword} onChange={(e) => setRepassword(e.target.value)}
             placeholder="Type your password" 
             className=" w-full cursor-pointer text-md border-b-[1.7px] pl-6 mb-2 focus:outline-0"/>
             <svg xmlns="http://www.w3.org/2000/svg" style={{ position:"absolute"}} fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor" className=" text-gray-400 w-4 h-4 top-1">
             <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
             </svg>
+            { repassword.length != 0 && pass != repassword  && <p className="text-[12px] m-0 text-red-400" >
+             this is not match
+            </p> }
           </div>
     
           <button 
@@ -80,9 +112,9 @@ export const Register = (props) => {
           </button>
     
           <button 
-            className="rounded-full h-10 p-2 m-8 text-ml text-white" 
+            className="rounded-full h-10 p-2 m-8 text-ml text-white" onClick={validForm} 
             type="submit" style={{ background: `-webkit-linear-gradient(right,#FDA7DF,#D980FA,#686de0,#9980FA,#7ed6df)`,}}> 
-            LOGIN 
+            REGISTER 
           </button>
     
             <span className="text-sm text-gray-500 text-center m-2">Or Sign In Using</span>
