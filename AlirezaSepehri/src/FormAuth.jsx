@@ -1,4 +1,4 @@
-import farawin from "farawin";
+import farawin from "./farawin";
 import { useState } from "react";
 
 // 1- کاربر بتونه درست لاگین و رجیستر کنه
@@ -238,7 +238,7 @@ function RegisterForm({form, setForm, formRegex}) {
 ******* */
 // کامپوننت برای تولید راهنما دریافت داده 
 function Guide({text, title}) {
-  return  <span className="absolute right-0 bottom-2 px-1 text-[#ef4444] text-xs cursor-pointer text-slate" 
+  return  <span className="absolute right-0 bottom-2 px-1 text-[#ef4444] text-xs cursor-pointer text-red-400 text-bold" 
       title={title}
         // onClick={() => {alert('این امکان هنوز پیاده سازی نشده است')}}
     >
@@ -272,42 +272,20 @@ function ActionBtn({type, form}){
     if(type == 'login') {
       const result = await farawin.testLogin(form.mobile, form.password);
       alert(result.message);
+    } else {
+      const resault = await farawin.testRegister(
+        form.mobile,
+        form.password,
+        form.username
+      );
+      alert(resault.message);
     }
-    //  else {
-    //   console.log('key3')
-    // }
-
-    // if (type == "login") {
-
-    // } 
-    // else {
-    //   const username = name;
-    //   const telePhoneSend = phoneNumber;
-    //   const passwordSend = password;
-    //   const resault = await farawin.testRegister(
-    //     telePhoneSend,
-    //     passwordSend,
-    //     username
-    //   );
-    //   console.log(name + " " + telePhoneSend + " " + passwordSend);
-    //   alert(resault.message);
-    // }
   };
 
   return <button className="w-full rounded-full text-white py-1 my-7"
       type="button" 
       id="LoginBtn"
-      onClick={handleLogin}
-         /*onClick={() => {
-          if(form.isNameValid && form.isPassValid) {
-            handleLogin
-          } 
-          else if(form.isNameValid == null && form.isNameValid == null) {
-            alert("لطفا تمام موارد تکمیل شود")
-          } else {
-            alert('ورودی نا معتبر است')
-          }
-         }}*/ >
+      onClick={handleLogin} >
      {type}
   </button>
 }
