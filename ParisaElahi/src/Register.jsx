@@ -75,7 +75,7 @@ export const Register = (props) => {
     
           <button 
             className="text-sm text-end text-gray-500" 
-            onClick={() => { alert("این امکان هنوز پیاده سازی نشده است");}}>
+            onClick={() => { alert("این امکان هنوز پیاده سازی نشده است")}}>
             Forgot password?
           </button>
     
