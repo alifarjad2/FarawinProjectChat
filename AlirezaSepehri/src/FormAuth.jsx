@@ -47,8 +47,7 @@ function MainBox() {
     username: "",
     isMobileValid: null,
     isPassValid: null,
-    isNameValid: null,
-    isConfirm: null
+    isNameValid: null
   })
 
   return <div className="select-none w-72 h-max bg-white rounded-md pt-11 sm:px-6 px-3 mx-3">
@@ -175,9 +174,9 @@ function RegisterForm({form, setForm, formRegex}) {
   const handleConfirm = (event) => {
     let confirm = event.target.value; 
     if (confirm === form.password) {
-      setForm({...form, isConfirm: true})
+      setForm({...form, isPassValid: true})
     } else {
-      setForm({...form, isConfirm: false})
+      setForm({...form, isPassValid: false})
     }
   }
 
@@ -264,20 +263,20 @@ function ForgotPass() {
 **********
 **********
 ******* */
-// کامپوننت برای تولید دکمه لاگین کردن
+// کامپوننت برای تولید دکمه اجرای لاگین/رجیستر
 function ActionBtn({type, form}){
 
   const handleLogin = async () => {
     if(type == 'login') {
-      const result = await farawin.testLogin(form.mobile, form.password);
-      alert(result.message);
+      const result = await farawin.testLogin(form.mobile, form.password)
+      alert(result.message)
     } else {
       const resault = await farawin.testRegister(
         form.mobile,
         form.password,
         form.username
-      );
-      alert(resault.message);
+      )
+      alert(resault.message)
     }
   };
 
