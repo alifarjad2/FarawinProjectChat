@@ -1,34 +1,48 @@
 import farawin from "farawin";
 import { useState } from "react";
 
-function Login({ props }) {
+function Login({ changeForm }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  //farawin.toEnDigit(username);
-  const usernameHandler = (val) => {
-    setUsername(val);
-    //console.log(username);
+  const [message, setMessage] = useState("");
+
+  const handleUsernameChange = (event) => {
+    setUsername(event.target.value);
   };
 
-  const passwordHandler = (val) => {
-    setPassword(val);
+  const handlePasswordChange = (event) => {
+    setPassword(event.target.value);
   };
 
-  const validateLogin = async () => {
+  const handleValidation = async () => {
     const usernameToEn = farawin.toEnDigit(username);
     const usernameValidation = farawin.mobileRegex;
 
+    if (usernameToEn.length < 11) {
+      setMessage("Username must be 11 characters long");
+      return;
+    }
+    if (isNaN(usernameToEn)) {
+      setMessage("Username should only contain numbers");
+      return;
+    }
+
     if (usernameValidation.test(usernameToEn)) {
-      await farawin.testLogin(usernameToEn, password, (res) =>
-        console.log(res)
-      );
+      const loginResult = await farawin.testLogin(usernameToEn, password);
+      setMessage(loginResult.message);
     }
   };
 
   return (
-    <div className="h-full flex">
-      <form className=" w-3/12 h-5/6 bg-white m-auto rounded-lg  pt-10 flex flex-col p-8 gap-14  overflow-hidden">
-        <h1 className="text-center text-5xl font-bold ">Login</h1>
+    <div className="relative h-full flex">
+      {message && (
+        <div className="absolute top-4 right-1 left-1 text-center font-bold text-white text-2xl">
+          <p>{message}</p>
+        </div>
+      )}
+
+      <form className="w-3/12 h-5/6 bg-white m-auto rounded-lg pt-10 flex flex-col p-8 gap-14 overflow-hidden">
+        <h1 className="text-center text-5xl font-bold">Login</h1>
         <div>
           <label className="text-sm" htmlFor="username">
             Username
@@ -36,54 +50,51 @@ function Login({ props }) {
           <input
             id="username"
             type="text"
-            onChange={(e) => {
-              usernameHandler(e.target.value);
-            }}
+            onChange={handleUsernameChange}
             value={username}
             placeholder="Type your Username"
-            className="w-full  focus:outline-none border-b-2"
+            className="w-full h-10 outline-none border-b-2"
           />
         </div>
         <div>
-          <label className="text-sm " htmlFor="password">
+          <label className="text-sm" htmlFor="password">
             Password
           </label>
           <input
-            onChange={(e) => {
-              passwordHandler(e.target.value);
-            }}
+            onChange={handlePasswordChange}
             value={password}
             type="password"
             placeholder="Type your password"
-            className="w-full  focus:outline-none border-b-2"
+            className="w-full h-10 outline-none border-b-2"
             id="password"
           />
           <button
             type="button"
             onClick={() => {
-              alert("این امکان هنوز پیاده سازی نشده است");
+              alert("This feature is not yet implemented");
             }}
             className="w-fit h-fit mt-4 max-lg:m-auto max-lg:mt-3"
           >
-            Forget password?
+            Forgot password?
           </button>
         </div>
         <button
-          onClick={validateLogin}
+          onClick={handleValidation}
+          disabled={!username || !password}
           type="button"
           style={{
-            background: `-webkit-linear-gradient(right,#00dbde,#fc00ff,#00dbde,#fc00ff)`,
+            background: `-webkit-linear-gradient(right, #00dbde, #fc00ff, #00dbde, #fc00ff)`,
           }}
-          className="w-full h-10  rounded-3xl text-white"
+          className="w-full h-10 rounded-3xl text-white"
         >
           LOGIN
         </button>
         <div className="text-center">
-          <p className="text-gray-500">Or Sing Up Using</p>
+          <p className="text-gray-500">Or Sign Up Using</p>
           <button
             type="button"
             onClick={() => {
-              props("Register");
+              changeForm("Register");
             }}
           >
             SIGN UP

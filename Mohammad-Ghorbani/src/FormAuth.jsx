@@ -1,16 +1,17 @@
-// import farawin from "farawin";
 import { useState } from "react";
 import Login from "./Login";
 import Register from "./Register";
 
 export default function FormAuth() {
-  function switchForm(val) {
-    setProducts(val);
-  }
-  const [products, setProducts] = useState("Login");
-  return products === "Login" ? (
-    <Login props={switchForm} />
+  const [formType, setFormType] = useState("Login");
+
+  const switchForm = (val) => {
+    setFormType(val);
+  };
+
+  return formType === "Login" ? (
+    <Login changeForm={switchForm} />
   ) : (
-    <Register props={switchForm} />
+    <Register changeForm={switchForm} />
   );
 }
