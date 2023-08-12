@@ -1,24 +1,48 @@
+import farawin from "farawin";
 import { useState } from "react";
 
-function Login({ props }) {
+function Login({ changeForm }) {
   const [username, setUsername] = useState("");
-  // const [password, setPassword] = useState("");
+  const [password, setPassword] = useState("");
+  const [message, setMessage] = useState("");
 
-  const handler = (value) => {
-    setUsername(value);
+  const handleUsernameChange = (event) => {
+    setUsername(event.target.value);
+  };
+
+  const handlePasswordChange = (event) => {
+    setPassword(event.target.value);
+  };
+
+  const handleValidation = async () => {
+    const usernameToEn = farawin.toEnDigit(username);
+    const usernameValidation = farawin.mobileRegex;
+
+    if (usernameToEn.length < 11) {
+      setMessage("Username must be 11 characters long");
+      return;
+    }
+    if (isNaN(usernameToEn)) {
+      setMessage("Username should only contain numbers");
+      return;
+    }
+
+    if (usernameValidation.test(usernameToEn)) {
+      const loginResult = await farawin.testLogin(usernameToEn, password);
+      setMessage(loginResult.message);
+    }
   };
 
   return (
-    <div
-      className="h-full flex "
-      style={{
-        background: `url(
-            https://colorlib.com/etc/lf/Login_v4/images/bg-01.jpg
-          )`,
-      }}
-    >
-      <form className=" w-3/12 h-5/6 bg-white m-auto rounded-lg  pt-10 flex flex-col p-8 gap-14 ">
-        <h1 className="text-center text-5xl font-bold ">Login</h1>
+    <div className="relative h-full flex">
+      {message && (
+        <div className="absolute top-4 right-1 left-1 text-center font-bold text-white text-2xl">
+          <p>{message}</p>
+        </div>
+      )}
+
+      <form className="w-3/12 h-5/6 bg-white m-auto rounded-lg pt-10 flex flex-col p-8 gap-14 overflow-hidden">
+        <h1 className="text-center text-5xl font-bold">Login</h1>
         <div>
           <label className="text-sm" htmlFor="username">
             Username
@@ -26,12 +50,10 @@ function Login({ props }) {
           <input
             id="username"
             type="text"
-            onChange={(e) => {
-              handler(e.target.value);
-            }}
+            onChange={handleUsernameChange}
             value={username}
             placeholder="Type your Username"
-            className="w-full  focus:outline-none border-b-2"
+            className="w-full h-10 outline-none border-b-2"
           />
         </div>
         <div>
@@ -39,28 +61,40 @@ function Login({ props }) {
             Password
           </label>
           <input
-            type="text"
+            onChange={handlePasswordChange}
+            value={password}
+            type="password"
             placeholder="Type your password"
-            className="w-full  focus:outline-none border-b-2"
+            className="w-full h-10 outline-none border-b-2"
             id="password"
           />
-          <div className="text-end">Forget password?</div>
+          <button
+            type="button"
+            onClick={() => {
+              alert("This feature is not yet implemented");
+            }}
+            className="w-fit h-fit mt-4 max-lg:m-auto max-lg:mt-3"
+          >
+            Forgot password?
+          </button>
         </div>
         <button
+          onClick={handleValidation}
+          disabled={!username || !password}
           type="button"
           style={{
-            background: `-webkit-linear-gradient(right,#00dbde,#fc00ff,#00dbde,#fc00ff)`,
+            background: `-webkit-linear-gradient(right, #00dbde, #fc00ff, #00dbde, #fc00ff)`,
           }}
-          className="w-full h-10  rounded-3xl text-white"
+          className="w-full h-10 rounded-3xl text-white"
         >
           LOGIN
         </button>
         <div className="text-center">
-          <p className="text-gray-500">Or Sing Up Using</p>
+          <p className="text-gray-500">Or Sign Up Using</p>
           <button
-            type="submit"
+            type="button"
             onClick={() => {
-              props("Register");
+              changeForm("Register");
             }}
           >
             SIGN UP
