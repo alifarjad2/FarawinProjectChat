@@ -62,7 +62,7 @@ function MainBox() {
     <LoginForm form={form} setForm={setForm} formRegex={formRegex}/> : 
     <RegisterForm form={form} setForm={setForm} formRegex={formRegex} />}
 
-    <button className="w-full mb-16 text-center text-xs text-slate hover:text-bermuda"
+    <button className="w-full mb-16 text-center text-xs text-slate hover:text-cyan-400"
         onClick={handleSwitchPage}>
         {isLoginPage ? "SIGN UP" : "SIGN IN"}
     </button>
@@ -251,7 +251,7 @@ function Guide({text, title}) {
 // کامپوننت برای تولید دکمه فراموشی رمز 
 function ForgotPass() {
   return  <div className="text-right">
-    <span className="text-xs cursor-pointer text-slate hover:text-bermuda" 
+    <span className="text-xs cursor-pointer text-slate hover:text-cyan-400" 
         onClick={() => {alert('این امکان هنوز پیاده سازی نشده است')}}
     >
       Forgot password?
