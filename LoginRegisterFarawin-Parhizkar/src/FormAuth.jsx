@@ -119,7 +119,7 @@ export default function FormAuth() {
   const forgetPasword = () => {
     alert("در دست احداث :)");
   };
- 
+
   // The return method in React is a way to return data from a component. It returns the data that was passed into the component, which the parent component can then use. The return method is generally used when you want to return a single value from a component.
   // مرحله 1 : نوشتن ریترن برای گرفتن خروجی و ساختن دام ری اکت در اینجا ما کار بادی را شبیه سازی میکنیم و ری اکت خروجی های مارا به دام اچ تی ام ال منتقل میکند
   return (
@@ -162,8 +162,8 @@ export default function FormAuth() {
             {/* مرحله 2 : توسط توابع ری اکت انتخاب میشود که در صورت درست بودن یا غلط بودن شماره تلفن توسط یه شرط چه پیغامی نشان داده شود */}
             {/* در این شرط خالی بودن هم چک میشود */}
             {isValid === null ? null : isValid ? (
-            //  تگ پی یک تگ پاراگراف و مخصوص نمایش متن است
-             <p className="text-green-500 text-xs">Valid mobile number</p>
+              //  تگ پی یک تگ پاراگراف و مخصوص نمایش متن است
+              <p className="text-green-500 text-xs">Valid mobile number</p>
             ) : (
               <p className="text-xs text-red-500">
                 Invalid mobile number. Please enter a valid 10-digit mobile
@@ -239,13 +239,13 @@ export default function FormAuth() {
             className="cursor-pointer text-[#646cff] place-self-end mr-3"
           >
             {/* مرحله 3 : در اینجا توسط شرط چک میشود که در صورت بودن در صفحه ریجیستر فراموشی رمز عبور پنهان شود */}
-          {isLoginPage ? "Forget Password ?" : ""}
+            {isLoginPage ? "Forget Password ?" : ""}
           </span>
           {/* مرحله 3 : در اینجا توسط شرط و یوز استیت مربوطه چک میشود بنا به بودن در کدام صفحه نام دکمه و رفتار آن برای ثبت اطالاعات تغییر کند و به لاگین یا ریجیستر تبدیل شود */}
           {isLoginPage ? (
-          //  The <button> tag is used to create a clickable button within HTML form on your webpage. You can put content like text or image within the <button>........ </button> tag. You should always specify the type attribute for a <button> tag. Different browsers use different default type for the button element.
-          // مرحله 3 : هرچند این دکمه در مرحله 1 و 2 ساخته شد اما شکل اصلی آن در مرحله ساخته شد تا اطلاعات مورد نظر را ثبت کند
-           <button
+            //  The <button> tag is used to create a clickable button within HTML form on your webpage. You can put content like text or image within the <button>........ </button> tag. You should always specify the type attribute for a <button> tag. Different browsers use different default type for the button element.
+            // مرحله 3 : هرچند این دکمه در مرحله 1 و 2 ساخته شد اما شکل اصلی آن در مرحله ساخته شد تا اطلاعات مورد نظر را ثبت کند
+            <button
               type="button"
               onClick={handleLogin}
               disabled={isLoginDisabled}

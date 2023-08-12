@@ -1,0 +1,44 @@
+.BTN {
+    background: -webkit-linear-gradient(left,#00dbde,#fc00ff,#fc00ff,#00dbde);
+    margin:25px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 6px 110px;
+    border-radius: 50px;
+    text-transform: uppercase;
+    transition: 0.5s;
+    background-size: 200% auto;
+    color: white;     
+    border-color:white;
+    font-weight:10px;
+   display: block;
+  }
+
+  .BTN:hover {
+    background-position: right center; 
+    color: #fff;
+    text-decoration: none;
+  }
+  .CON{
+    width: 350px;
+    height: 600px; 
+    margin: Auto;
+    margin-top: 30px; 
+    background-color: white;
+    border-radius:10px;
+    box-shadow: revert;
+    padding-top: 50px;
+    font-weight: bold;
+  }
+
+.Forgot:hover{
+    cursor: pointer;
+}
+.SING:hover{
+  cursor: pointer;
+  
+}
+.Login:hover{
+  cursor: pointer;
+  
+}
