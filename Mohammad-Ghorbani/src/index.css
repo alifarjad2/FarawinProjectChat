@@ -17,6 +17,9 @@ html {
 
 body {
   height: 100%;
+  
+  background: url(https://colorlib.com/etc/lf/Login_v4/images/bg-01.jpg);
+  background-size: cover;
 }
 
 #root {
