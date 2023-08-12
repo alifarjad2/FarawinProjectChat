@@ -237,7 +237,7 @@ function RegisterForm({form, setForm, formRegex}) {
 ******* */
 // کامپوننت برای تولید راهنما دریافت داده 
 function Guide({text, title}) {
-  return  <span className="absolute right-0 bottom-2 px-1 text-[#ef4444] text-xs cursor-pointer text-red-400 font-bold" 
+  return  <span className="absolute right-0 bottom-2 px-1 text-[#ef4444] text-xs cursor-pointer font-bold" 
       title={title}
     >
       {text}
