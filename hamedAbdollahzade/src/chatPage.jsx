@@ -30,13 +30,11 @@ export const ChatPage = () => {
         <div
           className="hover:bg-[rgba(28,62,156,0.2)] flex flex-row h-12 w-full overflow-hidden rounded-lg mt-1 relative"
         >
-          <img
-            src="../img/avatar (1).png"
-            className="bg-green-500 rounded-full m-1"
-            alt="avatar"
-          />
+         <div className="bg-red-400 w-10 h-10 mx-1 pt-1 rounded-full ">
+            م م
+         </div>
           <div className="flex flex-col max-sm:hidden">
-            <p>حامد عبداله زاده</p>
+            <p>مخاطب مورد نظر</p>
             <p className="text-xs text-start">متن اخرین پیام ... </p>
           </div>
           <div
@@ -50,11 +48,44 @@ export const ChatPage = () => {
     </div>
 {/*  این دیو مربوط به کانتینر قسمت چت ک شامل هدر و صفحه چت و اینپوت ارسال پیام  */}
     <div className="flex flex-col w-2/3 m-1 text-start ">
-      <div className=" h-8 text-base p-2 relative">حامد عبداله زاده
+      <div className=" h-8 text-base p-2 relative">مخاطب مورد نظر
         <img className="w-4 absolute left-2 top-2 cursor-pointer" src="../img/menu-vertical.png" alt="menu-vertical"/>
       </div>
       {/* این دیو مخصوص کانتینر صفحه چت */}
-      <div className=" flex flex-col justify-center items-center h-4/5 overflow-y-auto flex-1 p-2">پیامی وجود ندارد</div>
+      <div className =" h-full overflow-y-auto p-2 ">
+          <div className ="flex flex-row items-end m-1 p-1">
+            <div
+              className ="shrink-0 rounded-lg mr-2 w-[40px] leading-[40px] text-center bg-slate-500"
+            >
+              ح ع
+            </div>
+            <div
+              className ="flex flex-col bg-[#30333C] mb-2 mr-1 rounded-xl p-2 relative"
+            >
+              <span className ="text-xs">حامد عبداله زاده</span>
+              <p className ="text-start pt-1 pb-1">سلام خوبی ؟ چ خبر ؟</p>
+              <span className ="text-end text-xs">20:30</span>
+            </div>
+          </div>
+
+          <div className ="flex flex-row-reverse items-end m-2 p-2">
+            <div
+              className ="shrink-0 rounded-lg ml-2 w-[40px] leading-[40px] text-center bg-slate-500"
+            >
+              م م
+            </div>
+            <div
+              className ="flex flex-col bg-[#6B8AFE] mb-2 ml-1 rounded-xl p-2 relative"
+            >
+              
+              <span className ="text-xs">مخاطب مورد نظر</span>
+              <p className ="text-left pt-1 pb-1">
+                مرسی خوبم تو چ خبر ؟
+              </p>
+              <span className ="text-start text-xs">20:30</span>
+            </div>
+          </div>
+        </div>
 
       {/* این دیو مخصوص اینپوت ارسال پیام */}
       <div className="  h-12 m-2 flex flex-row relative">
