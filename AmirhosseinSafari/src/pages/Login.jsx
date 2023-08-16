@@ -2,12 +2,13 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import "./Login.css"
 import farawin from "farawin";
+import { Link , useNavigate} from "react-router-dom";
 
 
 
-const Login = (props) => {
+const Login = () => {
 
-
+    const navigate = useNavigate();
     const [mobile, setmobile] = useState('');
     const [password, setpassword] = useState('');
     const [formErrors, setformErrors] = useState({});
@@ -41,6 +42,7 @@ const Login = (props) => {
         return errors;
     }
 
+
     const handleSubmit = (e) => {
         e.preventDefault();
         setformErrors(validate(mobile,password))
@@ -58,7 +60,9 @@ const Login = (props) => {
                             closeOnClick: true,
                         }
                         )
+                        navigate("/home");
                     }
+
                 }
             } catch (error) {
                 console.log(error);
@@ -66,6 +70,7 @@ const Login = (props) => {
             }
         }
         getValues();
+        
     }
 
 
@@ -75,19 +80,18 @@ const Login = (props) => {
 
             <h2
                 className="fw-bold"
-                style={{ fontFamily: "sans-serif" }}
-            >  Login </h2>
+                
+            >  ورود </h2>
 
             <form onSubmit={handleSubmit}>
                 <label
                     style={{
                         color: "#000000",
-                        fontFamily: "monospace",
                         fontSize: "10px",
-                        paddingRight: "270px",
+                        paddingLeft: "270px",
                         marginTop: "20px",
                     }}
-                >Phone</label>
+                >موبایل</label>
                 <div>
 
                     <input
@@ -100,7 +104,7 @@ const Login = (props) => {
                             borderRightColor: "white",
                             borderRadius: "0px",
                             width: "280px",
-                            marginLeft: "22px"
+                            marginRight: "22px"
                         }}
                         id="mobile"
                         name="mobile"
@@ -108,15 +112,15 @@ const Login = (props) => {
                         onChange={(e) =>
                             setmobile(e.target.value)}
                         autoFocus
-                        type="number"
+                        type="tel"
                         className="form-control"
-                        placeholder="Type your phone"
+                        placeholder="شماره موبایل را وارد کنید ..."
                         aria-describedby="email-address"
                     />
                         <p
                        style={{
                         color:"red",
-                        fontSize:"9px",
+                        fontSize:"10px",
                         fontFamily:"BYekan"
                     }}>{formErrors.mobile}</p>
                 </div>
@@ -125,12 +129,11 @@ const Login = (props) => {
                     <label
                         style={{
                             color: "#000000",
-                            fontFamily: "monospace",
                             fontSize: "10px",
-                            paddingRight: "260px",
+                            paddingLeft: "260px",
                             marginTop: "20px",
                         }}
-                    >Password</label>
+                    >رمز عبور</label>
                     <input
                         style={{
                             fontSize: "12px",
@@ -141,7 +144,7 @@ const Login = (props) => {
                             borderRightColor: "white",
                             borderRadius: "0px",
                             width: "280px",
-                            marginLeft: "22px"
+                            marginRight: "22px"
                         }}
                         id="password"
                         name="password"
@@ -150,13 +153,13 @@ const Login = (props) => {
                             setpassword(e.target.value)}
                         type="password"
                         className="form-control"
-                        placeholder="Type your password"
+                        placeholder="رمز عبور را وارد کنید ..."
                         aria-describedby="password"
                     />
                        <p
                        style={{
                         color:"red",
-                        fontSize:"9px",
+                        fontSize:"10px",
                         fontFamily:"BYekan"
                     }}>{formErrors.password}</p>
                 </div>
@@ -172,27 +175,26 @@ const Login = (props) => {
                             fontSize: "10px",
                             color: "#000000",
                             paddingLeft: "170px",
-                            fontFamily: "sans-serif",
                             backgroundColor: "white",
                             textDecoration: "none",
                             display: "contents"
                         }}
                     >
-                        Forgot password?
+                        رمز عبور خود را فراموش کرده اید؟
                     </a>
                 </div>
 
-                <button type="submit"
+                <button 
+                type="submit"
                     className="BTN">
-                    Login
+                    ورود
                 </button>
 
 
-                <a className="SING"
-                    style={{ textDecoration: "none", color: "black" }}
-                    onClick={() => props.onFormSwitch("register")}>
-                    SING UP
-                </a>
+                <Link className="SING" style={{
+                      textDecoration: "none", color: "black",}} to="/register">
+                         ثبت نام
+                 </Link>
             </form>
 
         </div>

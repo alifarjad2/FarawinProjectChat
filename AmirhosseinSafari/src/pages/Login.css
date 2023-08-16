@@ -1,7 +1,7 @@
 .BTN {
-    background: -webkit-linear-gradient(left,#00dbde,#fc00ff,#fc00ff,#00dbde);
+    background: linear-gradient(92deg, rgb(135, 252, 196) 0%, rgb(40, 193, 245) 98.77%)!important;
     margin:25px;
-    margin-left: auto;
+    margin-left: auto ;
     margin-right: auto;
     padding: 6px 110px;
     border-radius: 50px;

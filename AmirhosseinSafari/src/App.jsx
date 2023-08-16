@@ -1,32 +1,33 @@
-import { useState } from 'react';
-import Login from './components/Login.jsx';
-import Register from './components/Register.jsx';
+import Login from './pages/Login.jsx';
+import Register from './pages/Register.jsx';
+import Home from './pages/Home.jsx';
 import { ToastContainer, toast } from 'react-toastify';
+import { BrowserRouter , Routes , Route } from 'react-router-dom';
 import './App.css'
-
-
 
 
 const App = () => {
 
-  const [currentForm, setcurrentForm] = useState("login");
-
-  const toggleForm = (FormName) => {
-    setcurrentForm(FormName);
-  }
 
   return (
     <>
-      <ToastContainer />
-      {
-        currentForm === "login" ?
-          <Login onFormSwitch={toggleForm} /> :
-          <Register onFormSwitch={toggleForm} />
-      }
+
+          <ToastContainer />
+          
+            <BrowserRouter>
+              <Routes>
+                <Route  path='/' element = { <Login/>}/>
+                <Route  path='/home' element = {<Home />}/>
+                <Route  path='register' element = { <Register/>}/>
+              </Routes>
+            </BrowserRouter>
+          
 
     </>
-
-  )
+          
+      
+    
+  );
 }
 
 export default App;
