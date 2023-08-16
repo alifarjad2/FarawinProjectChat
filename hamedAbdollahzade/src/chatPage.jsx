@@ -6,12 +6,13 @@ import { DrawerChat } from "./components/drawer";
 
 
 
+
+
+
 export const ChatPage = () => {
    
-    // برای تست ...
-    // useEffect(async () => {
-         
-    // },[])
+
+ 
   
   return (
     // این دیو برای تنظیمات کلی پس زمینه استفاده میشه 
