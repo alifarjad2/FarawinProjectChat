@@ -8,11 +8,11 @@ import { ChatPage } from "./chatPage";
 export default function FormAuth() {
   
 // اینجا ی استیت برای تعیین صفحه لاگین یا ریجستر تعریف کردم و پیش فرض گفتم اول وارد صفحه لاگین بشه
-  const [currentForm, setCurrentForm] = useState('login');
+  // const [currentForm, setCurrentForm] = useState('login');
 // اینجا با پراپ هایی ک برای کامپوننت لاگین و ریجستر تعریف کردم ی تابع نوشتم ک مقدار استیت رو اگه دکمه تغییر زده شد اعمال کنه و  صفحه سوویچ بشه
-  const toggleForm = (formName) => {
-    setCurrentForm (formName);
-  }
+  // const toggleForm = (formName) => {
+  //   setCurrentForm (formName);
+  // }
 
 
   return (
