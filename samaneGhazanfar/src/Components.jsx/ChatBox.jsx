@@ -23,26 +23,26 @@ export const ChatBox = ()=> {
 
            <div
              id="Messages1Contact"
-             class="flex flex-col justify-end w-full h-full"
+             className="flex flex-col justify-end w-full h-full"
            >
-           <div class="self-center bg-[#2F313D] px-[40px] rounded-[15px]">
+           <div className="self-center bg-[#2F313D] px-[40px] rounded-[15px]">
              Today
            </div>
 
 
            {/* sender */}
-             <div class="flex items-end self-end w-3/4 justify-end m-[5px]">
-               <div class="bg-[#6B8AFE] m-2 p-2.5 rounded-[20px] relative">
-                 <div class="text-[18px] font-mono mb-[6px]">
+             <div className="flex items-end self-end w-3/4 justify-end m-[5px]">
+               <div className="bg-[#6B8AFE] m-2 p-2.5 rounded-[20px] relative">
+                 <div className="text-[18px] font-mono mb-[6px]">
                    سمانه غضنفر
                  </div>
                  <div
-                   class="
+                   className="
                    before:absolute before:border-[#6B8AFE] before:border-[25px] before:left-[-16px] before:bottom-[0px] before:border-r-transparent before:border-l-transparent before:border-t-transparent before:rounded-[40%] grow text-[14px]"
                  >
                   سلام
                  </div>
-                 <div class="bottom-[7px] text-right pr-[11px] text-[10px]">
+                 <div className="bottom-[7px] text-right pr-[11px] text-[10px]">
                    20:41
                  </div>
                </div>
@@ -54,23 +54,23 @@ export const ChatBox = ()=> {
 
              
                 {/* resiver */}
-             <div lastMessage="1" class="flex w-3/4 m-[5px] items-end">
+             <div className="flex w-3/4 m-[5px] items-end">
              <div className ="w-[50px] h-[50px] shrink-0 bg-blue-200 rounded-[20%] text-center font-bold caret
                -white leading-[48px] m-3">
                ا ک
                </div>
 
                <div
-                 class="bg-[#30323E] self-end p-2.5 mb-2 rounded-[20px] relative"
+                 className="bg-[#30323E] self-end p-2.5 mb-2 rounded-[20px] relative"
                >
-                 <div class="text-[18px] mb-[6px]">احمد کریمی</div>
+                 <div className="text-[18px] mb-[6px]">احمد کریمی</div>
                  <div
-                   class="
+                   className="
                    before:absolute before:border-[#30323E] before:border-[25px] before:right-[-16px] before:bottom-[0px] before:border-r-transparent before:border-l-transparent before:border-t-transparent before:rounded-[40%] grow text-[14px]"
                  >
                    سلام آقای کریمی بله بفرمایین
                  </div>
-                 <div class="bottom-[7px] text-right text-[10px] pr-[11px]">
+                 <div className="bottom-[7px] text-right text-[10px] pr-[11px]">
                    20:42
                  </div>
                </div>
