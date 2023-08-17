@@ -69,6 +69,12 @@ const Register = () => {
                             closeOnClick: true,
                         })
                          navigate("/");
+                    }else{
+                        toast.info(message, {
+                            position: "top-right",
+                            closeButton: true,
+                            closeOnClick: true,
+                        })
                     }
                 }
             } catch (error) {

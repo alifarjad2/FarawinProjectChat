@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { toast } from "react-toastify";
+import farawin from "farawin";
 
 
 
@@ -6,13 +8,69 @@ import { useState } from "react";
 
 const Navbar = () => {
     const [edit, setEdit] = useState(false);
-  
+    const [mobile, setmobile] = useState('');
+    const [name, setName] = useState('');
+    const [formErrors, setformErrors] = useState({});
+
+    const validate = (mobile,name) =>{
+        const errors ={};
+        if(!mobile){
+            errors.mobile = "این فیلد الزامی است"
+        }else if(!farawin.mobileRegex.test(mobile)){
+            errors.mobile ="شماره موبایل وارد شده معتبر نیست"
+        }
+        if(!name){
+            errors.name = "این فیلد الزامی است"
+        }else if(name.length < 3){
+            errors.name ="حداقل باید 3 کاراکتر باشد"
+        }
+
+        return errors;
+    }
+
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        setformErrors(validate(mobile, name))
+        
+        async function getValues() {
+            try {
+                if (farawin.mobileRegex.test(farawin.toEnDigit(mobile)) && name.length >= 3) {
+
+                    const response = await farawin.testEditContact(mobile, name);
+                    const { code, message } = response;
+                    if (code === "200") {
+                        toast.success(message, {
+                            position: "top-right",
+                            closeButton: true,
+                            closeOnClick: true,
+                        }
+                        )
+                        setEdit(false);
+                    }else{
+                        toast.info(message, {
+                            position: "top-right",
+                            closeButton: true,
+                            closeOnClick: true,
+                        }
+                        )
+                    }
+
+                }
+            } catch (error) {
+                console.log(error);
+
+            }
+        }
+        getValues();
+
+    }
     
   
     return (
         <>
         
-            <div className="flex  items-center">
+        <div className="flex  items-center">
                 <div>
                      
                    
@@ -65,7 +123,7 @@ const Navbar = () => {
                 }) : (null)}
                 className="col-start-1 col-span-1 hidden ">
 
-                <form>
+                <form onSubmit={handleSubmit}>
                     <i onClick={() => setEdit(false)}
                     style={{color:"white", marginLeft:"280px"}} 
                     className="fa fa-times"></i>
@@ -96,21 +154,22 @@ const Navbar = () => {
                             }}
                             id="mobile"
                             name="mobile"
-                            // value={mobile}
-                            // onChange={(e) =>
-                            //     setmobile(e.target.value)}
+                            value={mobile}
+                            onChange={(e) =>
+                                setmobile(e.target.value)}
                             autoFocus
                             type="tel"
                             className="form-control"
                             placeholder="شماره موبایل را وارد کنید ..."
                             aria-describedby="email-address"
                         />
-                        {/* <p
+                         <p
                        style={{
-                        color:"red",
-                        fontSize:"10px",
-                        fontFamily:"BYekan"
-                    }}>{formErrors.mobile}</p> */}
+                        color:"orange",
+                        fontSize:"12px",
+                        fontFamily:"BYekan",
+                        marginLeft:"55px"
+                    }}>{formErrors.mobile}</p> 
                     </div>
 
                     <div>
@@ -136,17 +195,21 @@ const Navbar = () => {
                             }}
                             id="name"
                             name="name"
+                            value={name}
+                            onChange={(e) =>
+                                setName(e.target.value)}
                             type="text"
                             className="form-control"
                             placeholder="نام و نام خانوادگی را وارد کنید ..."
                             aria-describedby="name"
                         />
-                        {/* <p
+                        <p
                        style={{
-                        color:"red",
-                        fontSize:"10px",
-                        fontFamily:"BYekan"
-                    }}>{formErrors.password}</p> */}
+                        color:"orange",
+                        fontSize:"12px",
+                        fontFamily:"BYekan",
+                        marginLeft:"55px"
+                    }}>{formErrors.name}</p>
                     </div>
 
                     <button style={{marginRight:"0px"}}

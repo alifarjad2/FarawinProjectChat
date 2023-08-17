@@ -61,6 +61,13 @@ const Login = () => {
                         }
                         )
                         navigate("/home");
+                    }else{
+                        toast.info(message, {
+                            position: "top-right",
+                            closeButton: true,
+                            closeOnClick: true,
+                        }
+                        )
                     }
 
                 }
@@ -72,7 +79,6 @@ const Login = () => {
         getValues();
         
     }
-
 
     return (
 

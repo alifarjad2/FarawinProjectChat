@@ -905,6 +905,10 @@ video {
 .bg-opacity-75 {
   --tw-bg-opacity: 0.75;
 }
+.bg-\[\#527394\]{
+  background-color: rgba(52, 73, 94, 0.4);
+}
+
 
 .p-2 {
   padding: 0.5rem;
