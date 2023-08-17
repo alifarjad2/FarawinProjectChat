@@ -100,7 +100,7 @@ export default function FormAuth() {
       if(result.code == 200){
         location.reload();
       }else{
-        alert(resault.message);
+        alert(result.message);
       };
     } else {
       const username = name;
