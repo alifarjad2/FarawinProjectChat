@@ -1,7 +1,8 @@
+
 import Login from './pages/Login.jsx';
 import Register from './pages/Register.jsx';
 import Home from './pages/Home.jsx';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import { BrowserRouter , Routes , Route } from 'react-router-dom';
 import './App.css'
 
@@ -9,8 +10,13 @@ import './App.css'
 const App = () => {
 
 
+
   return (
     <>
+        
+
+
+      
 
           <ToastContainer />
           

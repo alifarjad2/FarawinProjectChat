@@ -11,6 +11,12 @@ const Navbar = () => {
     const [mobile, setmobile] = useState('');
     const [name, setName] = useState('');
     const [formErrors, setformErrors] = useState({});
+    const [flag, setFlag] = useState('');
+
+  
+    if(flag === true){
+        location.reload();
+    }
 
     const validate = (mobile,name) =>{
         const errors ={};
@@ -65,12 +71,13 @@ const Navbar = () => {
         getValues();
 
     }
+
     
   
     return (
         <>
         
-        <div className="flex  items-center">
+            <div className="flex  items-center">
                 <div>
                      
                    
@@ -94,7 +101,8 @@ const Navbar = () => {
                                 marginRight:"auto" ,
                                 paddingLeft:"20px" ,
                                 fontSize:"20px" ,
-                                marginTop:"18px"
+                                marginTop:"18px",
+                                cursor:"pointer"
                             }}  
                     className="fa fa-pencil  "></i>
                
@@ -102,7 +110,9 @@ const Navbar = () => {
                 <i style={{ color:"white" ,
                             paddingLeft:"20px",
                             fontSize:"20px",
-                            marginTop:"18px"}} 
+                            marginTop:"18px",
+                           cursor:'pointer'}} 
+                            onClick={() => setFlag(true)}
                   className="fa fa-retweet ml-3"></i>
                 
             </div>
@@ -125,7 +135,9 @@ const Navbar = () => {
 
                 <form onSubmit={handleSubmit}>
                     <i onClick={() => setEdit(false)}
-                    style={{color:"white", marginLeft:"280px"}} 
+                    style={{color:"white",
+                     marginLeft:"280px",
+                     cursor:"pointer"}} 
                     className="fa fa-times"></i>
                     <h4 style={{color:"white",
                                 paddingLeft:"45px"

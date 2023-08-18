@@ -1,4 +1,4 @@
-import Search from "./Search";
+
 import Chats from "./Chats";
 import { useState } from "react";
 import { toast } from "react-toastify";
@@ -10,6 +10,13 @@ const Sidebar = () => {
     const [mobile, setmobile] = useState('');
     const [name, setName] = useState('');
     const [formErrors, setformErrors] = useState({});
+    const [flag, setFlag] = useState('');
+
+
+    
+if(flag === true){
+    location.reload();
+}
 
     const validate = (mobile,name) =>{
         const errors ={};
@@ -120,7 +127,8 @@ const Sidebar = () => {
                                 marginRight: "160px",
                                 paddingLeft: "20px",
                                 fontSize: "20px",
-                                marginTop: "18px"
+                                marginTop: "18px",
+                                cursor:"pointer"
                             }}
                         className="fa fa-plus"
                     ></i>
@@ -132,12 +140,13 @@ const Sidebar = () => {
                             color: "white",
                             paddingLeft: "20px",
                             fontSize: "20px",
-                            marginTop: "18px"
+                            marginTop: "18px",
+                            cursor:"pointer"
                         }}
+                        onClick={() => setFlag(true)}
                         className="fa fa-retweet"
                     ></i>
 
-                    <Search />
                     <Chats />
 
                 </div>
@@ -155,13 +164,15 @@ const Sidebar = () => {
                     marginTop: "10px",
                     marginRight: "66px",
                     animation: "fadeInLeft 1s",
-
+                    
                 }) : (null)}
                 className="col-start-1 col-span-1 hidden ">
 
                 <form onSubmit={handleSubmit}>
                     <i onClick={() => setPlus(false)}
-                        style={{ color: "white", marginLeft: "280px" }}
+                        style={{ color: "white",
+                         marginLeft: "280px",
+                         cursor:"pointer" }}
                         className="fa fa-times"></i>
                     <h4 style={{
                         color: "white",
