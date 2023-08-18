@@ -1,5 +1,5 @@
 import farawin from "farawin";
-import { useState , useEffect } from "react";
+import { useState, useEffect } from "react";
 import personLinesFill from "./assets/image/person-lines-fill.svg";
 import pmRight from "./assets/image/pm-right.png";
 import search from "./assets/image/search.png";
@@ -16,18 +16,17 @@ export const Chat = () => {
     console.table(contList);
   });
 
-//   const [name,setName] = useState("");
-//   const [username,userName] = useState("");
+  //   const [name,setName] = useState("");
+  //   const [username,userName] = useState("");
 
-// useEffect (()=>
-//   farawin.getContacts((result) => {
-//     const contList = result.contactList.filter(
-//       (contacs) => (contacs.ref = "09000000000")
-//     );
-//     console.table(contList);
+  // useEffect (()=>
+  //   farawin.getContacts((result) => {
+  //     const contList = result.contactList.filter(
+  //       (contacs) => (contacs.ref = "09000000000")
+  //     );
+  //     console.table(contList);
 
-    
-//   }));
+  //   }));
 
   return (
     <div>
@@ -81,18 +80,18 @@ export const Chat = () => {
                       </div>
                       <div>
                         <p className=" text-right text-xs px-4 pt-2 text-[#989BA0]">
-                          سلام خوبی؟{" "}
+                          اوکی{" "}
                         </p>
                       </div>
                     </div>
                   </div>
                   <div className="flex w-auto p-3 flex-row-reverse hover:bg-[#2E333D] rounded-2xl cursor-pointer">
                     <div className="text-center w-[70px] leading-[50px] bg-[#a9d2fe] rounded-2xl">
-                      س ا
+                      ب
                     </div>
                     <div className="ml-2 w-full">
                       <div className="flex flex-row-reverse justify-between items-center">
-                        <h4 className="text-[#e5e6ea] px-2">سارا احمدی</h4>
+                        <h4 className="text-[#e5e6ea] px-2">بابا </h4>
                         <span className="text-[#989BA0] text-xs">21:15</span>
                       </div>
                       <div>
@@ -105,27 +104,27 @@ export const Chat = () => {
                   <div className="flex w-auto p-3 flex-row-reverse hover:bg-[#2E333D] rounded-2xl cursor-pointer">
                     {" "}
                     <div className="text-center w-[70px] leading-[50px] bg-[#a9d2fe] rounded-2xl">
-                      س ا
+                      س
                     </div>
                     <div className="ml-2 w-full">
                       <div className="flex flex-row-reverse justify-between items-center">
-                        <h4 className="text-[#e5e6ea] px-2">سارا احمدی</h4>
+                        <h4 className="text-[#e5e6ea] px-2">سحر </h4>
                         <span className="text-[#989BA0] text-xs">20:32</span>
                       </div>
                       <div>
                         <p className=" text-right text-xs px-4 pt-2 text-[#989BA0]">
-                          سلام خوبی؟{" "}
+                          میبینمت{" "}
                         </p>
                       </div>
                     </div>
                   </div>
                   <div className="flex w-auto p-3 flex-row-reverse hover:bg-[#2E333D] rounded-2xl cursor-pointer">
                     <div className="text-center w-[70px] leading-[50px] bg-[#a9d2fe] rounded-2xl">
-                      س ا
+                      ع ح
                     </div>
                     <div className="ml-2 w-full">
                       <div className="flex flex-row-reverse justify-between items-center">
-                        <h4 className="text-[#e5e6ea] px-2">سارا احمدی</h4>
+                        <h4 className="text-[#e5e6ea] px-2"> علی حمیدی</h4>
                         <span className="text-[#989BA0] text-xs">
                           yesterday
                         </span>
@@ -139,16 +138,16 @@ export const Chat = () => {
                   </div>
                   <div className="flex w-auto p-3 flex-row-reverse hover:bg-[#2E333D] rounded-2xl cursor-pointer">
                     <div className="text-center w-[70px] leading-[50px] bg-[#a9d2fe] rounded-2xl">
-                      س ا
+                      د ک
                     </div>
                     <div className="ml-2 w-full">
                       <div className="flex flex-row-reverse justify-between items-center">
-                        <h4 className="text-[#e5e6ea] px-2">سارا احمدی</h4>
+                        <h4 className="text-[#e5e6ea] px-2">دفتر کار </h4>
                         <span className="text-[#989BA0] text-xs">Sunday</span>
                       </div>
                       <div>
                         <p className=" text-right text-xs px-4 pt-2 text-[#989BA0]">
-                          سلام خوبی؟{" "}
+                          سلام{" "}
                         </p>
                       </div>
                     </div>
@@ -159,7 +158,7 @@ export const Chat = () => {
                     </div>
                     <div className="ml-2 w-full">
                       <div className="flex flex-row-reverse justify-between items-center">
-                        <h4 className="text-[#e5e6ea] px-2">سارا احمدی</h4>
+                        <h4 className="text-[#e5e6ea] px-2">حمید </h4>
                         <span className="text-[#989BA0] text-xs">Saturday</span>
                       </div>
                       <div>
@@ -175,14 +174,14 @@ export const Chat = () => {
                     </div>
                     <div className="ml-2 w-full">
                       <div className="flex flex-row-reverse justify-between items-center">
-                        <h4 className="text-[#e5e6ea] px-2">سارا احمدی</h4>
+                        <h4 className="text-[#e5e6ea] px-2">نسیم </h4>
                         <span className="text-[#989BA0] text-xs">
                           Wednesday
                         </span>
                       </div>
                       <div>
                         <p className=" text-right text-xs px-4 pt-2 text-[#989BA0]">
-                          سلام خوبی؟{" "}
+                          باشه{" "}
                         </p>
                       </div>
                     </div>
@@ -212,7 +211,7 @@ export const Chat = () => {
                 <div className="h-[430px] my-1 pr-2 overflow-auto">
                   <div className="flex items-end mb-4">
                     <div className="text-center w-[50px] leading-[50px] bg-[#a9d2fe] rounded-2xl">
-                      OC
+                      س ا
                     </div>
                     <div
                       className="relative ml-3 text-[#eceff3] bg-[#2E333D] p-3 rounded-2xl"
@@ -234,7 +233,7 @@ export const Chat = () => {
                   </div>
                   <div className="flex items-end flex-row-reverse mb-4">
                     <div className="text-center w-[50px] leading-[50px] bg-[#4eab6c] rounded-2xl">
-                      RG
+                      پ ا
                     </div>
                     <div className="relative mr-3 text-[#eceff3] bg-[#6b8afe] p-3 rounded-2xl">
                       <img
@@ -253,7 +252,7 @@ export const Chat = () => {
                   </div>
                   <div className="flex items-end mb-4">
                     <div className="text-center w-[50px] leading-[50px] bg-[#a9d2fe] rounded-2xl">
-                      OC
+                      س ا
                     </div>
                     <div className="relative ml-3 text-[#eceff3] bg-[#2E333D] p-3 rounded-2xl">
                       <img
@@ -274,7 +273,7 @@ export const Chat = () => {
                   </div>
                   <div className="flex items-end flex-row-reverse mb-4">
                     <div className="text-center w-[50px] leading-[50px] bg-[#4eab6c] rounded-2xl">
-                      RG
+                      پ ا
                     </div>
                     <div className="relative mr-3 text-[#eceff3] bg-[#6b8afe] p-3 rounded-2xl">
                       <img
@@ -293,7 +292,7 @@ export const Chat = () => {
                   </div>
                   <div className="flex items-end mb-4">
                     <div className="text-center w-[50px] leading-[50px] bg-[#a9d2fe] rounded-2xl">
-                      OC
+                      س ا
                     </div>
                     <div className="relative ml-3 text-[#eceff3] bg-[#2E333D] p-3 rounded-2xl">
                       <img
