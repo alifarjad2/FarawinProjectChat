@@ -21,7 +21,7 @@ export default function FormAuth() {
       className="bg-white rounded-lg h-[550px] flex flex-col items-center w-[350px] mx-auto mt-6"
     >
       {/* ایجا هم شرط گذاشتم اگه استیت فرمم مقدار لاگین داشت کامپوننت لاگین نمایش داده بشه اگه ریجستر بود مقدار ریجستر */}
-      { localStorage.token ?  <ChatPage/> : currentForm === 'login' ? <Login onFormSwitch = {toggleForm} /> : <Register onFormSwitch = {toggleForm}/> } 
+      { localStorage.token ? <ChatPage/> : currentForm === 'login' ? <Login onFormSwitch = {toggleForm} /> : <Register onFormSwitch = {toggleForm}/> } 
     </div>
   );
 }

@@ -9,10 +9,10 @@ export const ChatPage = () => {
 
   return (
     // این دیو برای تنظیمات کلی پس زمینه استفاده میشه 
-      <div className="bg-[#dbdbdb] box-border w-screen " >
+      <div className="bg-[#dbdbdb] fixed top-0 bottom-0 left-0 right-0 box-border  " >
         {/* این دیو کانتینر اصلی صفحه چت ما است */}
       <div
-    className="flex rounded-xl min-h-screen max-h-screen overflow-hidden bg-[#20232A] ml-5 mr-5 text-white"
+    className="flex  mx-5 h-screen  rounded-xl  overflow-hidden bg-[#20232A]  text-white"
   >
     {/* این کامپوننت مربوط به قسمت سمت راست لیست مخاطبین می باشد  */}
     <DrawerChat/>
