@@ -5,15 +5,8 @@ import { ChatContainer } from "./components/ChatContainer";
 import { DrawerChat } from "./components/drawer";
 
 
-
-
-
-
 export const ChatPage = () => {
-   
 
- 
-  
   return (
     // این دیو برای تنظیمات کلی پس زمینه استفاده میشه 
       <div className="bg-[#dbdbdb] box-border w-screen " >
