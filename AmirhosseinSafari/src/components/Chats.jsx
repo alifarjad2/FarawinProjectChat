@@ -37,7 +37,10 @@ useEffect(() => {
 
                    {namepro.filter((e) => e.name.includes(search)).map((e) => (
                          <div  key={e.username} style={{marginTop:"5px"}} className="flex w-auto p-3 bg-[#527394] hover:bg-[#2E333D] rounded-2xl  cursor-pointer">
-                        <div style={{background:"#0097A7"}} className="text-center w-[70px] bg-[#a9d2fe] leading-[50px] rounded-2xl">ع م</div>
+                        <div style={{background:"#0097A7"}} className="text-center w-[70px] bg-[#a9d2fe] leading-[50px] rounded-2xl">
+                            {e.name.charAt(0)}{" "}
+                            {(e.name.charAt(0))!== e.name.charAt(e.name.length-1) ? e.name.charAt(e.name.length-1): null}</div>
+                       
                         <div className="ml-2 pr-2 w-full">
                             <div className="flex justify-between items-center">
                                 <h4 id="output" className="text-[#e5e6ea]">{e.name}</h4>
