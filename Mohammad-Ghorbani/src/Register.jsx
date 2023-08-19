@@ -100,7 +100,7 @@ function Register({ changeForm }) {
           style={{
             background: `-webkit-linear-gradient(right,#00dbde,#fc00ff,#00dbde,#fc00ff)`,
           }}
-          className="w-full h-11  rounded-3xl text-white"
+          className="w-full h-10 rounded-3xl text-white transition ease-in-out delay-150  hover:scale-110"
         >
           SIGN UP
         </button>

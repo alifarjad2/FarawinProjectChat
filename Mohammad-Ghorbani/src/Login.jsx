@@ -1,5 +1,5 @@
 import farawin from "farawin";
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 function Login({ changeForm }) {
   const [username, setUsername] = useState("");
@@ -13,6 +13,12 @@ function Login({ changeForm }) {
   const handlePasswordChange = (event) => {
     setPassword(event.target.value);
   };
+  // useEffect(() => {
+  //   const isLoggedIn = localStorage.getItem("isLoggedIn");
+  //   if (isLoggedIn === "true") {
+  //     changeForm("Chat");
+  //   }
+  // }, []);
 
   const handleValidation = async () => {
     const usernameToEn = farawin.toEnDigit(username);
@@ -30,6 +36,11 @@ function Login({ changeForm }) {
     if (usernameValidation.test(usernameToEn)) {
       const loginResult = await farawin.testLogin(usernameToEn, password);
       setMessage(loginResult.message);
+      if (loginResult.code == 200) {
+        // localStorage.setItem("isLoggedIn", "true");
+        changeForm("Chat");
+        return;
+      }
     }
   };
 
@@ -83,9 +94,9 @@ function Login({ changeForm }) {
           disabled={!username || !password}
           type="button"
           style={{
-            background: `-webkit-linear-gradient(right, #00dbde, #fc00ff, #00dbde, #fc00ff)`,
+            background: `-webkit-linear-gradient(right,#00dbde,#fc00ff,#00dbde,#fc00ff)`,
           }}
-          className="w-full h-10 rounded-3xl text-white"
+          className="w-full h-10 rounded-3xl text-white transition ease-in-out delay-150  hover:scale-110"
         >
           LOGIN
         </button>
