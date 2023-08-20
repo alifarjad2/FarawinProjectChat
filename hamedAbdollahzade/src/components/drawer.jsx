@@ -11,7 +11,7 @@ export const DrawerChat = () => {
   const [members, setMembers] = useState([]);
   const [showAddContact, setShowAddContact] = useState(false);
   const [showRemoveContact, setshowRemoveContact] = useState(false);
-  const [showDrawer,setShowDrawer] = useState(false);
+  const [showDrawer,setShowDrawer] = useState(true);
 
   const getMembers = async () => {
     const res = await farawin.getContacts();
