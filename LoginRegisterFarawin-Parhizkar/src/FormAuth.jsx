@@ -97,7 +97,9 @@ export default function FormAuth() {
       console.log(telePhoneSend + " " + passwordSend);
 
       //در این قسمت اگر کاربر ورود درست داشت و توکن ثبت شد پیج را برای ورود به صفحه چت ریلود میکند
+      //اضافه کردن یوزر نیم یا شماره همراه به عنوان یک توکن به لوکال استورج
       if(result.code == 200){
+        localStorage.username = telePhoneSend;
         location.reload();
       }else{
         alert(result.message);
