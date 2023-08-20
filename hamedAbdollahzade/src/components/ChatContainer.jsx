@@ -1,12 +1,7 @@
 export const ChatContainer = () => {
   return (
-    <div className="flex flex-col w-2/3 m-1 text-start max-sm:w-full">
+    <div className="flex flex-col w-full m-1 text-start max-sm:w-full">
       <div className="flex items-center  h-8 text-base p-2 relative">
-        <img
-          className = "w-6 mx-4 hover:cursor-pointer"
-          src="../img/drawer-menu.png"
-          alt="drawerMeno"
-        />
         <div>مخاطب مورد نظر</div>
         <img
           className="w-4 absolute left-2 top-2 cursor-pointer"
