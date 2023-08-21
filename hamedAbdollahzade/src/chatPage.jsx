@@ -1,11 +1,10 @@
 // در دست احداث ...
-import farawin from "farawin";
-import { useEffect } from "react";
 import { ChatContainer } from "./components/ChatContainer";
-import { DrawerChat } from "./components/drawer";
+import { DrawerChat } from "./components/Drawer";
 
 
 export const ChatPage = () => {
+  
 
   return (
     // این دیو برای تنظیمات کلی پس زمینه استفاده میشه 
@@ -18,7 +17,7 @@ export const ChatPage = () => {
     <DrawerChat/>
     
 {/*  این کامپوننت مربوط به کانتینر قسمت چت ک شامل هدر و صفحه چت و اینپوت ارسال پیام  */}
-    <ChatContainer/>
+    <ChatContainer />
 
   </div>
   </div>

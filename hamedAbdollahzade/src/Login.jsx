@@ -4,6 +4,7 @@ import { useState } from "react";
 
 const Login = ({ onFormSwitch }) => {
   // اینجا دو تا هوک استفاده کردم از ری اکت برای نگه داری مقادیر در استیت
+  // اینجا یوزر نیم همان موبایل است
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
 
@@ -25,6 +26,7 @@ const Login = ({ onFormSwitch }) => {
       const valid = await farawin.testLogin(EnMobile, password);
       alert(valid.message);
       if (valid.code == 200) {
+        localStorage.userMobile = userName;
         location.reload();
       }
     }
