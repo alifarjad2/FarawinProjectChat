@@ -51,7 +51,7 @@ export default function FormAuth() {
   };
 
   //تولید اینپوت
-  const InputBox = ({ label, type, placeholder, onBlur, isValid, value, errorText }) => {
+  const InputBox = ({ label, type, placeholder, onChange, isValid, value, errorText }) => {
     return (
       <div className="mt-2">
         <label className="text-xs ml-2 text-gray-900"
@@ -62,7 +62,7 @@ export default function FormAuth() {
             id={label}
             type={type}
             placeholder={placeholder}
-            onBlur={onBlur}
+            onChange={onChange}
             defaultValue={value}
           />
         </div>
@@ -105,10 +105,10 @@ export default function FormAuth() {
           {isLoginPage ? "Login" : "Sign Up"}
         </h1>
 
-        <InputBox label={'username'} type={'text'} placeholder={'Type your username'} onBlur={handelUsername} isValid={isValidUsername} value={phoneNumber} errorText="Username is your phoneNumber start whit 09 and must be 11 characters" />
-        <InputBox label={'password'} type={'password'} placeholder={'Type your password'} onBlur={handelPassword} isValid={isValidPassword} value={password} errorText="minimum length must be 8 characters" />
+        <InputBox label={'username'} type={'text'} placeholder={'Type your username'} onChange={handelUsername} isValid={isValidUsername} value={phoneNumber} errorText="Username is your phoneNumber start whit 09 and must be 11 characters" />
+        <InputBox label={'password'} type={'password'} placeholder={'Type your password'} onChange={handelPassword} isValid={isValidPassword} value={password} errorText="minimum length must be 8 characters" />
         {!isLoginPage &&
-          <InputBox label={'passwordRepeat'} type={'password'} placeholder={'Repeat your password'} onBlur={handelPasswordRepeat} isValid={isValidPasswordRepeat} value={passwordRepeat} errorText="Repeat is not correct" />
+          <InputBox label={'passwordRepeat'} type={'password'} placeholder={'Repeat your password'} onChange={handelPasswordRepeat} isValid={isValidPasswordRepeat} value={passwordRepeat} errorText="Repeat is not correct" />
         }
         {isLoginPage && <ForgotPass />}
 
