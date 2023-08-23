@@ -6,30 +6,32 @@ import { AddContact } from "./addContact";
 import {DeleteContact} from "./deleteContact";
 
 
-export const SideBar = ()=>{
+export const SideBar = ({contactName})=>{
 
-      const [contactList , setContactList ] = useState ([])
-
+    const [contactList , setContactList ] = useState ([])
+// -------------------------تابع نمایش نام مخاطب در چت باکس--------------------------------------
+    const itemHandler = (name)=>{
+    return contactName(name);
+    }
+// ----------------------گرفتن مخاطبین اضافه شده از سرور--------------------------
      const fetchContacts = async()=>{
        const result = await farawin.getContacts()
-      console.table(result.contactList);
+      // console.table(result.contactList);
 
       const showContact = result.contactList.filter((r)=>{return r.ref == localStorage.username})
 
      setContactList(showContact)
-      console.log(contactList);
+      // console.log(contactList);
     }
     useEffect(()=>{
         fetchContacts();
     },[])
-   
-    // add contact pop up
+// -------------------------نمایش فرم افزودن مخاطب------------------------------
     const [isPopupOpen, setIsPopupOpen] = useState(false);
     const togglePopup = () => {
         setIsPopupOpen(!isPopupOpen);
       };
-
-      // delete contact pop up
+//--------------------------نمایش فرم حذف مخاطب----------------------------------
       const [PopupDelete, setPopupDelete] = useState(false);
       const togglePopupDelete = () => {
         setPopupDelete(!PopupDelete);
@@ -40,7 +42,7 @@ export const SideBar = ()=>{
 
         <div
         // drawer
-        className ="relative bg-[#4f4e4e] flex flex-col w-[400px] p-1 m-2 max-sm:hidden "
+        className ="relative bg-[#4f4e4e] flex flex-col min-w-[250px] p-1 m-2  "
         >
 
         <div className="w-12" >
@@ -54,7 +56,7 @@ export const SideBar = ()=>{
           </div>
           <div>
           <img 
-        className=" absolute top-3 left-8 rounded-xl cursor-pointer "
+        className=" absolute top-3 left-10 rounded-xl cursor-pointer "
         src="../img/icons8-delete-24.png" 
         alt="delete"
         onClick={togglePopupDelete} />
@@ -76,10 +78,11 @@ export const SideBar = ()=>{
         
         <ul
         // contactList
+        className="cursor-pointer"
         >
         {contactList.length == 0 && (<h3 className="text-center text-slate-400">مخاطبی وجود ندارد ...</h3>)}
         {contactList.map((res)=>(
-        <Contacts key={res.index} res={res}/>
+        <Contacts key={res.index} res={res}  contactName = {itemHandler}/>
         ))}
         </ul>
         </div>

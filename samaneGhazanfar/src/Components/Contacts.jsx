@@ -1,11 +1,12 @@
 
 
-export const Contacts=({ res }) => {
+export const Contacts=({ res , contactName }) => {
  
 
     return(
         <li
         key={res.index}
+        onClick={()=>{return contactName(res)}}
         className ="relative hover:bg-slate-600 cursor-pointer h-16 flex flex-row w-[95%] mb-3 rounded-xl "
         >
         {/* نمایش حرف اول  */}

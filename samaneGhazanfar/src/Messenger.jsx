@@ -1,19 +1,72 @@
 
+import { useEffect, useState } from "react";
 import { ChatBox } from "./Components/ChatBox";
 import { SideBar } from "./Components/SideBar";
-// import { AddContact } from "./Components/addContact";
+import farawin from "farawin";
+
 
 export const Messenger = () => {
+// استیت کلی چت ها
+const [chatAll , setChatAll] = useState("");
+// ---------------------------------------------------------------------
+
+// استیت فرستنده چت
+    const [isSender , setIsSender] = useState("");
+// ---------------------------------------------------------------------
+// استیت دریافت کننده چت
+    const [isReciver , setIsReciver] = useState("");
+// ---------------------------------------------------------------------
+// استیت مخاطب انتخاب شده که نام ان در هدر چت میاد
+    const [isItem , setIsItem ]=useState("");
+
+     const itemHandler = (value)=>{
+        setIsItem(value);
+    }
+    //  console.log(isItem);
+  
+// ----------------------------گرفتن چت لیست از سرور-----------------------------------------------
+    const fetchChat = async() => {
+        const result = await farawin.getChats()
+        const chat = result.chatList
+        setChatAll(chat)
+
+    }
+   
+    //   console.table(chatAll);
+// -----------------------------------------------------------------------------------------------------
+const sender = ()=>{
+   const sendM = chatAll.filter((e)=>{
+    if (e.sender == localStorage.username) {
+         return  e.receiver == isItem.username ; }})
+          setIsSender(sendM)
+};
+// ---------------------------------------------------------------------------------------------------------
+const reciver = ()=>{
+    const reciveM = chatAll.filter((e)=>{
+        if (e.sender == isItem.username) {
+            return e.receiver == localStorage.username}})
+            setIsReciver(reciveM);
+}
+
+
+useEffect(()=>{
+    fetchChat();
+    isItem ?
+    sender() : "" ;
+    
+    isItem ?
+    reciver() : "";
+},[isItem]);
+
 
 
 
     return (
         <div className ="bg-[#4f4e4e] flex w-[80vw] h-screen ml-auto mr-auto rounded-lg text-white min-w-fit">
 
-            {/* { show ? <AddContact/> : ""} */}
-            <SideBar/>
+            <SideBar contactName = {itemHandler} />
             
-            <ChatBox/>
+            <ChatBox  selectItem = {isItem} sendMessage = {isSender}  reciveMessage={isReciver} />
             
         </div>
         );
