@@ -5,15 +5,26 @@ import { AddContact } from "./AddContact";
 import { RemoveContact } from "./RemoveContact";
 import { Search } from "./search";
 import imageDrawerMenu from "../../img/drawer-menu.png";
+import imageAddContact from "../../img/addContact.png"
+import imageDeleteContact from "../../img/delete.png"
+import imageRefresh from "../../img/refresh.png"
 
-export const DrawerChat = () => {
+
+export const DrawerChat = (prop) => {
+  // -------------------------------------------------------------------------------
   const [members, setMembers] = useState([]);
   const [searchMember, setSearchMember] = useState("");
 
+  const [reloadComponent,setReloadComponent] = useState(true);
   const [showAddContact, setShowAddContact] = useState(false);
   const [showRemoveContact, setshowRemoveContact] = useState(false);
   const [showDrawer, setShowDrawer] = useState(true);
+// ---------------------------------------------------------------------------------
+const selectedHandler = (itemSelected) => {
+  return prop.selectedItem(itemSelected)
+}
 
+  // -----------------------------------------------------------------------
   const searchHandler = (value) => {
     const searched = members.filter((item) => {
       return item.name.toLocaleLowerCase().includes(value.toLocaleLowerCase())
@@ -26,60 +37,62 @@ export const DrawerChat = () => {
         : location.reload();
     }
   };
+  // -------------------------------------------------------------------
 
   const getMembers = async () => {
     const res = await farawin.getContacts();
-    console.table(res.contactList);
+    // console.table(res.contactList);
     const filterContact = res.contactList.filter((r) => {
       return r.ref == localStorage.userMobile;
     });
 
     setMembers(filterContact);
   };
-
+  // --------------------------------------------------------------------------------
   useEffect(() => {
     getMembers();
-  }, []);
+  }, [reloadComponent]);
+  // ------------------------------------------------------------------------------------
 
   return (
     <div
       className={
         showDrawer
-          ? "relative transition-all duration-700 overflow-x-hidden flex flex-col m-1 rounded-lg w-[500px] text-center px-4 max-sm:hidden"
+          ? "relative transition-all duration-700 overflow-x-hidden flex flex-col m-1 rounded-lg w-[400px] text-center px-4 "
           : " transition-all duration-700 w-0 overflow-x-hidden hover:cursor-pointer mx-5"
       }
     >
-     
-      {/* این دیو مخصوص قسمت سرچ و دکمه های دراور می باشد */}
-      <div className="flex justify-between items-center">
-        <Search searchHandler={searchHandler} />
 
-        <div className="flex justify-center  items-center  h-12 ">
-          <button
+<div className="flex justify-between  items-center  h-9 mt-1 ">
+          <img
+          src={imageAddContact}
             className={
               showAddContact
-                ? " bg-slate-300 rounded-full h-8 px-3  mx-2 "
-                : " bg-slate-500 rounded-full h-8 px-3  mx-2 "
+                ? " bg-slate-300 rounded-full h-8 px-3  mx-2 cursor-pointer"
+                : " bg-slate-500 rounded-full h-8 px-3  mx-2 cursor-pointer"
             }
             onClick={() => {
               setShowAddContact(!showAddContact);
             }}
-          >
-            +
-          </button>
-          <button
+          />
+
+<img
+          src={imageRefresh}
+            className={" bg-slate-300 rounded-full h-8 px-3  text-xs cursor-pointer"}
+            onClick={() => {setReloadComponent(!reloadComponent)}}
+          />
+
+          <img
+          src={imageDeleteContact}
             className={
               showRemoveContact
-                ? " bg-slate-300 rounded-full h-8 px-3  text-xs"
-                : " bg-slate-500 rounded-full h-8 px-3  text-xs"
+                ? " bg-slate-300 rounded-full h-8 px-3  text-xs cursor-pointer"
+                : " bg-slate-500 rounded-full h-8 px-3  text-xs cursor-pointer"
             }
             onClick={() => {
               setshowRemoveContact(!showRemoveContact);
             }}
-          >
-            -
-          </button>
-
+          />
           <img
             src={imageDrawerMenu}
             onClick={() => {
@@ -88,18 +101,27 @@ export const DrawerChat = () => {
             alt="menu"
             className={
               showDrawer
-                ? "w-7 mx-1 hover:cursor-pointer "
-                : "w-7 mx-1 hover:cursor-pointer fixed right-6 rotate-90 "
+                ? "w-9 mx-1 hover:cursor-pointer "
+                : "w-9 mx-1 hover:cursor-pointer fixed right-6 rotate-90  "
             }
           />
         </div>
-      </div>
 
-{/* این دیو برای نمایش موارد جستجو شده می باشد */}
+
+
+      {/* این دیو مخصوص قسمت سرچ و دکمه های دراور می باشد */}
+      <div className="flex justify-between items-center">
+        <Search searchHandler={searchHandler} />
+      </div>
+      
+      
+    
+
+      {/* این دیو برای نمایش موارد جستجو شده می باشد */}
       <div
         className={
           searchMember
-            ? "  bg-zinc-800 overflow-y-auto absolute left-2 right-2 top-16 bottom-0 z-10 rounded-sm p-2  "
+            ? "  bg-zinc-800 overflow-y-auto absolute left-2 right-4 top-24 bottom-1 z-10 rounded-sm p-2   "
             : "hidden"
         }
       >
@@ -114,7 +136,7 @@ export const DrawerChat = () => {
         </button>
         {searchMember
           ? searchMember.map((contact) => (
-              <ContactItem key={contact.index} name={contact.name} />
+              <ContactItem key={contact.index} contact={contact} />
             ))
           : ""}
       </div>
@@ -125,11 +147,11 @@ export const DrawerChat = () => {
       {/* این دیو برای مدیریت حذف مخاطب است */}
       <div>{showRemoveContact ? <RemoveContact /> : ""}</div>
 
-{/* این جا همه مخاطبین ما نمایش داده میشود */}
+      {/* این جا همه مخاطبین ما نمایش داده میشود */}
       {members.length == 0
         ? " مخاطبی وجود ندارد"
         : members.map((contact) => (
-            <ContactItem key={contact.index} name={contact.name} />
+            <ContactItem key={contact.index} contact={contact} selectedItem={selectedHandler} />
           ))}
     </div>
   );

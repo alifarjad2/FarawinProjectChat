@@ -13,7 +13,6 @@ export const AddContact = () => {
     if (mobileRegex.test(EnMobile) && inputName.length >= 3 ) {
       const valid =await farawin.testAddContact(EnMobile,inputName) ;
       alert(valid.message);
-      location.reload();
   }
   }
   return (
