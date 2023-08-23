@@ -6,9 +6,5 @@ import ChatPage from "./Chat";
 import RecieverChatMassage from "./resieverchatMassage";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    {
           ( !localStorage.token ? <FormAuthComponent /> : <ChatPage/>)
-    }
-  </React.StrictMode>
 );

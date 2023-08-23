@@ -24,8 +24,13 @@ export default function ChatPage(props) {
   const [controlChats, setControlChats] = useState(false);
   const [controlContact, setControl] = useState(false);
   const contactListController = useRef(null);
-
+  const [sendText , setSendText] = useState("");
+  const[isOpenEdit , setIsOpenEdit]=useState(false);
+  const [editPhoneNumber,setEditPhoneNumber]=useState("")
+  const [contactEditName , setContactEditName]=useState("");
+  console.log(buttonToggle2)
   console.log(filteredContacts);
+  console.log(sendText);
   if (contactListController?.current) {
     clearInterval(contactListController.current);
   }
@@ -55,7 +60,7 @@ export default function ChatPage(props) {
     };
   }, [buttonToggle]);
 
-  console.log(selectedNumber);
+  console.info(selectedNumber);
 
   const handleRefreshChat = () => {
     setButtonToggle2(Math.random());
@@ -135,8 +140,63 @@ export default function ChatPage(props) {
       alert(resultDelete.message);
     }
   };
+  const handleEditContact = ()=>{
+    setIsOpenEdit(!isOpenEdit);
+  }
+  const handleEditMember = async()=>{
+    const resultEdit = await farawin.testEditContact(editPhoneNumber , contactEditName);
+    if(resultEdit.code !== 200){
+      alert(resultEdit.message)
+    }else{
+      alert(resultEdit.message)
+    }
+  }
+  const handleEditNameChange = (event) => {
+    const contactName = event.target.value;
+    const regex = /^.{3,}$/;
+    if (contactName === "") {
+      setContactEditName("");
+      setIsValidName(null);
+    } else if (regex.test(contactName)) {
+      setContactEditName(contactName);
+      setIsValidName(true);
+    } else {
+      setContactEditName(contactName);
+      setIsValidName(false);
+    }
+  };
+  const handleEditPhoneChange = (event) => {
+    var PhoneNumber = event.target.value;
+    const mobileRegex = farawin.mobileRegex;
+    PhoneNumber = farawin.toEnDigit(PhoneNumber);
+    if (PhoneNumber === "") {
+      setEditPhoneNumber("");
+      setIsValidPhone(null);
+    } else if (mobileRegex.test(PhoneNumber)) {
+      setEditPhoneNumber(PhoneNumber);
+      setIsValidPhone(true);
+    } else {
+      setEditPhoneNumber(PhoneNumber);
+      setIsValidPhone(false);
+    }
+  };
+  const handleSendTextsChange = (event)=>{
+    const text = event.target.value;
+    setSendText(text);
+  };
+  const handleTextSender=async()=>{
+    const toUser = selectedNumber;
+    const textSend = sendText;
+    const resultSend = await farawin.testAddChat(toUser , textSend);
+    if(resultSend.code !== 200){
+      alert(resultSend.message)
+    }else{
+      alert(resultSend.message)
+    }
+  };
   const isSabtDisabled = !isValidPhone || !isValidName;
   const isHazfDisabled = !isValidPhone;
+  const isEditDisabled = !isValidPhone || !isValidName;
   const handleShowMenu = () => {
     const contactMenu = document.getElementById("Contact-menu");
     const chatContainer = document.getElementById("chat-container");
@@ -170,6 +230,66 @@ export default function ChatPage(props) {
 
   return (
     <div dir="rtl" lang="fa">
+         {isOpenEdit && (
+        <Popup
+          content={
+            <>
+              <button
+                className="p-2 hover:bg-red-400 hover:text-white text-lg font-bold mt-1"
+                onClick={handleEditContact}
+              >
+                بستن
+              </button>
+              <div className="flex flex-col items-start px-5 py-5">
+                <label className="w-fit" htmlFor="">
+                  شماره تلفن :
+                </label>
+                <input
+                  onChange={handleEditPhoneChange}
+                  value={editPhoneNumber}
+                  type="text"
+                  className="outline-none border-b-2 w-full border-slate-300 p-2"
+                />
+                {isValidPhone === null ? null : isValidPhone ? (
+                  //  تگ پی یک تگ پاراگراف و مخصوص نمایش متن است
+                  <p className="text-green-500 text-xs">شماره تلفن درست است</p>
+                ) : (
+                  <p className="text-xs text-red-500">
+                    شماره تلفن غلط است باید با 09 آغاز و دارای 11 رقم باشد.
+                  </p>
+                )}
+              </div>
+              <div className="flex flex-col items-start px-5 py-5 ">
+                <label className="w-fit" htmlFor="">
+                  {" "}
+                  اسم مخاطب :
+                </label>
+                <input
+                  value={contactEditName}
+                  onChange={handleEditNameChange}
+                  type="text"
+                  className="outline-none border-b-2 w-full border-slate-300 p-2"
+                />
+                {isValidName === null ? null : isValidName ? (
+                  //  تگ پی یک تگ پاراگراف و مخصوص نمایش متن است
+                  <p className="text-green-500 text-xs">درست وارد شده است</p>
+                ) : (
+                  <p className="text-xs text-red-500">
+                    اسم باید بیشتر از 3 حرف داشته باشد.
+                  </p>
+                )}
+              </div>
+              <button
+                disabled={isEditDisabled}
+                onClick={handleEditMember}
+                className="cursor-pointer p-2 hover:bg-green-400  hover:text-white text-lg font-bold mb-2 mt-3 w-11/12"
+              >
+                ویرایش مخاطب
+              </button>
+            </>
+          }
+        />
+      )}
       {isOpenDelete && (
         <Popup
           content={
@@ -280,7 +400,7 @@ export default function ChatPage(props) {
             id="Contact-menu"
             className="h-screen bg-[#202329] rounded-r-2xl lg:block min-[425px]:hidden min-[375px]:hidden min-[320px]:hidden p-2"
           >
-            <div className="flex justify-center items-center gap-2 mt-[27px] w-full">
+            <div className="flex justify-center items-center gap-1 mt-[27px] w-full">
               <button
                 id="close-contact-menu"
                 onClick={handleCloseMenu}
@@ -314,12 +434,18 @@ export default function ChatPage(props) {
                 onClick={handleDeleteContact}
                 className="hover:bg-blue-400 w-fit rounded-lg p-1 "
               >
-                Delete
+                Del
+              </button>
+              <button
+               className="hover:bg-blue-400 w-fit rounded-lg p-1" 
+               onClick={handleEditContact}
+              >
+                Edit
               </button>
             </div>
 
             <div id="search-bar" className="flex pt-4 mb-5 pl-2">
-              <SearchBar data={filteredContacts} set={setSelectedContact} />
+              <SearchBar data={filteredContacts} set={setSelectedContact} number={setSelectedNumber} />
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 50 50"
@@ -406,22 +532,28 @@ export default function ChatPage(props) {
             </div>
             <div
               id="chat-body"
-              className="flex justify-center flex-col mx-auto p-5 h-3/4 w-full overflow-scroll overflow-x-hidden"
+              className=" mx-auto p-5 h-3/4 w-full overflow-scroll overflow-x-hidden"
             >
-              <div dir="rtl" className="p-2 mr-5 h-full w-full">
+              <div className="p-2 mr-5 h-full w-full">
                 {controlChats && (
-                  <div className="p-2">
-                    <RecieverChatMassage number={selectedNumber} />
-                  </div>
+                  
+                    <RecieverChatMassage toggle={buttonToggle2} number={selectedNumber} />
+                  
                 )}
               </div>
             </div>
             <div id="chat-sender" className="w-full p-3 flex justify-center">
               <input
+              onChange={handleSendTextsChange}
+                value={sendText}
                 type="text"
                 placeholder="پیغام خود را بنویسید ... "
-                className="w-11/12 p-2 text-white outline-none rounded-lg border-none bg-[#2E333D]"
+                className="w-9/12 p-2 text-white outline-none rounded-r-lg border-none bg-[#2E333D]"
               />
+              <button onClick={ ()=>{
+                handleTextSender();
+                setButtonToggle2(Math.random())
+              } } className="bg-[#2E333D] text-white hover:bg-blue-400 w-fit rounded-l-lg rounded-r-none p-1">ارسال</button>
             </div>
           </div>
         </section>

@@ -1,6 +1,7 @@
 import farawin from "farawin";
 import { useEffect, useState } from "react";
 import { useRef } from "react";
+import "./App.css";
 
 export default function RecieverChatMassage(props) {
   const [filteredChats, setFilteredChats] = useState([]);
@@ -19,7 +20,7 @@ export default function RecieverChatMassage(props) {
     return () => {
       ignore = true;
     };
-  }, [props.buttonToggle2]);
+  }, [props.toggle]);
 
   const senderChats = filteredChats.filter((res) => {
     if (res.receiver == localStorage.username) {
@@ -46,55 +47,48 @@ export default function RecieverChatMassage(props) {
       setControl(true);
     }
   }, 1000);
+  // sort whole texts from me and contact in a single array by date of texts
+  const sortedChats = [...senderChats, ...receiverChats].sort((a, b) => {
+    return new Date(a.date) - new Date(b.date);
+  });
 
   return (
     <div>
       <div className=" flex flex-col">
-        {!control ? (
-          <p className="text-white font-bold">پیغامی وجود ندارد</p>
-        ) : (
-          <div>
-            {receiverChats &&
-              receiverChats.map((chat) => {
+        {props.toggle && !control ? (
+           <p className="text-white font-bold">پیغامی وجود ندارد</p>
+         ) : (
+
+          
+            <div>
+              {sortedChats.map((chat) => {
                 // Convert chat.date to a Date object
                 const dateObj = new Date(chat.date);
-
+  
                 // Extract the hour from the Date object
                 const hour = dateObj.getHours();
                 const minute = dateObj.getMinutes();
+                // control is massage is for localstorage usernam or not
+                const isSender = chat.sender === localStorage.username;
+  
                 return (
                   <div
-                    className="w-1/2 h-fit rounded-lg bg-green-500 my-5"
+                    className={`w-full p-2  h-fit rounded-lg ${
+                      isSender ? "direction2" : "direction"
+                    } my-5`}
                     key={chat.date}
                   >
-                    <p className="w-full text-white p-2">{chat.text}</p>
-                    <p>
-                      {hour}:{minute}
-                    </p>
+                    <div className={`w-1/3 rounded-lg p-1 ${isSender ? "bg-blue-500" : "bg-violet-500"}`}>
+                      <p className=" text-white p-2 ">{chat.text}</p>
+                      <p className={`text-white ${isSender ? "direction" : "direction2"}`}>
+                       {hour}:{minute}
+                      </p>
+                    </div>
+                    
                   </div>
                 );
               })}
-            {senderChats &&
-              senderChats.map((chat) => {
-                // Convert chat.date to a Date object
-                const dateObj = new Date(chat.date);
-
-                // Extract the hour from the Date object
-                const hour = dateObj.getHours();
-                const minute = dateObj.getMinutes();
-                return (
-                  <div
-                    className="w-1/2 h-fit rounded-lg bg-red-500 my-5 "
-                    key={chat.date}
-                  >
-                    <p className="w-full  text-white p-2 ">{chat.text}</p>
-                    <p>
-                      {hour}:{minute}
-                    </p>
-                  </div>
-                );
-              })}
-          </div>
+            </div>
         )}
       </div>
 

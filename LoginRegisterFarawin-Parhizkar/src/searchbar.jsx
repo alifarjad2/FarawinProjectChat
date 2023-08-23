@@ -2,7 +2,7 @@ import { useState } from "react";
 
 export default function SearchBar(props) {
   const [searchInput, setSearchInput] = useState("");
-
+  
   const handleChange = (e) => {
     e.preventDefault();
     setSearchInput(e.target.value);
@@ -28,7 +28,10 @@ export default function SearchBar(props) {
       <div>
         {filteredData.map((contact) => (
           <div
-            onClick={() => props.set(contact.name)}
+            onClick={() => {
+              props.set(contact.name), 
+              props.number(contact.username);
+            }}
             className="absolute backdrop-blur-lg cursor-pointer  hover:bg-violet-800 hover:bg-opacity-30 text-white flex flex-col items-start p-3 w-[245px] rounded-lg "
             key={contact.username}
           >
