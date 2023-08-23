@@ -1,21 +1,56 @@
-
 @font-face {
   font-family: "BYekan";
   src: url("../fonts/BYekan.eot") format("eot"),
-  url("../fonts/BYekan.ttf") format("ttf"),
-  url("../fonts/BYekan.woff")format("woff"),
-  url("../fonts/BYekan.woff2")format("woff2");
+    url("../fonts/BYekan.ttf") format("ttf"),
+    url("../fonts/BYekan.woff")format("woff"),
+    url("../fonts/BYekan.woff2")format("woff2");
   font-weight: normal;
   font-style: normal;
 }
-.Toastify__toast{
+
+.Toastify__toast {
   font-family: "BYekan" !important;
 }
+
 #root {
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
- font-family: sans-serif; 
- 
+  font-family: "BYekan";
+}
+
+
+::-webkit-scrollbar {
+  width: 2px;
+}
+
+::-webkit-scrollbar-track {
+  background: #2E333D;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgb(223, 223, 223);
+}
+
+@keyframes fadeInLeft {
+  from {
+    opacity: 0;
+    transform: translate3d(-100%, 0, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }

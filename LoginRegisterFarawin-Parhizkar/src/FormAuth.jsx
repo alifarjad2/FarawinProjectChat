@@ -95,7 +95,15 @@ export default function FormAuth() {
       // در اینجا با استفاده از ایویت ما به تابع میگوییم تا زمان رسیدن پیغام از فراوین دست نگه دار و وقتی پرامیس تحویل داده شد دوباره کار خود را از سر بگیر
       const result = await farawin.testLogin(telePhoneSend, passwordSend);
       console.log(telePhoneSend + " " + passwordSend);
-      alert(result.message);
+
+      //در این قسمت اگر کاربر ورود درست داشت و توکن ثبت شد پیج را برای ورود به صفحه چت ریلود میکند
+      //اضافه کردن یوزر نیم یا شماره همراه به عنوان یک توکن به لوکال استورج
+      if(result.code == 200){
+        localStorage.username = telePhoneSend;
+        location.reload();
+      }else{
+        alert(result.message);
+      };
     } else {
       const username = name;
       const telePhoneSend = phoneNumber;
