@@ -10,12 +10,6 @@ const Register = ({ onFormSwitch }) => {
   const [passwoord2, setPassword2] = useState("");
   const [flName, setflName] = useState("");
 
-  // اینجا هم ی ولیدیت کوچیک کردم ک فقط درست مقدار دهی بشه و دکمه ارسال فعال بشه بقیه الرت هارو سپردم به پیام هایی ک از سمت سرور میاد
-  let validate = false;
-  if (password1 === passwoord2 && flName.length > 2 && userName) {
-    validate = true;
-  }
-
   const ErsalForm = async () => {
     await farawin.testRegister(userName, password1, flName, (res) => {
       alert(res.message);
@@ -26,58 +20,72 @@ const Register = ({ onFormSwitch }) => {
     <form className="h-full w-full flex flex-col px-5">
       <h1 className="flex justify-center text-4xl m-8 font-bold"> Register </h1>
 
-      <label className="text-xs mt-6" htmlFor="username">
+      <label className="text-xs mt-2" htmlFor="username">
         Username :
       </label>
       <input
         type="tel"
         onChange={(event) => setUserName(event.target.value)}
         value={userName}
-        placeholder="Type your mobile number"
+        placeholder="0 9 3 3 3 5 3 6 5 4 6"
         id="username"
         className="border-b-2 outline-none"
       />
+      <div className={userName.length == 0 || userName.length == 11 ? "hidden" : "text-red-700 text-[10px] text-right mt-2"}>
+        طول موبایل باید 11 رقم باشد  
+      </div>
 
-      <label className="text-xs mt-6" htmlFor="password1">
+
+      <label className="text-xs mt-2" htmlFor="password1">
         Password :
       </label>
       <input
         type="password"
         onChange={(event) => setPassword1(event.target.value)}
         value={password1}
-        placeholder="Type your password"
+        placeholder="* * * * * * * * "
         id="password1"
         className="border-b-2 outline-none"
       />
+      <div className={password1.length == 0 || password1.length >= 8 ? "hidden" : "text-red-700 text-[10px] text-right mt-2"}>
+        رمز عبور حداقل 8 رقم باشد 
+      </div>
 
-      <label className="text-xs mt-6" htmlFor="password2">
+      <label className="text-xs mt-2" htmlFor="password2">
         Retry Password :
       </label>
       <input
         type="password"
         onChange={(event) => setPassword2(event.target.value)}
         value={passwoord2}
-        placeholder="Retry password"
+        placeholder="* * * * * * * *"
         id="password2"
         className="border-b-2 outline-none"
       />
+      <div className={password1 === passwoord2 ? "hidden" : "text-red-700 text-[10px] text-right mt-2"}>
+        تکرار پسورد اشتباه است
+      </div>
 
-      <label className="text-xs mt-6" htmlFor="flName">
+      <label className="text-xs mt-2" htmlFor="flName">
         name :
       </label>
       <input
         type="text"
         onChange={(event) => setflName(event.target.value)}
         value={flName}
-        placeholder="First name Last name"
+        placeholder="hamed Abdollahzade"
         id="flName"
         className="border-b-2 outline-none"
       />
+      <div className={flName.length == 0 || flName.length > 2 ? "hidden" : "text-red-700 text-[10px] text-right mt-2"}>
+        اسم حداقل سه حرف باشد
+      </div>
 
       <button
-        disabled={validate ? false : true}
+      //! اینجا روی خود دکمه ولیدیت ریز کردم گفتم اگه همه چی مرتب بود بعد فعال بشه
+        disabled={ password1 === passwoord2 && flName.length > 2 && userName.length == 11 ? false : true}
         type="button"
-        className="border mx-2 h-8 w-4/5 btn rounded-full  mt-8 self-center "
+        className={password1 === passwoord2 && flName.length > 2 && userName.length == 11 ? "border mx-2 h-8 w-4/5 btn rounded-full  mt-8 self-center ":"border mx-2 h-8 w-4/5 btn rounded-full opacity-[0.7] mt-8 self-center "}
         onClick={ErsalForm}
       >
         register

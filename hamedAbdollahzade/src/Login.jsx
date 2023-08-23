@@ -4,16 +4,11 @@ import { useState } from "react";
 
 const Login = ({ onFormSwitch }) => {
   // اینجا دو تا هوک استفاده کردم از ری اکت برای نگه داری مقادیر در استیت
+  // اینجا یوزر نیم همان موبایل است
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
 
-// چون ای پی ای درخواستی ک میفرستیم پیام خطا مربوط به درست نبودن موبایل و پسورد 8 رقم بیشتر رو میده فقط بررسی کردم خالی نباشه تا دکمه ارسال فعال بشه
-  let validate = false;
-  if (userName && password) {
-    validate = true;
-  }
-  
-// اینجا هم مقدار داخل استیت مربوطه رو اپدیت کردم
+  // اینجا هم مقدار داخل استیت مربوطه رو اپدیت کردم
   const updateStatepass = (e) => {
     setPassword(e);
   };
@@ -21,14 +16,19 @@ const Login = ({ onFormSwitch }) => {
   const updateStateUser = (e) => {
     setUserName(e);
   };
- 
+
   const validateLogin = async () => {
     // برای بررسی صحیح بودن موبایل از regex موجود کتابخانه فراوین استفاده شود. farawin.mobileRegex (این نکته رعایت شود که اعداد فارسی به انگلیسی تبدیل شوند می توان از تابع farawin.toEnDigit برای این منظور استفاده نمود)
     const EnMobile = farawin.toEnDigit(userName);
     const mobileRegex = farawin.mobileRegex;
 
     if (mobileRegex.test(EnMobile)) {
-      await farawin.testLogin(EnMobile, password, (res) => alert(res.message));
+      const valid = await farawin.testLogin(EnMobile, password);
+      alert(valid.message);
+      if (valid.code == 200) {
+        localStorage.userMobile = userName;
+        location.reload();
+      }
     }
   };
 
@@ -43,10 +43,19 @@ const Login = ({ onFormSwitch }) => {
         onChange={(e) => updateStateUser(e.target.value)}
         type="tel"
         value={userName}
-        placeholder="Type your mobile number"
+        placeholder="0 9 3 3 3 5 3 6 5 4 6"
         id="username"
         className="border-b-2 outline-none"
       />
+      <div
+        className={
+          userName.length == 0 || userName.length == 11
+            ? "hidden"
+            : "text-red-700 text-[10px] text-right mt-2"
+        }
+      >
+        موبایل را درست وارد کنید
+      </div>
 
       <label className="text-xs mt-6" htmlFor="password">
         Password
@@ -55,23 +64,37 @@ const Login = ({ onFormSwitch }) => {
         onChange={(e) => updateStatepass(e.target.value)}
         type="password"
         value={password}
-        placeholder="Type your password"
+        placeholder="* * * * * * * * "
         id="password"
         className="border-b-2 outline-none"
       />
+      <div
+        className={
+          password.length == 0 || password.length >= 8
+            ? "hidden"
+            : "text-red-700 text-[10px] text-right mt-2"
+        }
+      >
+        پسورد حداقل باید 8 رقم باشد
+      </div>
+
       <button
         type="button"
         onClick={() => {
           alert("این امکان هنوز پیاده سازی نشده است");
         }}
-        className="flex justify-end mt-4"
+        className="ml-auto mt-4"
       >
         Forgot passwoord ?
       </button>
 
       <button
-        disabled={validate ? false : true}
-        className="text-white text-sm border mx-2 h-8 w-4/5 btn rounded-full  mt-9 self-center "
+        disabled={userName.length == 11 && password.length >= 8 ? false : true}
+        className={
+          userName.length == 11 && password.length >= 8
+            ? "text-white text-sm border mx-2 h-8 w-4/5 btn rounded-full  mt-9 self-center"
+            : "text-white text-sm border mx-2 h-8 w-4/5 btn rounded-full opacity-[0.7] mt-9 self-center "
+        }
         type="button"
         onClick={validateLogin}
       >
