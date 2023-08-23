@@ -3,6 +3,7 @@ import imageSend from "../../img/send.png";
 import { useState } from "react";
 
 export const ChatContainer = (prop) => {
+
   const [inputSendMessege, setinputSendMessege] = useState("");
 
   const ersalPayam = () => {
@@ -28,23 +29,6 @@ export const ChatContainer = (prop) => {
         </div>
 
         <div className=" h-full overflow-y-auto p-2 ">
-          {prop.sender
-            ? prop.sender.map((sender) => (
-                <>
-                  <div className="flex flex-row items-end m-1 p-1">
-                    <div className="shrink-0 rounded-lg mr-2 w-[40px] leading-[40px] text-center bg-slate-500">
-                      ME
-                    </div>
-                    <div className="flex flex-col bg-[#30333C] mb-2 mr-1 rounded-xl p-2 relative">
-                      <span className="text-xs">Me</span>
-                      <p className="text-start pt-1 pb-1">{sender.text}</p>
-                      <span className="text-end text-xs">{sender.date}</span>
-                    </div>
-                  </div>
-                </>
-              ))
-            : ""}
-
           {prop.reciver
             ? prop.reciver.map((reciver) => (
                 <>
@@ -56,6 +40,25 @@ export const ChatContainer = (prop) => {
                       <span className="text-xs">{prop.item.name} </span>
                       <p className="text-left pt-1 pb-1">{reciver.text}</p>
                       <span className="text-start text-xs">{reciver.date}</span>
+                    </div>
+                  </div>
+                </>
+              ))
+            : ""}
+<div className={prop.sender.length == 0 && prop.reciver.length == 0  ? "flex text-3xl text-yellow-400 justify-center items-center w-full h-full" : "hidden"  }>
+   هنوز پیامی ندارید :(
+</div>
+          {prop.sender
+            ? prop.sender.map((sender) => (
+                <>
+                  <div className="flex flex-row items-end m-1 p-1">
+                    <div className="shrink-0 rounded-lg mr-2 w-[40px] leading-[40px] text-center bg-slate-500">
+                      ME
+                    </div>
+                    <div className="flex flex-col bg-[#30333C] mb-2 mr-1 rounded-xl p-2 relative">
+                      <span className="text-xs">Me</span>
+                      <p className="text-start pt-1 pb-1">{sender.text}</p>
+                      <span className="text-end text-xs">{sender.date}</span>
                     </div>
                   </div>
                 </>
