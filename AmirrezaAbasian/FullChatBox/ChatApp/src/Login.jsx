@@ -36,6 +36,10 @@ function Login({ isRegister, setIsRegister }) {
         })
         setPass('')
         setUsername('')
+        setTimeout(() => {
+            localStorage.token && window.location.reload()
+            console.log('Reloading now !', isRegister);
+        }, 1000);
     }
 
     return (
