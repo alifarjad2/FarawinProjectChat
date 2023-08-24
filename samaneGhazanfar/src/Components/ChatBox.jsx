@@ -1,22 +1,36 @@
-import { useState } from "react";
+import { useEffect , useState } from "react";
 import farawin from "farawin";
 export const ChatBox = ({ selectItem, sendMessage ,reciveMessage }) => {
+// استیت برای نوشتن پیام و ارسال آن
+const [inputMessage , setInputMessage] = useState("");
 
-  const [inputMessage , setInputMessage] = useState("");
+// استیت برای زمان حال در چت ها
+const [currentDate, setCurrentDate] = useState(new Date());
 
-  const MessageHandler = async() =>{
+const MessageHandler = async() =>{
     await farawin.testAddChat(selectItem.username , inputMessage )
 }
 
+// const deleteChat = async ()=>{
+//   const res = await farawin.testDeleteChat(selectItem.id , (e)=>{console.log(e.message);} )
+//   console.log(res.message);
+// }
+// deleteChat()
 
+useEffect(() => {
+  const interval = setInterval(() => {
+    setCurrentDate(new Date());
+  }, 1000);
+  return () => clearInterval(interval);
+}, []);
 
 
   return (
     <div
-    // وجود داشتن چت یا نبودن ان چک میشود
+    // وجود داشتن چت یا نبودن چت انتخابی چک میشود
       className={
         selectItem.name
-          ? "flex flex-col  grow  bg-[#4f4e4e] w-full rounded-lg "
+          ? "flex flex-col grow bg-[#4f4e4e] w-full rounded-lg "
           : "hidden" 
       }
     >
@@ -52,7 +66,10 @@ export const ChatBox = ({ selectItem, sendMessage ,reciveMessage }) => {
           className="flex flex-col  rounded w-full h-[530px] py-4 overflow-y-auto "
         >
           {/* date */}
-          {/* <div className="self-center bg-red-300 px-[40px] rounded-[15px]"></div> */}
+          <div className="self-center bg-red-300 px-[40px] rounded-[15px]">
+           <p>{currentDate.toLocaleDateString()}</p>
+           <p>{currentDate.toLocaleTimeString()}</p>
+          </div>
 
           {/* sender */}
           {sendMessage ?
@@ -65,7 +82,7 @@ export const ChatBox = ({ selectItem, sendMessage ,reciveMessage }) => {
                 من
               </div>
 
-              <div className="bg-[#30323E] self-end p-2.5 m-1 rounded-[20px] relative">
+              <div className="bg-[#30323E] self-end p-3 m-1 rounded-[20px] relative">
                 <div className="text-[18px]">سمانه غضنفر</div>
                 <div className="bg-[#30323E]"
                 >
