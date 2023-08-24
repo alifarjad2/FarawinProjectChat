@@ -10,18 +10,18 @@ export default function FormAuth() {
     setFormType(val);
   };
 
-  // return formType === "Login" ? (
-  //   <Login changeForm={switchForm} />
-  // ) : (
-  //   <Register changeForm={switchForm} />
-  // );
-  if (formType === "Login") {
-    return <Login changeForm={switchForm} />;
+  if (
+    (formType === "Login" || formType === "Register") &&
+    !localStorage.token
+  ) {
+    if (formType === "Login") {
+      return <Login changeForm={switchForm} />;
+    }
+    if (formType === "Register") {
+      return <Register changeForm={switchForm} />;
+    }
   }
-  if (formType === "Register") {
-    return <Register changeForm={switchForm} />;
-  }
-  if (formType === "Chat") {
+  if (formType === "Chat" || localStorage.token) {
     return <Chat changeForm={switchForm} />;
   }
 }

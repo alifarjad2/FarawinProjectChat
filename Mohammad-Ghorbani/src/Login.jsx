@@ -13,12 +13,6 @@ function Login({ changeForm }) {
   const handlePasswordChange = (event) => {
     setPassword(event.target.value);
   };
-  // useEffect(() => {
-  //   const isLoggedIn = localStorage.getItem("isLoggedIn");
-  //   if (isLoggedIn === "true") {
-  //     changeForm("Chat");
-  //   }
-  // }, []);
 
   const handleValidation = async () => {
     const usernameToEn = farawin.toEnDigit(username);
@@ -36,8 +30,8 @@ function Login({ changeForm }) {
     if (usernameValidation.test(usernameToEn)) {
       const loginResult = await farawin.testLogin(usernameToEn, password);
       setMessage(loginResult.message);
-      if (loginResult.code == 200) {
-        // localStorage.setItem("isLoggedIn", "true");
+      if (loginResult.code == 200 && localStorage.token) {
+        localStorage.setItem("myUsername", username);
         changeForm("Chat");
         return;
       }
