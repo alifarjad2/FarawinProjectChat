@@ -38,6 +38,7 @@ function Login({ isRegister, setIsRegister }) {
         setUsername('')
         setTimeout(() => {
             localStorage.token && window.location.reload()
+            localStorage.userPhoneNumber = userName
             console.log('Reloading now !', isRegister);
         }, 1000);
     }
