@@ -12,7 +12,6 @@ export const RemoveContact = () => {
     if (mobileRegex.test(EnMobile)) {
       const valid = await farawin.testDeleteContact(EnMobile) ;
       alert(valid.message);
-      location.reload();
   }
 }  
 

@@ -13,13 +13,12 @@ export const AddContact = () => {
     if (mobileRegex.test(EnMobile) && inputName.length >= 3 ) {
       const valid =await farawin.testAddContact(EnMobile,inputName) ;
       alert(valid.message);
-      location.reload();
   }
   }
   return (
 
 
-    <form className=" flex flex-col justify-around bg-slate-700 text-white h-[200px] w-[200] overflow-hidden my-4 p-4 rounded-2xl">
+    <form className="flex flex-col justify-around bg-slate-700 text-white h-[200px] w-full overflow-hidden my-4 p-4 rounded-2xl">
       <h1 className="underline text-lime-300  mb-1">فرم افزودن مخاطب</h1>
 
       <label >شماره تماس :</label>
