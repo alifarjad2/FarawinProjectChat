@@ -5,10 +5,13 @@ import "./App.css";
 import Refresh from "./assets/refresh-svgrepo-com.png";
 import Popup from "./popup";
 import SearchBar from "./searchbar";
+import RecieverChatMassage from "./resieverchatMassage";
+import { useRef } from "react";
 
-export default function ChatPage() {
+export default function ChatPage(props) {
   const [filteredContacts, setFilteredContacts] = useState(null);
   const [buttonToggle, setButtonToggle] = useState(null);
+  const [buttonToggle2, setButtonToggle2] = useState(null);
   const [isOpenAdd, setIsOpenAdd] = useState(false);
   const [isOpenDelete, setIsOpenDelete] = useState(false);
   const [addPhoneNumber, setAddphoneNumber] = useState("");
@@ -17,6 +20,28 @@ export default function ChatPage() {
   const [isValidPhone, setIsValidPhone] = useState(null);
   const [isValidName, setIsValidName] = useState(null);
   const [selectedContact, setSelectedContact] = useState("");
+  const [selectedNumber, setSelectedNumber] = useState("");
+  const [controlChats, setControlChats] = useState(false);
+  const [controlContact, setControl] = useState(false);
+  const contactListController = useRef(null);
+  const [sendText , setSendText] = useState("");
+  const[isOpenEdit , setIsOpenEdit]=useState(false);
+  const [editPhoneNumber,setEditPhoneNumber]=useState("")
+  const [contactEditName , setContactEditName]=useState("");
+  console.log(buttonToggle2)
+  console.log(filteredContacts);
+  console.log(sendText);
+  if (contactListController?.current) {
+    clearInterval(contactListController.current);
+  }
+
+  contactListController.current = setInterval(() => {
+    if (buttonToggle == null) {
+      setControl(false);
+    } else {
+      setControl(true);
+    }
+  }, 1000);
 
   useEffect(() => {
     let ignore = false;
@@ -35,6 +60,12 @@ export default function ChatPage() {
     };
   }, [buttonToggle]);
 
+  console.info(selectedNumber);
+
+  const handleRefreshChat = () => {
+    setButtonToggle2(Math.random());
+    setControlChats(true);
+  };
   const handleRefresh = () => {
     console.log(filteredContacts);
     setButtonToggle(Math.random());
@@ -90,7 +121,6 @@ export default function ChatPage() {
       setIsValidName(false);
     }
   };
-
   const handleAddMembers = async () => {
     const phoneSend = addPhoneNumber;
     const nameSend = contactName;
@@ -110,8 +140,63 @@ export default function ChatPage() {
       alert(resultDelete.message);
     }
   };
+  const handleEditContact = ()=>{
+    setIsOpenEdit(!isOpenEdit);
+  }
+  const handleEditMember = async()=>{
+    const resultEdit = await farawin.testEditContact(editPhoneNumber , contactEditName);
+    if(resultEdit.code !== 200){
+      alert(resultEdit.message)
+    }else{
+      alert(resultEdit.message)
+    }
+  }
+  const handleEditNameChange = (event) => {
+    const contactName = event.target.value;
+    const regex = /^.{3,}$/;
+    if (contactName === "") {
+      setContactEditName("");
+      setIsValidName(null);
+    } else if (regex.test(contactName)) {
+      setContactEditName(contactName);
+      setIsValidName(true);
+    } else {
+      setContactEditName(contactName);
+      setIsValidName(false);
+    }
+  };
+  const handleEditPhoneChange = (event) => {
+    var PhoneNumber = event.target.value;
+    const mobileRegex = farawin.mobileRegex;
+    PhoneNumber = farawin.toEnDigit(PhoneNumber);
+    if (PhoneNumber === "") {
+      setEditPhoneNumber("");
+      setIsValidPhone(null);
+    } else if (mobileRegex.test(PhoneNumber)) {
+      setEditPhoneNumber(PhoneNumber);
+      setIsValidPhone(true);
+    } else {
+      setEditPhoneNumber(PhoneNumber);
+      setIsValidPhone(false);
+    }
+  };
+  const handleSendTextsChange = (event)=>{
+    const text = event.target.value;
+    setSendText(text);
+  };
+  const handleTextSender=async()=>{
+    const toUser = selectedNumber;
+    const textSend = sendText;
+    const resultSend = await farawin.testAddChat(toUser , textSend);
+    if(resultSend.code !== 200){
+      alert(resultSend.message)
+    }else{
+      alert(resultSend.message)
+    }
+  };
   const isSabtDisabled = !isValidPhone || !isValidName;
   const isHazfDisabled = !isValidPhone;
+  const isEditDisabled = !isValidPhone || !isValidName;
   const handleShowMenu = () => {
     const contactMenu = document.getElementById("Contact-menu");
     const chatContainer = document.getElementById("chat-container");
@@ -135,7 +220,6 @@ export default function ChatPage() {
     contactMenu.style.top = "0";
     contactMenu.style.right = "0";
   };
-
   const handleCloseMenu = () => {
     const contactMenu = document.getElementById("Contact-menu");
     const closeContactMenu = document.getElementById("close-contact-menu");
@@ -146,6 +230,66 @@ export default function ChatPage() {
 
   return (
     <div dir="rtl" lang="fa">
+         {isOpenEdit && (
+        <Popup
+          content={
+            <>
+              <button
+                className="p-2 hover:bg-red-400 hover:text-white text-lg font-bold mt-1"
+                onClick={handleEditContact}
+              >
+                بستن
+              </button>
+              <div className="flex flex-col items-start px-5 py-5">
+                <label className="w-fit" htmlFor="">
+                  شماره تلفن :
+                </label>
+                <input
+                  onChange={handleEditPhoneChange}
+                  value={editPhoneNumber}
+                  type="text"
+                  className="outline-none border-b-2 w-full border-slate-300 p-2"
+                />
+                {isValidPhone === null ? null : isValidPhone ? (
+                  //  تگ پی یک تگ پاراگراف و مخصوص نمایش متن است
+                  <p className="text-green-500 text-xs">شماره تلفن درست است</p>
+                ) : (
+                  <p className="text-xs text-red-500">
+                    شماره تلفن غلط است باید با 09 آغاز و دارای 11 رقم باشد.
+                  </p>
+                )}
+              </div>
+              <div className="flex flex-col items-start px-5 py-5 ">
+                <label className="w-fit" htmlFor="">
+                  {" "}
+                  اسم مخاطب :
+                </label>
+                <input
+                  value={contactEditName}
+                  onChange={handleEditNameChange}
+                  type="text"
+                  className="outline-none border-b-2 w-full border-slate-300 p-2"
+                />
+                {isValidName === null ? null : isValidName ? (
+                  //  تگ پی یک تگ پاراگراف و مخصوص نمایش متن است
+                  <p className="text-green-500 text-xs">درست وارد شده است</p>
+                ) : (
+                  <p className="text-xs text-red-500">
+                    اسم باید بیشتر از 3 حرف داشته باشد.
+                  </p>
+                )}
+              </div>
+              <button
+                disabled={isEditDisabled}
+                onClick={handleEditMember}
+                className="cursor-pointer p-2 hover:bg-green-400  hover:text-white text-lg font-bold mb-2 mt-3 w-11/12"
+              >
+                ویرایش مخاطب
+              </button>
+            </>
+          }
+        />
+      )}
       {isOpenDelete && (
         <Popup
           content={
@@ -256,7 +400,7 @@ export default function ChatPage() {
             id="Contact-menu"
             className="h-screen bg-[#202329] rounded-r-2xl lg:block min-[425px]:hidden min-[375px]:hidden min-[320px]:hidden p-2"
           >
-            <div>
+            <div className="flex justify-center items-center gap-1 mt-[27px] w-full">
               <button
                 id="close-contact-menu"
                 onClick={handleCloseMenu}
@@ -276,29 +420,32 @@ export default function ChatPage() {
               <button
                 id="refresh-contact"
                 onClick={handleRefresh}
-                className=" hover:bg-blue-400 w-fit rounded-lg p-1 relative top-7 left-4 "
+                className=" hover:bg-blue-400 w-fit rounded-lg p-1  "
               >
                 <img className="w-[22px] h-[22px]" src={Refresh} alt="" />
               </button>
               <button
                 onClick={handleAddContact}
-                className="hover:bg-blue-400 w-fit rounded-lg p-1 relative top-6 left-3"
+                className="hover:bg-blue-400 w-fit rounded-lg p-1 "
               >
                 Add
               </button>
               <button
                 onClick={handleDeleteContact}
-                className="hover:bg-blue-400 w-fit rounded-lg p-1 relative top-6 left-2"
+                className="hover:bg-blue-400 w-fit rounded-lg p-1 "
               >
-                Delete
+                Del
+              </button>
+              <button
+               className="hover:bg-blue-400 w-fit rounded-lg p-1" 
+               onClick={handleEditContact}
+              >
+                Edit
               </button>
             </div>
 
-            <div
-              id="search-bar"
-              className="flex pt-11 mb-5 pl-2"
-            >
-              <SearchBar data={filteredContacts} set={setSelectedContact} />
+            <div id="search-bar" className="flex pt-4 mb-5 pl-2">
+              <SearchBar data={filteredContacts} set={setSelectedContact} number={setSelectedNumber} />
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 50 50"
@@ -308,32 +455,40 @@ export default function ChatPage() {
               </svg>
             </div>
 
-            <div className="overflow-scroll overflow-x-hidden h-[500px]">
-              {buttonToggle &&
-                filteredContacts &&
-                filteredContacts.map((contact) => (
-                  <div
-                    key={contact.username}
-                    id="selected-name"
-                    className="cursor-pointer hover:bg-[#2E333D]"
-                    onClick={() => setSelectedContact(contact.name)}
-                  >
-                    <div className="flex items-center ">
-                      <div className="w-12 h-12 bg-violet-700 flex items-center justify-center font-bold rounded-lg ">
-                        {" "}
-                        {contact.name.slice(0, 2)}{" "}
+            <div className="overflow-scroll overflow-x-hidden h-[70%]">
+              {!controlContact ? (
+                <p className="text-white font bold">مخاطبی وجود ندارد</p>
+              ) : (
+                <div>
+                  {buttonToggle &&
+                    filteredContacts &&
+                    filteredContacts.map((contact) => (
+                      <div
+                        key={contact.username}
+                        id="selected-name"
+                        className="cursor-pointer hover:bg-[#2E333D]"
+                        onClick={() => {
+                          setSelectedContact(contact.name),
+                            setSelectedNumber(contact.username);
+                        }}
+                      >
+                        <div className="flex items-center ">
+                          <div className="w-12 h-12 bg-violet-500 flex items-center justify-center font-bold rounded-lg ">
+                            {" "}
+                            {contact.name.slice(0, 2)}{" "}
+                          </div>
+                          <div className="flex p-3 flex-col items-start ">
+                            <h4 className="text-[18px] font-bold text-white">
+                              {contact.name}
+                            </h4>
+                            <p className="text-slate-400">{contact.username}</p>
+                          </div>
+                        </div>
                       </div>
-                      <div className="flex p-3 flex-col items-start ">
-                        <h4 className="text-[18px] font-bold text-white">
-                          {contact.name}
-                        </h4>
-                        <p className="text-slate-400">{contact.username}</p>
-                      </div>
-                    </div>
-                  </div>
-                ))}
+                    ))}
+                </div>
+              )}
             </div>
-
           </div>
           <div
             id="chat-container"
@@ -341,9 +496,9 @@ export default function ChatPage() {
           >
             <div
               id="chat-header"
-              className="w-11/12 flex justify-between align-middle p-4 mt-6 mx-auto rounded-lg h-fit"
+              className="w-11/12 flex justify-between align-middle p-4 mt-5 mx-auto rounded-lg h-fit"
             >
-              <div className="flex items-center">
+              <div className="flex gap-3 items-center">
                 <button
                   onClick={handleShowMenu}
                   className=" p-2 hover:bg-blue-400 rounded-2xl lg:hidden"
@@ -361,9 +516,15 @@ export default function ChatPage() {
                     <path d="M5 19.9998C4.44772 19.9998 4 20.4475 4 20.9998C4 21.552 4.44772 21.9997 5 21.9997H22C22.5523 21.9997 23 21.552 23 20.9998C23 20.4475 22.5523 19.9998 22 19.9998H5Z" />
                   </svg>
                 </button>
+                <button
+                  onClick={handleRefreshChat}
+                  className=" p-2 hover:bg-blue-400 rounded-2xl"
+                >
+                  Refresh Chat
+                </button>
                 <h1
                   id="chat-header-title"
-                  className="font-bold text-lg text-white pr-2"
+                  className="font-bold text-lg bg-white text-black rounded-full p-2 pr-2"
                 >
                   {selectedContact}
                 </h1>
@@ -371,99 +532,28 @@ export default function ChatPage() {
             </div>
             <div
               id="chat-body"
-              className="flex justify-center flex-col mx-auto p-4 h-3/4 overflow-scroll overflow-x-hidden"
+              className=" mx-auto p-5 h-3/4 w-full overflow-scroll overflow-x-hidden"
             >
-              <div id="chat-avatar" className="flex mt-6 items-end">
-                <div
-                  id="avatar-2"
-                  className="bg-pink-500 w-14 h-12 rounded-lg mr-2 text-center pt-4 cursor-pointer"
-                >
-                  م ر
-                </div>
-                <div
-                  id="contact-massage"
-                  className="bg-[#34393C] text-justify w-2/4 p-5 rounded-l-lg rounded-tr-lg"
-                >
-                  <p className="text-slate-300">
-                    Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                    Eveniet quo illo sequi aliquam dolor assumenda, optio
-                    doloribus saepe delectus minima.
-                  </p>
-                  <div className="flex align-middle items-center justify-end">
-                    <p className="text-sm opacity-50 text-slate-300 mx-2">
-                      7:28
-                    </p>
-                    <svg
-                      className="fill-slate-300"
-                      xmlns="http://www.w3.org/2000/svg"
-                      xmlns:xlink="http://www.w3.org/1999/xlink"
-                      enableBackground="new -0.709 -32.081 141.732 141.732"
-                      height="20px"
-                      id="Livello_1"
-                      version="1.1"
-                      viewBox="-0.709 -32.081 141.732 141.732"
-                      width="20px"
-                      xml:space="preserve"
-                    >
-                      <g id="Livello_80">
-                        <path d="M89.668,38.786c0-10.773-8.731-19.512-19.51-19.512S50.646,28.01,50.646,38.786c0,10.774,8.732,19.511,19.512,19.511   C80.934,58.297,89.668,49.561,89.668,38.786 M128.352,38.727c-13.315,17.599-34.426,28.972-58.193,28.972   c-23.77,0-44.879-11.373-58.194-28.972C25.279,21.129,46.389,9.756,70.158,9.756C93.927,9.756,115.036,21.129,128.352,38.727    M140.314,38.76C125.666,15.478,99.725,0,70.158,0S14.648,15.478,0,38.76c14.648,23.312,40.591,38.81,70.158,38.81   S125.666,62.072,140.314,38.76" />
-                      </g>
-                      <g id="Livello_1_1_" />
-                    </svg>
-                  </div>
-                </div>
-              </div>
-              <div id="chat-avatar" className="flex m-6 items-end justify-end">
-                <div
-                  id="contact-massage"
-                  className="bg-[#1ca2ef98] text-slate-300 text-justify w-2/4 p-5 rounded-r-lg rounded-tl-lg"
-                >
-                  <p>
-                    Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                    Eveniet quo illo sequi aliquam dolor assumenda, optio
-                    doloribus saepe delectus minima.
-                  </p>
-                  <div className="flex align-middle items-center justify-start">
-                    <svg
-                      dir="rtl"
-                      className="fill-slate-300"
-                      xmlns="http://www.w3.org/2000/svg"
-                      xmlns:xlink="http://www.w3.org/1999/xlink"
-                      enableBackground="new -0.709 -32.081 141.732 141.732"
-                      height="20px"
-                      id="Livello_1"
-                      version="1.1"
-                      viewBox="-0.709 -32.081 141.732 141.732"
-                      width="20px"
-                      xml:space="preserve"
-                    >
-                      <g id="Livello_80">
-                        <path d="M89.668,38.786c0-10.773-8.731-19.512-19.51-19.512S50.646,28.01,50.646,38.786c0,10.774,8.732,19.511,19.512,19.511   C80.934,58.297,89.668,49.561,89.668,38.786 M128.352,38.727c-13.315,17.599-34.426,28.972-58.193,28.972   c-23.77,0-44.879-11.373-58.194-28.972C25.279,21.129,46.389,9.756,70.158,9.756C93.927,9.756,115.036,21.129,128.352,38.727    M140.314,38.76C125.666,15.478,99.725,0,70.158,0S14.648,15.478,0,38.76c14.648,23.312,40.591,38.81,70.158,38.81   S125.666,62.072,140.314,38.76" />
-                      </g>
-                      <g id="Livello_1_1_" />
-                    </svg>
-                    <p
-                      dir="rtl"
-                      className="text-sm opacity-50 mx-2 text-slate-300"
-                    >
-                      7:28
-                    </p>
-                  </div>
-                </div>
-                <div
-                  id="avatar-2"
-                  className="bg-orange-500 w-14 h-12 rounded-lg ml-2 text-center pt-4 cursor-pointer"
-                >
-                  ح ا
-                </div>
+              <div className="p-2 mr-5 h-full w-full">
+                {controlChats && (
+                  
+                    <RecieverChatMassage toggle={buttonToggle2} number={selectedNumber} />
+                  
+                )}
               </div>
             </div>
             <div id="chat-sender" className="w-full p-3 flex justify-center">
               <input
+              onChange={handleSendTextsChange}
+                value={sendText}
                 type="text"
                 placeholder="پیغام خود را بنویسید ... "
-                className="w-11/12 p-2 text-white outline-none rounded-lg border-none bg-[#2E333D]"
+                className="w-9/12 p-2 text-white outline-none rounded-r-lg border-none bg-[#2E333D]"
               />
+              <button onClick={ ()=>{
+                handleTextSender();
+                setButtonToggle2(Math.random())
+              } } className="bg-[#2E333D] text-white hover:bg-blue-400 w-fit rounded-l-lg rounded-r-none p-1">ارسال</button>
             </div>
           </div>
         </section>

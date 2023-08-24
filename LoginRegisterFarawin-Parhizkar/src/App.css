@@ -41,3 +41,12 @@ body{
   /* not handle on */
   background: rgb(1, 1, 1);
 }
+
+.direction {
+  direction: ltr;
+  text-align: right;
+}
+.direction2 {
+  direction: rtl;
+  text-align: right;
+}
