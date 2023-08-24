@@ -5,7 +5,7 @@ import "./App.css";
 import Refresh from "./assets/refresh-svgrepo-com.png";
 import Popup from "./popup";
 import SearchBar from "./searchbar";
-import RecieverChatMassage from "./resieverchatMassage";
+import RecieverChatMassage from "./resieverChatMassage";
 import { useRef } from "react";
 
 export default function ChatPage(props) {
@@ -524,7 +524,7 @@ export default function ChatPage(props) {
                 </button>
                 <h1
                   id="chat-header-title"
-                  className="font-bold text-lg bg-white text-black rounded-full p-2 pr-2"
+                  className="font-bold text-lg text-white rounded-full p-2 pr-2"
                 >
                   {selectedContact}
                 </h1>
@@ -537,7 +537,7 @@ export default function ChatPage(props) {
               <div className="p-2 mr-5 h-full w-full">
                 {controlChats && (
                   
-                    <RecieverChatMassage toggle={buttonToggle2} number={selectedNumber} />
+                    <RecieverChatMassage toggle={buttonToggle2} number={selectedNumber} contactName={selectedContact} />
                   
                 )}
               </div>

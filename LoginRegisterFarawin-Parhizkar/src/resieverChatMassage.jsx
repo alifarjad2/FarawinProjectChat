@@ -73,12 +73,17 @@ export default function RecieverChatMassage(props) {
   
                 return (
                   <div
-                    className={`w-full p-2  h-fit rounded-lg ${
+                    className={`w-full p-2  h-fit rounded-lg flex items-end gap-1 ${
                       isSender ? "direction2" : "direction"
                     } my-5`}
                     key={chat.date}
                   >
-                    <div className={`w-1/3 rounded-lg p-1 ${isSender ? "bg-blue-500" : "bg-violet-500"}`}>
+                    <div className={`w-10 h-10 bg-violet-500 flex items-center justify-center font-bold ${isSender ? "rounded-r-lg rounded-tl-lg": "rounded-l-lg rounded-tr-lg"}`}>
+                      {
+                        isSender ? (<p>User</p>) : (<p>{" "}{props.contactName.slice(0, 2)}{" "}</p>)
+                      }  
+                    </div>
+                    <div className={`w-1/3 p-1 ${isSender ? "bg-blue-400 rounded-l-lg rounded-tr-lg" : "bg-[#2E333D] rounded-r-lg rounded-tl-lg"}`}>
                       <p className=" text-white p-2 ">{chat.text}</p>
                       <p className={`text-white ${isSender ? "direction" : "direction2"}`}>
                        {hour}:{minute}
