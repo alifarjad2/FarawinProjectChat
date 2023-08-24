@@ -2,7 +2,7 @@
 const MessageBox = ({ className, messageText, sentTime }) => {
     return (
         <div className={`${className} text-white overflow-auto`}>
-            <div className="flex flex-row-reverse ">
+            <div className="flex flex-row ">
                 <div
                     className="mr-4 bg-[#2E333D] my-2 max-w-[80%] justify-items-stretch rounded-xl rounded-br-none rounded-tr-3xl rounded-bl-3xl p-2">
                     <span className="opacity-50">Me</span>
