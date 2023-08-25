@@ -1,0 +1,37 @@
+@import url("https://v1.fontapi.ir/css/Estedad");
+
+/* DONT ADD CSS HERE */
+/* try tailwinds class first */
+/* اگر راه حلی نیافتید از کلاس و سی اس اس استفاده نمایید. */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  font-family: Estedad, "Estedad", Inter, system-ui, Avenir, Helvetica, Arial,
+    sans-serif;
+
+  height: 100%;
+}
+
+body {
+  height: 100%;
+}
+
+#root {
+  height: 100%;
+}
+
+input::placeholder {
+  font-size: 0.8em;
+}
+
+#LoginBtn {
+  background: -webkit-linear-gradient(right,#00dbde 20%,#fc00ff,#00dbde 20%,#fc00ff);
+}
+
+.userActive {
+  background-color: #30323e;
+}
+
