@@ -66,7 +66,7 @@ useEffect(() => {
           className="flex flex-col  rounded w-full h-[530px] py-4 overflow-y-auto "
         >
           {/* date */}
-          <div className="self-center bg-red-300 px-[40px] rounded-[15px]">
+          <div className="self-center bg-red-100 px-[40px] rounded-[15px]">
            <p>{currentDate.toLocaleDateString()}</p>
            <p>{currentDate.toLocaleTimeString()}</p>
           </div>
