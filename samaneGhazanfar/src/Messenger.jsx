@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { ChatBox } from "./Components/ChatBox";
 import { SideBar } from "./Components/SideBar";
 import farawin from "farawin";
+import { Icons } from "./Components/Icons";
 
 
 export const Messenger = () => {
@@ -63,7 +64,8 @@ useEffect(()=>{
 
     return (
         <div className ="bg-[#4f4e4e] flex w-[80vw] h-screen ml-auto mr-auto rounded-lg text-white min-w-fit">
-
+           <Icons/>
+           
             <SideBar contactName = {itemHandler} />
             
             <ChatBox  selectItem = {isItem} sendMessage = {isSender}  reciveMessage={isReciver} />

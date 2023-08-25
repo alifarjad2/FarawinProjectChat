@@ -2,8 +2,6 @@ import { useEffect, useState } from "react"
 import farawin from "farawin";
 import { Contacts } from "./Contacts";
 import { SearchBar } from "./SearchBar";
-import { AddContact } from "./addContact";
-import {DeleteContact} from "./deleteContact";
 
 
 export const SideBar = ({contactName})=>{
@@ -26,27 +24,18 @@ export const SideBar = ({contactName})=>{
     useEffect(()=>{
         fetchContacts();
     },[])
-// -------------------------نمایش فرم افزودن مخاطب------------------------------
-    const [isPopupOpen, setIsPopupOpen] = useState(false);
-    const togglePopup = () => {
-        setIsPopupOpen(!isPopupOpen);
-      };
-//--------------------------نمایش فرم حذف مخاطب----------------------------------
-      const [PopupDelete, setPopupDelete] = useState(false);
-      const togglePopupDelete = () => {
-        setPopupDelete(!PopupDelete);
-        };
 
     return(
         
 
         <div
         // drawer
-        className ="relative bg-[#4f4e4e] flex flex-col min-w-[250px] p-1 m-2 max-sm:hidden "
+        className ="relative bg-[#4f4e4e] flex flex-col min-w-[250px] p-1 m-2  "
         >
 
+
         <div className="w-12" >
-          <div>
+          {/* <div>
           <img 
         className="absolute top-3 left-0 rounded-xl  cursor-pointer"
         src="../img/icons8-plus-24 (2).png" 
@@ -61,7 +50,7 @@ export const SideBar = ({contactName})=>{
         alt="delete"
         onClick={togglePopupDelete} />
         {PopupDelete && <DeleteContact/>}
-        </div>
+        </div> */}
 
         </div>
 

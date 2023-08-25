@@ -26,18 +26,16 @@ export const AddContact = () => {
       className=" fixed inset-0 w-screen h-screen z-10 bg-opacity-40 bg-gray-200 flex items-center justify-center "
     >
       <form className="relative bg-[#4f4e4e] text-center flex flex-col rounded-xl p-8 ">
-        <button
-          type="button"
+        <img
+          src="../img/icons8-exit-50.png"
           onClick={() => {
             location.reload();
           }}
-          className="bg-white text-black w-6 rounded-full left-2 top-2 absolute"
-        >
-          X
-        </button>
+          className="w-6 rounded-full left-2 top-2 absolute cursor-pointer"
+        />
         <h1 className="text-2xl mb-4 ">افزودن مخاطب</h1>
         <label htmlFor="phoneNumber">شماره مخاطب</label>
-        <br />
+       
         <input
           value={number}
           onChange={(Event) => {
@@ -49,10 +47,10 @@ export const AddContact = () => {
           className="text-center h-8 text-white mx-8 w-[200px] rounded-lg bg-slate-300 my-3 mb-4"
           // onInput={(e)=> setNumber(e.target.value)}
         />
-        <br />
+       
 
         <label htmlFor="phoneNumber">نام مخاطب</label>
-        <br />
+     
         <input
           value={name}
           type="text"
@@ -61,7 +59,7 @@ export const AddContact = () => {
           className="text-center h-8 text-white mx-8 w-[200px] rounded-lg bg-slate-300 my-3"
           onChange={(e) => setName(e.target.value)}
         />
-        <br />
+     
 
         <button
           type="button"

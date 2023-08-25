@@ -1,6 +1,5 @@
 import { useEffect , useState } from "react";
 import farawin from "farawin";
-import { SideBar } from "./SideBar";
 export const ChatBox = ({ selectItem, sendMessage ,reciveMessage }) => {
 // استیت برای نوشتن پیام و ارسال آن
 const [inputMessage , setInputMessage] = useState("");
@@ -8,20 +7,14 @@ const [inputMessage , setInputMessage] = useState("");
 // استیت برای زمان حال در چت ها
 const [currentDate, setCurrentDate] = useState(new Date());
 
-const [isPopupOpen, setIsPopupOpen] = useState(false);
-const togglePopup = () => {
-    setIsPopupOpen(!isPopupOpen);
-  };
+
 
 const MessageHandler = async() =>{
     await farawin.testAddChat(selectItem.username , inputMessage )
+    
+
 }
 
-// const deleteChat = async ()=>{
-//   const res = await farawin.testDeleteChat(selectItem.id , (e)=>{console.log(e.message);} )
-//   console.log(res.message);
-// }
-// deleteChat()
 
 useEffect(() => {
   const interval = setInterval(() => {
@@ -34,9 +27,9 @@ useEffect(() => {
   return (
     <div
     // وجود داشتن چت یا نبودن چت انتخابی چک میشود
-      className={
+       className={
         selectItem.name
-          ? "flex flex-col grow bg-[#4f4e4e] w-full rounded-lg "
+          ? "flex flex-col grow bg-[#4f4e4e] w-full rounded-lg max-sm:hidden "
           : "hidden" 
       }
     >
@@ -53,12 +46,7 @@ useEffect(() => {
         <span className="m-3 text-lg">
           {selectItem.name}
         </span>
-        <img
-          className="w-6 h-6 absolute top-3 left-1 cursor-pointer"
-          src="../img/icons8-contacts-50.png"
-          alt="contact"
-          onClick={togglePopup}/>
-          {isPopupOpen && <SideBar />}
+
         <img 
         className="absolute top-3 left-8 cursor-pointer"
         src="../img/icons8-refresh-30.png"
@@ -86,7 +74,7 @@ useEffect(() => {
                 className="w-[50px] h-[50px] shrink-0 bg-blue-200 rounded-[20%] text-center font-bold caret
                -white leading-[48px] m-3"
               >
-                من
+                ^^
               </div>
 
               <div className="bg-[#30323E] self-end p-3 m-1 rounded-[20px] relative">
@@ -105,14 +93,13 @@ useEffect(() => {
           {/* resiver */}
             {reciveMessage ?
             reciveMessage.map((item2)=>(
-                          <div className="flex items-end self-end w-3/4 justify-end m-[5px]">
-                            <div className="bg-[#6B8AFE] m-2 p-2.5 rounded-[20px] relative">
-                              <div className="text-[18px] font-mono">
-                              {selectItem.name}
-                              </div>
-                              <div
-                                className="bg-[#6B8AFE]"
-                              >
+             <div className="flex items-end self-end w-3/4 justify-end m-[5px]">
+             <div className="bg-[#6B8AFE] m-2 p-2.5 rounded-[20px] relative">
+                <div className="text-[18px] font-mono">
+                    {selectItem.name}
+                </div>
+                <div
+                   className="bg-[#6B8AFE]">
                                 {item2.text}
                               </div>
                               <div className="bottom-[7px] text-right text-[10px]">

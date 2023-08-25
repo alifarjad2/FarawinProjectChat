@@ -17,7 +17,7 @@ export const SearchBar = ({propContact})=>{
 
     return (
         <div>
-        <div className ="relative flex flex-row w-[150px] h-10 ml-4 mr-1 border-[#757474] rounded-xl bg-[#757474]">
+        <div className ="relative flex flex-row w-[200px] h-10 ml-4 mr-1 border-[#757474] rounded-xl bg-[#757474]">
         <img 
         onClick={handellSearch}
         className="rounded-xl h-9 cursor-pointer"
