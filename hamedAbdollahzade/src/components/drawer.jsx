@@ -75,7 +75,7 @@ export const DrawerChat = (prop) => {
           className={
             showAddContact
               ? " bg-slate-300 rounded-full h-10 mr-2   cursor-pointer"
-              : " bg-slate-500 rounded-full h-10 mr-2   cursor-pointer"
+              : " bg-slate-500 rounded-full h-10 mr-2  hover:bg-green-500  cursor-pointer"
           }
           onClick={() => {
             setShowAddContact(!showAddContact);
@@ -85,7 +85,7 @@ export const DrawerChat = (prop) => {
         <img
           src={imageRefresh}
           className={
-            " bg-slate-300 rounded-full h-10  mr-2 text-xs cursor-pointer"
+            " bg-cyan-500 hover:bg-white rounded-full h-10  mr-2 text-xs cursor-pointer"
           }
           onClick={() => {
             setReloadComponent(!reloadComponent);
@@ -97,7 +97,7 @@ export const DrawerChat = (prop) => {
           className={
             showRemoveContact
               ? " bg-slate-300 rounded-full h-10 mr-2  text-xs mx-1 cursor-pointer"
-              : " bg-slate-500 rounded-full h-10 mr-2  text-xs mx-1 cursor-pointer"
+              : " bg-slate-500 rounded-full h-10 mr-2  hover:bg-red-500 text-xs mx-1 cursor-pointer"
           }
           onClick={() => {
             setshowRemoveContact(!showRemoveContact);

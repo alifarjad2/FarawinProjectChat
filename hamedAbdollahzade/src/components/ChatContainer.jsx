@@ -28,7 +28,8 @@ export const ChatContainer = (prop) => {
         <div className="flex items-center  h-12 text-base p-2 relative">
           <div className="text-xl">{prop.item.name}</div>
           <img
-            className="h-8 absolute left-2 top-0 cursor-pointer"
+            onClick={() => alert(" اینم قراره کار کنه ؟ |: ")}
+            className="h-8 absolute left-2 top-0 cursor-pointer "
             src="../img/menu-vertical.png"
             alt="menu-vertical"
           />
@@ -36,7 +37,7 @@ export const ChatContainer = (prop) => {
             onClick={() => {
               return prop.refresh();
             }}
-            className="h-8 mx-6  bg-blue-400 rounded-full   cursor-pointer"
+            className="h-8 mx-6  bg-blue-400 rounded-full hover:bg-white  cursor-pointer"
             src={imageRefresh}
             alt="Refresh"
           />

@@ -2,8 +2,8 @@ import farawin from "farawin";
 import { useState } from "react";
 
 export const EditContact = (prop) => {
-  const [inputTel, setInputTel] = useState("");
-  const [inputName, setInputName] = useState("");
+  const [inputTel, setInputTel] = useState("09333536546");
+  const [inputName, setInputName] = useState("Hamed@B");
   
   
   const SendInformation = async () => {
@@ -25,7 +25,7 @@ export const EditContact = (prop) => {
       <h1 className="underline text-lime-300  mb-1">فرم ویرایش مخاطب</h1>
 
       <label >شماره تماس :</label>
-      <input type="tel" onChange={(e)=>{setInputTel(e.target.value)}} value={inputTel} className="text-center text-black rounded-full "  />
+      <input type="tel"  onChange={(e)=>{setInputTel(e.target.value)}} value={inputTel} className="text-center text-black rounded-full "  />
 
       <label htmlFor="">نام : </label>
       <input type="text" onChange={(e)=>{setInputName(e.target.value)}} value={inputName} className="text-center text-black rounded-full" />
