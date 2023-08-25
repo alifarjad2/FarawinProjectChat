@@ -6,32 +6,57 @@ import search from "./assets/image/search.png";
 import pm from "./assets/image/pm.png";
 import threeDotsVertical from "./assets/image/three-dots-vertical.png";
 import clip from "./assets/image/clip.svg";
-// 1- کاربر بتونه درست لاگین و رجیستر کنه
-// ۲- کارکرد صحیح سناریو های گفته شده
+
 export const Chat = () => {
-  farawin.getContacts((result) => {
-    const contList = result.contactList.filter(
-      (contacs) => (contacs.ref = "09000000000")
+  const [phoneNum, setPhoneNum] = useState("");
+  const [name, setName] = useState("");
+
+  const AddContact = async () => {
+    const EnMobile = farawin.toEnDigit(phoneNum);
+    const mobileRegex = farawin.mobileRegex;
+
+    if (mobileRegex.test(EnMobile) && name.length >= 3) {
+      const validAdd = await farawin.testAddContact(EnMobile, name);
+      alert(validAdd.message);
+      location.reload();
+    }
+  };
+
+  const [contactList, setContactList] = useState(null);
+  if (contactList == null)
+    farawin.getContacts((result) => {
+      setContactList(result.contactList);
+    });
+
+  const [contList, setContList] = useState([]);
+  const getContact = async () => {
+    const result = await farawin.getContacts();
+    const List = result.contactList.filter(
+      (contacs) => contacs.ref == localStorage.username
     );
-    console.table(contList);
+    console.log(localStorage.username);
+    console.table(List);
+    setContList(List);
+  };
+
+  useEffect(() => {
+    getContact();
+  }, []);
+
+  const [open, setOpen] = useState({
+    openForm: false,
   });
 
-  //   const [name,setName] = useState("");
-  //   const [username,userName] = useState("");
+  const [newMessage, setNewMessage] = useState([]);
 
-  // useEffect (()=>
-  //   farawin.getContacts((result) => {
-  //     const contList = result.contactList.filter(
-  //       (contacs) => (contacs.ref = "09000000000")
-  //     );
-  //     console.table(contList);
-
-  //   }));
+  const sendText = async () => {
+    const res = await farawin.testAddChat(contactList.username, newMessage);
+    alert(res.message);
+    res.code == 200 ? setNewMessage("") : "";
+  };
 
   return (
     <div>
-      <meta charSet="UTF-8" />
-      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <title>Tailwind-Theme</title>
       <link rel="stylesheet" href="./tailwind.css" />
       <style
@@ -41,15 +66,30 @@ export const Chat = () => {
         }}
       />
       <section className="h-full bg-[#34393C]">
-        <div className="lg:container flex h-full justify-center mx-auto h-screen">
-          <div className="w-[90%] md:w-[80%] lg:w-[90%] xl:w-[90%] 2xl:w-[80%] 3xl:w-[70%] overflow-hidden self-center">
-            <div className="grid grid-cols-3 bg-[#202329] rounded-3xl p-5 overflow-hidden ">
+        <div className="lg:container  flex h-full justify-center mx-auto h-screen">
+          <div className=" md:w-[80%] lg:w-[80%] xl:w-[80%] 2xl:w-[80%] 3xl:w-[70%] overflow-hidden self-center">
+            <div className="grid grid-cols-3 md:grid-cols-2 sm:grid-cols-2  grid-flow-dense bg-[#202329] rounded-3xl p-5 overflow-hidden ">
               <div
                 id="contactBox"
-                className="col-start-1 col-span-1 hidden lg:block"
+                className="col-start-3 col-span-1  hidden lg:block"
               >
-                <div className="flex lg:block">
-                  <div className="bg-[#2E333D] inline-flex lg:flex w-auto ml-3 mr-1 lg:mx-3 rounded-l-2xl lg:rounded-2xl p-2 ">
+                <div className=" flex items-center gap-4 mt-8 ">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth="1.5"
+                    stroke="currentColor"
+                    className=" flex items-center justify-center  w-6 h-6 text-gray-400 cursor-pointer "
+                    onClick={() => setOpen({ ...open, openForm: true })}
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M19 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zM4 19.235v-.11a6.375 6.375 0 0112.75 0v.109A12.318 12.318 0 0110.374 21c-2.331 0-4.512-.645-6.374-1.766z"
+                    />
+                  </svg>
+                  <div className="bg-[#2E333D] w-[80%] flex items-center justify-center mr-1  rounded-l-2xl lg:rounded-2xl p-2 ">
                     <img src={search} className="w-8 " alt="search-icon" />
                     <input
                       type="search"
@@ -57,6 +97,7 @@ export const Chat = () => {
                       placeholder="جستجو"
                     />
                   </div>
+
                   <div
                     id="closeIcon"
                     className="relative inline-block bg-[#2E333D] w-[50px]  rounded-r-2xl lg:hidden"
@@ -69,126 +110,31 @@ export const Chat = () => {
                   </div>
                 </div>
                 <div className="my-4 pr-2 h-[430px] overflow-auto">
-                  <div className="flex flex-row-reverse w-auto p-3 active:bg-[#2E333D] rounded-2xl bg-[#2E333D] cursor-pointer">
-                    <div className="text-center w-[70px] leading-[50px] bg-[#a9d2fe] rounded-2xl">
-                      س ا
-                    </div>
-                    <div className="ml-2 w-full">
-                      <div className="flex flex-row-reverse justify-between items-center">
-                        <h4 className="text-[#e5e6ea] px-2">سارا احمدی</h4>
-                        <span className="text-[#989BA0] text-xs">4 m</span>
+                  {contList.map((item) => (
+                    <div
+                      key={contList.name}
+                      className=" flex w-auto p-3 flex-row-reverse hover:bg-[#2E333D] rounded-2xl cursor-pointer"
+                    >
+                      <div className="text-center w-[70px] leading-[50px] bg-[#a9d2fe] rounded-2xl">
+                        {item.name.slice(0, 2)}
                       </div>
-                      <div>
-                        <p className=" text-right text-xs px-4 pt-2 text-[#989BA0]">
-                          اوکی{" "}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="flex w-auto p-3 flex-row-reverse hover:bg-[#2E333D] rounded-2xl cursor-pointer">
-                    <div className="text-center w-[70px] leading-[50px] bg-[#a9d2fe] rounded-2xl">
-                      ب
-                    </div>
-                    <div className="ml-2 w-full">
-                      <div className="flex flex-row-reverse justify-between items-center">
-                        <h4 className="text-[#e5e6ea] px-2">بابا </h4>
-                        <span className="text-[#989BA0] text-xs">21:15</span>
-                      </div>
-                      <div>
-                        <p className=" text-right text-xs px-4 pt-2 text-[#989BA0]">
-                          سلام خوبی؟{" "}
-                        </p>
+                      <div className="ml-2 w-full">
+                        <div className="flex flex-row-reverse justify-between items-center">
+                          <h4 className="text-[#e5e6ea] px-2"> {item.name} </h4>
+                          <span className="text-[#989BA0] text-xs">4 m</span>
+                        </div>
+                        <div>
+                          <p className=" text-right text-xs px-4 pt-2 text-[#989BA0]">
+                            ... آخرین پیام{" "}
+                          </p>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  <div className="flex w-auto p-3 flex-row-reverse hover:bg-[#2E333D] rounded-2xl cursor-pointer">
-                    {" "}
-                    <div className="text-center w-[70px] leading-[50px] bg-[#a9d2fe] rounded-2xl">
-                      س
-                    </div>
-                    <div className="ml-2 w-full">
-                      <div className="flex flex-row-reverse justify-between items-center">
-                        <h4 className="text-[#e5e6ea] px-2">سحر </h4>
-                        <span className="text-[#989BA0] text-xs">20:32</span>
-                      </div>
-                      <div>
-                        <p className=" text-right text-xs px-4 pt-2 text-[#989BA0]">
-                          میبینمت{" "}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="flex w-auto p-3 flex-row-reverse hover:bg-[#2E333D] rounded-2xl cursor-pointer">
-                    <div className="text-center w-[70px] leading-[50px] bg-[#a9d2fe] rounded-2xl">
-                      ع ح
-                    </div>
-                    <div className="ml-2 w-full">
-                      <div className="flex flex-row-reverse justify-between items-center">
-                        <h4 className="text-[#e5e6ea] px-2"> علی حمیدی</h4>
-                        <span className="text-[#989BA0] text-xs">
-                          yesterday
-                        </span>
-                      </div>
-                      <div>
-                        <p className=" text-right text-xs px-4 pt-2 text-[#989BA0]">
-                          سلام خوبی؟{" "}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="flex w-auto p-3 flex-row-reverse hover:bg-[#2E333D] rounded-2xl cursor-pointer">
-                    <div className="text-center w-[70px] leading-[50px] bg-[#a9d2fe] rounded-2xl">
-                      د ک
-                    </div>
-                    <div className="ml-2 w-full">
-                      <div className="flex flex-row-reverse justify-between items-center">
-                        <h4 className="text-[#e5e6ea] px-2">دفتر کار </h4>
-                        <span className="text-[#989BA0] text-xs">Sunday</span>
-                      </div>
-                      <div>
-                        <p className=" text-right text-xs px-4 pt-2 text-[#989BA0]">
-                          سلام{" "}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="flex w-auto p-3 flex-row-reverse hover:bg-[#2E333D] rounded-2xl cursor-pointer">
-                    <div className="text-center w-[70px] leading-[50px] bg-[#a9d2fe] rounded-2xl">
-                      س ا
-                    </div>
-                    <div className="ml-2 w-full">
-                      <div className="flex flex-row-reverse justify-between items-center">
-                        <h4 className="text-[#e5e6ea] px-2">حمید </h4>
-                        <span className="text-[#989BA0] text-xs">Saturday</span>
-                      </div>
-                      <div>
-                        <p className=" text-right text-xs px-4 pt-2 text-[#989BA0]">
-                          سلام خوبی؟{" "}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="flex w-auto p-3 flex-row-reverse hover:bg-[#2E333D] rounded-2xl cursor-pointer">
-                    <div className="text-center w-[70px] leading-[50px] bg-[#a9d2fe] rounded-2xl">
-                      س ا
-                    </div>
-                    <div className="ml-2 w-full">
-                      <div className="flex flex-row-reverse justify-between items-center">
-                        <h4 className="text-[#e5e6ea] px-2">نسیم </h4>
-                        <span className="text-[#989BA0] text-xs">
-                          Wednesday
-                        </span>
-                      </div>
-                      <div>
-                        <p className=" text-right text-xs px-4 pt-2 text-[#989BA0]">
-                          باشه{" "}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
+                  ))}{" "}
+                  ;
                 </div>
               </div>
-              <div className="px-3 col-start-1 col-span-3 lg:col-start-2 lg:col-span-2">
+              <div className="px-3 col-start-1 col-span-2 mt-8 ">
                 <div className="flex flex-row-reverse justify-between items-center">
                   <div>
                     <img
@@ -197,16 +143,93 @@ export const Chat = () => {
                       className="lg:hidden inline-block w-6 align-text-bottom"
                       alt="contact-icon"
                     />
-                    <h3 className="text-lg text-[#e5e6ea]  font-bold inline-block text-right mr-4 ml-2 lg:ml-0">
-                      سارا احمدی
+                    <h3 className="text-lg text-[#e5e6ea]  inline-block text-right mr-8 ml-2  lg:ml-0">
+                      مخاطب مورد نظر
                     </h3>
                   </div>
-                  <img
+                  {/* <img
                     src={threeDotsVertical}
                     id="popUp"
                     className="w-5"
                     alt="three-dots-vertical-icon"
-                  />
+                    
+                  /> */}
+
+                  {open.openForm && (
+                    <div className="fixed inset-0 z-10 flex items-center justify-center bg-gray-700 bg-opacity-40 backdrop-blur ">
+                      <div className="flex w-60 h-[58] max-w-xs overflow-hidden sm:max-w-md  sm:flex-col rounded-2xl ">
+                        <div className="flex items-center justify-center w-20 h-full text-white bg-blue-200  sm:w-full">
+                          <form className=" flex flex-col justify-around bg-[#2E333D] text-white h-[320px] w-[200] overflow-hidden my-4 p-4 rounded-2xl">
+                            <div>
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                strokeWidth="1.5"
+                                stroke="currentColor"
+                                className="w-4 h-4 cursor-pointer "
+                                onClick={() =>
+                                  setOpen({ ...open, openForm: false })
+                                }
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  d="M6 18L18 6M6 6l12 12"
+                                />
+                              </svg>
+                            </div>
+                            <h1 className=" text-center mb-2 ">
+                              {" "}
+                              افزودن مخاطب
+                            </h1>
+
+                            <label
+                              htmlFor="name"
+                              className=" text-sm text-right mr-2 mt-4"
+                            >
+                              {" "}
+                              : نام و نام خانوادگی{" "}
+                            </label>
+                            <input
+                              id="name"
+                              type="text"
+                              onChange={(e) => {
+                                setName(e.target.value);
+                              }}
+                              value={name}
+                              className="text-right bg-blue-200 text-black rounded-lg"
+                            />
+
+                            <label
+                              htmlFor="phone"
+                              className="text-end text-sm mr-2 mt-2 "
+                            >
+                              {" "}
+                              : شماره تماس{" "}
+                            </label>
+                            <input
+                              id="phone"
+                              type="tel"
+                              onChange={(e) => {
+                                setPhoneNum(e.target.value);
+                              }}
+                              value={phoneNum}
+                              className=" text-black bg-blue-200 rounded-lg "
+                            />
+
+                            <button
+                              type="button"
+                              onClick={AddContact}
+                              className="hover:bg-blue-400 border text-sm rounded-lg my-4 mx-6"
+                            >
+                              افزودن مخاطب
+                            </button>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </div>
                 <div className="h-[430px] my-1 pr-2 overflow-auto">
                   <div className="flex items-end mb-4">
@@ -223,34 +246,36 @@ export const Chat = () => {
                         alt="icon"
                       />
                       <div className="text-sm text-right text-[#989BA0]">
-                        سارا احمدی
+                        نام مخاطب
                       </div>
                       <p className="text-sm mt-2 sm:text-base">سلام خوبی؟</p>
                       <strong className="block text-end mt-2 text-xs text-[#989BA0]">
-                        08:57
+                        {new Date().toLocaleTimeString()}
                       </strong>
                     </div>
                   </div>
-                  <div className="flex items-end flex-row-reverse mb-4">
-                    <div className="text-center w-[50px] leading-[50px] bg-[#4eab6c] rounded-2xl">
-                      پ ا
+                  {newMessage && (
+                    <div className="flex items-end flex-row-reverse mb-4">
+                      <div className="text-center w-[50px] leading-[50px] bg-[#4eab6c] rounded-2xl">
+                        ش
+                      </div>
+                      <div className="relative mr-3 text-[#eceff3] bg-[#6b8afe] p-3 rounded-2xl">
+                        <img
+                          src={pmRight}
+                          className="absolute w-6 bottom-[-4px] right-[-11px]"
+                          alt="icon"
+                        />
+                        <div className="text-sm text-right ">شما </div>
+                        <p className="text-sm mt-2 text-right sm:text-base ">
+                          {newMessage}
+                        </p>
+                        <strong className="block text-start mt-2 text-xs text-[#eceff3]">
+                          {new Date().toLocaleTimeString()}
+                        </strong>
+                      </div>
                     </div>
-                    <div className="relative mr-3 text-[#eceff3] bg-[#6b8afe] p-3 rounded-2xl">
-                      <img
-                        src={pmRight}
-                        className="absolute w-6 bottom-[-4px] right-[-11px]"
-                        alt="icon"
-                      />
-                      <div className="text-sm text-right ">پریسا الهی</div>
-                      <p className="text-sm mt-2 text-right sm:text-base ">
-                        سلام ممنون
-                      </p>
-                      <strong className="block text-start mt-2 text-xs text-[#eceff3]">
-                        09:01
-                      </strong>
-                    </div>
-                  </div>
-                  <div className="flex items-end mb-4">
+                  )}
+                  {/* <div className="flex items-end mb-4">
                     <div className="text-center w-[50px] leading-[50px] bg-[#a9d2fe] rounded-2xl">
                       س ا
                     </div>
@@ -270,8 +295,8 @@ export const Chat = () => {
                         09:07
                       </strong>
                     </div>
-                  </div>
-                  <div className="flex items-end flex-row-reverse mb-4">
+                  </div> */}
+                  {/* <div className="flex items-end flex-row-reverse mb-4">
                     <div className="text-center w-[50px] leading-[50px] bg-[#4eab6c] rounded-2xl">
                       پ ا
                     </div>
@@ -289,8 +314,8 @@ export const Chat = () => {
                         10:00
                       </strong>
                     </div>
-                  </div>
-                  <div className="flex items-end mb-4">
+                  </div> */}
+                  {/* <div className="flex items-end mb-4">
                     <div className="text-center w-[50px] leading-[50px] bg-[#a9d2fe] rounded-2xl">
                       س ا
                     </div>
@@ -308,17 +333,39 @@ export const Chat = () => {
                         10:57
                       </strong>
                     </div>
-                  </div>
+                  </div> */}
                   <div className="flex items-end flex-row-reverse mb-4"></div>
                   <div className="flex items-end mb-4"></div>
                 </div>
                 <div className="flex flex-row-reverse w-auto mx-4 rounded-2xl p-2 hover:bg-[#2E333D] focus-within:bg-[#2E333D]">
                   <img src={clip} className="w-6" alt="clip-icon" />
                   <input
+                    value={newMessage}
+                    onChange={(e) => {
+                      setNewMessage(e.target.value);
+                    }}
                     type="text"
-                    className="bg-transparent  text-right text-[#989BA0] outline-none px-2 "
-                    placeholder="پیام شما"
+                    className="bg-transparent w-full dir-auto text-right text-[#989BA0] outline-none px-2 "
+                    placeholder="... پیام شما"
+                    onInput={(e) => setNewMessage(e.target.value)}
                   />
+                  <svg
+                    onClick={() => {
+                      sendText();
+                    }}
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth="1.5"
+                    stroke="currentColor"
+                    className="w-6 h-6 text-gray-400 cursor-pointer rotate-180 "
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5"
+                    />
+                  </svg>
                 </div>
               </div>
             </div>
@@ -384,23 +431,3 @@ export const Chat = () => {
     </div>
   );
 };
-
-{
-  /* <button
-        className="mx-2 w-10"
-        onClick={() => {
-          farawin.testLogin("09393013397", "12345678");
-        }}
-      >
-        test login
-      </button>
-
-      <button
-        className="mx-2 w-10"
-        onClick={() => {
-          farawin.testRegister("09393013397", "12345678", "Ali Farjad");
-        }}
-      >
-        test register
-      </button> */
-}
