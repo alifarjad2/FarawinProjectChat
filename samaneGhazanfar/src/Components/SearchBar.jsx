@@ -5,7 +5,7 @@ export const SearchBar = ({propContact})=>{
     const [searchResults, setSearchResults] = useState([]);
 
     const handellSearch =()=>{
-        let resultSearch = searchInput.length === 0 ? {propContact} : propContact.filter((contact)=>
+        let resultSearch =  propContact.filter((contact)=>
     (contact.name.toLowerCase().includes(searchInput.toLowerCase())));
       console.log(resultSearch);
       setSearchResults(resultSearch)
@@ -35,7 +35,8 @@ export const SearchBar = ({propContact})=>{
 
 
         <div>
-        {
+
+        { searchInput.length > 3 &&
           <ul className="flex flex-col w-[200px] h-auto min-h-[30px] text-center m-3 bg-[#757474] cursor-pointer rounded-xl">
           {searchResults.map((result) => (
           <li key={result.id}>
@@ -44,6 +45,7 @@ export const SearchBar = ({propContact})=>{
           ))}
           </ul>
         }
+
         </div>
 
 
