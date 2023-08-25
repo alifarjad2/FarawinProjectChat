@@ -42,7 +42,7 @@ export const SideBar = ({contactName})=>{
 
         <div
         // drawer
-        className ="relative bg-[#4f4e4e] flex flex-col min-w-[250px] p-1 m-2  "
+        className ="relative bg-[#4f4e4e] flex flex-col min-w-[250px] p-1 m-2 max-sm:hidden "
         >
 
         <div className="w-12" >
@@ -61,7 +61,7 @@ export const SideBar = ({contactName})=>{
         alt="delete"
         onClick={togglePopupDelete} />
         {PopupDelete && <DeleteContact/>}
-          </div>
+        </div>
 
         </div>
 

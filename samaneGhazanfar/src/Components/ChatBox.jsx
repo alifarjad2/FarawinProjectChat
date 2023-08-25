@@ -1,11 +1,17 @@
 import { useEffect , useState } from "react";
 import farawin from "farawin";
+import { SideBar } from "./SideBar";
 export const ChatBox = ({ selectItem, sendMessage ,reciveMessage }) => {
 // استیت برای نوشتن پیام و ارسال آن
 const [inputMessage , setInputMessage] = useState("");
 
 // استیت برای زمان حال در چت ها
 const [currentDate, setCurrentDate] = useState(new Date());
+
+const [isPopupOpen, setIsPopupOpen] = useState(false);
+const togglePopup = () => {
+    setIsPopupOpen(!isPopupOpen);
+  };
 
 const MessageHandler = async() =>{
     await farawin.testAddChat(selectItem.username , inputMessage )
@@ -49,9 +55,10 @@ useEffect(() => {
         </span>
         <img
           className="w-6 h-6 absolute top-3 left-1 cursor-pointer"
-          src="../img/menu-vertical.png"
-          alt="menu"
-        />
+          src="../img/icons8-contacts-50.png"
+          alt="contact"
+          onClick={togglePopup}/>
+          {isPopupOpen && <SideBar />}
         <img 
         className="absolute top-3 left-8 cursor-pointer"
         src="../img/icons8-refresh-30.png"
