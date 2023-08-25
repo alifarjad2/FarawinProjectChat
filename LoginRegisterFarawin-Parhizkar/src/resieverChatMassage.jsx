@@ -3,11 +3,14 @@ import { useEffect, useState } from "react";
 import { useRef } from "react";
 import "./App.css";
 
+// main component function that get an export of it 
 export default function RecieverChatMassage(props) {
+  // 2 states for filtering chats and control it for being empty or not
+  // and a useref for saving control state and pass it to the interval for make a control state to check if we have any chat for the specific contact or not
   const [filteredChats, setFilteredChats] = useState([]);
   const [control, setControl] = useState(false);
   const chatController = useRef(null);
-
+  // useEffect is for getting chats from the server and a prop that I get it from chat to control the re render of this state 
   useEffect(() => {
     let ignore = false;
 
@@ -21,7 +24,7 @@ export default function RecieverChatMassage(props) {
       ignore = true;
     };
   }, [props.toggle]);
-
+  // filtering chats by senders and reciever of that text
   const senderChats = filteredChats.filter((res) => {
     if (res.receiver == localStorage.username) {
       return res.sender == props.number;
@@ -35,11 +38,11 @@ export default function RecieverChatMassage(props) {
 
   console.log(senderChats);
   console.log(receiverChats);
-
+  // a condition for interval to stop it by checking the useref value with the last saved value 
   if (chatController?.current) {
     clearInterval(chatController.current);
   }
-
+  // making an interval for chats to check if its empty or not by every 1 sec
   chatController.current = setInterval(() => {
     if (receiverChats == "" && senderChats == "") {
       setControl(false);
@@ -72,12 +75,14 @@ export default function RecieverChatMassage(props) {
                 const isSender = chat.sender === localStorage.username;
   
                 return (
+                  // in this returning elements i check the chats by the sender and styling it to show the texts in the left or right of the screen .
                   <div
                     className={`w-full p-2  h-fit rounded-lg flex items-end gap-1 ${
                       isSender ? "direction2" : "direction"
                     } my-5`}
                     key={chat.date}
                   >
+                    {/* avatar for every chats */}
                     <div className={`w-10 h-10 bg-violet-500 flex items-center justify-center font-bold ${isSender ? "rounded-r-lg rounded-tl-lg": "rounded-l-lg rounded-tr-lg"}`}>
                       {
                         isSender ? (<p>User</p>) : (<p>{" "}{props.contactName.slice(0, 2)}{" "}</p>)
