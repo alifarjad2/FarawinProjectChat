@@ -15,12 +15,17 @@ export const DrawerChat = (prop) => {
   // -------------------------------------------------------------------------------
   const [members, setMembers] = useState([]);
   const [searchMember, setSearchMember] = useState("");
-  console.log(members);
+  // console.log(members);
   const [reloadComponent, setReloadComponent] = useState(true);
   const [showAddContact, setShowAddContact] = useState(false);
   const [showEditContact, setShowEditContact] = useState(false);
   const [showRemoveContact, setshowRemoveContact] = useState(false);
   const [showDrawer, setShowDrawer] = useState(true);
+  // ---------------------------------------------------------------------------------
+  const hiddenOrShow = (v) => {
+    setShowEditContact(!v);
+  };
+
   // ---------------------------------------------------------------------------------
   const selectedHandler = (itemSelected) => {
     return prop.selectedItem(itemSelected);
@@ -100,7 +105,9 @@ export const DrawerChat = (prop) => {
         />
         <img
           src={imageEditContact}
-          onClick={()=>{setShowEditContact(!showEditContact)}}
+          onClick={() => {
+            setShowEditContact(!showEditContact);
+          }}
           className=" w-10 mx-1 cursor-pointer"
           alt="editContact"
         />
@@ -127,7 +134,7 @@ export const DrawerChat = (prop) => {
       <div
         className={
           searchMember
-            ? "  bg-zinc-800 overflow-y-auto absolute left-2 right-4 top-24 bottom-1 z-10 rounded-sm p-2   "
+            ? "  bg-zinc-800 overflow-y-auto absolute left-2 right-4 top-24 bottom-1 z-10 rounded-lg p-2   "
             : "hidden"
         }
       >
@@ -155,7 +162,13 @@ export const DrawerChat = (prop) => {
       <div>{showAddContact ? <AddContact /> : ""}</div>
 
       {/* این دیو برای مدیریت ویرایش مخاطب است */}
-      <div>{showEditContact ? <EditContact /> : ""}</div>
+      {showEditContact ? (
+        <div className="fixed z-[1] left-0 right-0 top-0 bottom-0   0 flex justify-center items-center   backdrop-blur-sm ">
+          <EditContact close={hiddenOrShow} />
+        </div>
+      ) : (
+        ""
+      )}
 
       {/* این دیو برای مدیریت حذف مخاطب است */}
       <div>{showRemoveContact ? <RemoveContact /> : ""}</div>

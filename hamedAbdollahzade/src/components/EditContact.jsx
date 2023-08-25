@@ -1,7 +1,7 @@
 import farawin from "farawin";
 import { useState } from "react";
 
-export const EditContact = () => {
+export const EditContact = (prop) => {
   const [inputTel, setInputTel] = useState("");
   const [inputName, setInputName] = useState("");
   
@@ -14,11 +14,14 @@ export const EditContact = () => {
       const valid =await farawin.testEditContact(EnMobile,inputName) ;
       alert(valid.message);
   }
+  else {alert("اشتباه وارد کردید !")}
   }
   return (
 
-
-    <form className="flex flex-col justify-around bg-slate-700 text-white h-[200px] w-full overflow-hidden my-4 p-4 rounded-2xl">
+<form className="flex flex-col justify-around bg-slate-700 text-white h-[300px] w-[300px] overflow-hidden my-4 p-4 rounded-2xl">
+      
+      <div onClick={()=>{return prop.close("showEditContact")}}  className="bg-black rounded-full text-center self-end cursor-pointer w-6 ">X</div>
+      
       <h1 className="underline text-lime-300  mb-1">فرم ویرایش مخاطب</h1>
 
       <label >شماره تماس :</label>
@@ -31,5 +34,8 @@ export const EditContact = () => {
         Edit
       </button>
     </form>
+    
+
+
   );
 };
