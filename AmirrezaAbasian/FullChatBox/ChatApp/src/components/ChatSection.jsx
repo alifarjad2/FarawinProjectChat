@@ -11,10 +11,10 @@ const ChatSection = ({ chatName, setChatName, isContactList, setIsContactList, m
 
 
 
-
     const handleSubmit = (e) => {
         e.preventDefault()
         farawin.testAddChat(messageReceiver, userMessage, res => console.log(res))
+        setUserMessage('')
     }
 
     return (

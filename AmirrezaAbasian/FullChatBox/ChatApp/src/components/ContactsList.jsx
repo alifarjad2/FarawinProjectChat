@@ -12,6 +12,9 @@ const ContactsList = ({ chatName, setChatName, isContactList, setIsContactList, 
     const [newUserPhoneNumber, setNewUserPhoneNumber] = useState('')
     const [isValidPhoneNumber, setIsValidPhoneNumber] = useState(false)
     const [personalContacts, setPersonalContacts] = useState([])
+    const [lastMessage, setLastMessage] = useState([])
+    const [searchInput, setSearchInput] = useState('')
+    const [isSearching, setIsSearching] = useState(false)
     // #endregion
 
     // For phoneNumber validation ↓↓
@@ -22,14 +25,30 @@ const ContactsList = ({ chatName, setChatName, isContactList, setIsContactList, 
     }, [newUserPhoneNumber]);
     // -------------------------------------------------------------
 
+    // For getting user's contacts ↓↓
     useEffect(() => {
         const gettingContacts = async () => {
             const rawData = await farawin.getContacts(res => res)
             const personalContacts = rawData.contactList.filter((row) => row.ref === localStorage.userPhoneNumber)
             setPersonalContacts(personalContacts)
+            // console.log(personalContacts);
         }
+
+        const gettingLastMessage = async () => {
+            const rawData = await farawin.getChats()
+            const personChats = rawData.chatList.filter((row) => row.receiver === messageReceiver)
+            // console.log(personChats);
+            setLastMessage(personChats.reverse()[0])
+        }
+        gettingLastMessage()
         gettingContacts();
     }, [])
+    // -------------------------------------------------------------
+
+    useEffect(() => {
+        searchInput.length === 0 && setIsSearching(false)
+        // console.log(isSearching);
+    }, [searchInput])
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -41,26 +60,31 @@ const ContactsList = ({ chatName, setChatName, isContactList, setIsContactList, 
         }, 3000);
     }
 
+
+
     return (
         <div className="flex flex-col h-full">
             <div className='h-[10%] mb-2 w-full'>
-                <div id="search-box" className="">
+                <div id="search-box" className="pb-1">
                     <div className="bg-[#2E333D] transition duration-500 focus-within:bg-[#353b46] mx-5 my-4 rounded-xl h-14 flex items-center focus-within:ring-2 shadow-inner focus-within:ring-sky-900">
-                        <button className='mr-6'>
+                        <button onClick={() => setIsSearching((e) => e = true)} className='mr-6'>
                             <SearchIcon className={'text-2xl hover:opacity-60'} />
                         </button>
-                        <input type="text" placeholder="Search" className="text-white font-medium text-lg font-mono w-full h-[30px] placeholder:italic outline-none placeholder:opacity-70 rounded-md bg-transparent mx-2" />
+                        <input value={searchInput} onChange={(e) => setSearchInput(e.target.value)} type="text" placeholder="Search" className="text-white font-medium text-lg font-mono w-full h-[30px] placeholder:italic outline-none placeholder:opacity-70 rounded-md bg-transparent mx-2" />
                     </div>
                 </div>
             </div>
             <div className='h-[80%] w-full overflow-y-auto'>
                 {/* <ContactBox isContactList={isContactList} setIsContactList={setIsContactList} className={'mt-6 text-white'} /> */}
                 {
-                    personalContacts && personalContacts.map((row) => {
+                    (personalContacts && !isSearching) && personalContacts.map((row) => {
                         return (
-                            <ContactBox chatName={chatName} setChatName={setChatName} messageReceiver={messageReceiver} setMessageReceiver={setMessageReceiver} phoneNumber={row.username} key={row.date.toString()} name={row.name} isContactList={isContactList} setIsContactList={setIsContactList} className={'mt-6 text-white'} />
+                            <ContactBox lastMessage={lastMessage} setLastMessage={setLastMessage} chatName={chatName} setChatName={setChatName} messageReceiver={messageReceiver} setMessageReceiver={setMessageReceiver} phoneNumber={row.username} key={row.date.toString()} name={row.name} isContactList={isContactList} setIsContactList={setIsContactList} className={'mt-6 text-white'} />
                         )
                     })
+                }
+                {
+                    (personalContacts && isSearching) && personalContacts.filter((row) => { row.name === searchInput ? <ContactBox lastMessage={lastMessage} setLastMessage={setLastMessage} chatName={chatName} setChatName={setChatName} messageReceiver={messageReceiver} setMessageReceiver={setMessageReceiver} phoneNumber={row.username} key={row.date.toString()} name={row.name} isContactList={isContactList} setIsContactList={setIsContactList} className={'mt-6 text-white'} /> : 'مخاطب پیدا نشد' })
                 }
             </div>
             {

@@ -1,7 +1,8 @@
-import farawin from "farawin"
-import { useState } from "react"
+// import farawin from "farawin"
+import { useState, useEffect } from "react"
 
-const ContactBox = ({ chatName, setChatName, className, messageReceiver, setMessageReceiver, sentTime, name, phoneNumber, message, isContactList, setIsContactList }) => {
+const ContactBox = ({ lastMessage, setLastMessage, chatName, setChatName, className, messageReceiver, setMessageReceiver, name, phoneNumber, isContactList, setIsContactList }) => {
+
 
     const handleClick = () => {
         // console.log(phoneNumber);
@@ -9,6 +10,7 @@ const ContactBox = ({ chatName, setChatName, className, messageReceiver, setMess
         setIsContactList(false)
         setChatName(name)
     }
+    const _lastMessage = lastMessage?.text
 
     return (
         <div onClick={handleClick} className={className}>
@@ -23,11 +25,11 @@ const ContactBox = ({ chatName, setChatName, className, messageReceiver, setMess
                         {name}
                     </div>
                     <div className="pb-2 truncate">
-                        {'no messages yet' || message}
+                        {lastMessage?.receiver === messageReceiver ? _lastMessage : 'هنوز پیامی ندادید'}
                     </div>
                 </div>
                 <div className="mr-5 group-hover:text-[#509ef1] group-hover:transition basis-1/12 bg-transparent rounded-lg text-center text-clip font-serif text-sm">
-                    <span>4m</span>
+                    <span>{new Date(lastMessage?.date).getHours() + ':' + new Date(lastMessage?.date).getMinutes().toString().padStart(2, '0') + '     ' + new Date(lastMessage?.date).getDate() + '/' + new Date(lastMessage?.date).getMonth().toString().padStart(2, '0')}</span>
                 </div>
             </div>
         </div>
