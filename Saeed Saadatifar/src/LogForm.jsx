@@ -174,19 +174,18 @@ export default function RegForm() {
           if (buttonValid()) {
             setIsLoading(true);
             farawin.testLogin(userName, password, (response) => {
-              //response is object like {code: string, message: string}
-              //if code is '200' mean success
-              //else mean error!
-              //Goodluck:)
 
               const success = response.code == "200";
               // این قسمت رو خودم تغییر دادم که اگر دکمه ثبت نام موفقیت آمیز بود پیام رو آلرت کنه و اگر غلط بود خطا را زیر دکمه ثبت نام چاپ کنه
               if (success) {
                 console.log("result from api -> ", response);
+                localStorage.username = userName;
+                alert(response.message);
+                location.reload();
               } else {
                 console.error("error from api -> ", response);
+                alert(response.message);
               }
-              alert(response.message);
               setIsLoading(false);
             });
           }
