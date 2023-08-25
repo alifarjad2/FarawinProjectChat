@@ -10,6 +10,8 @@ export const ChatPage = () => {
   const [sender, setSender] = useState("");
   const [reciver, setReciver] = useState("");
 
+  const [reload, setReload] = useState(false);
+
   const creatAllChats = async () => {
     const chatAll = await farawin.getChats();
     setGetAllChat(chatAll.chatList);
@@ -37,8 +39,13 @@ export const ChatPage = () => {
   };
 
   const callCreatFunctions = () => {
-    creatSender() 
-    creatReciver()
+    creatSender();
+    creatReciver();
+  };
+
+  const refreshChat = () => {
+    console.log("reload");
+    setReload(!reload);
   };
 
   // console.log("sender table : ");
@@ -51,7 +58,7 @@ export const ChatPage = () => {
     {
       selectedItem ? callCreatFunctions() : "";
     }
-  }, [selectedItem]);
+  }, [selectedItem, reload]);
 
   const selectedHandler = (item) => {
     setSelectedItem(item.contact);
@@ -66,7 +73,12 @@ export const ChatPage = () => {
         <DrawerChat selectedItem={selectedHandler} />
 
         {/*  این کامپوننت مربوط به کانتینر قسمت چت ک شامل هدر و صفحه چت و اینپوت ارسال پیام  */}
-        <ChatContainer item = {selectedItem} sender = {sender} reciver = {reciver} />
+        <ChatContainer
+          item={selectedItem}
+          sender={sender}
+          reciver={reciver}
+          refresh={refreshChat}
+        />
       </div>
     </div>
   );

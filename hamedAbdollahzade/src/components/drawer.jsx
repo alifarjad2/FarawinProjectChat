@@ -14,7 +14,7 @@ export const DrawerChat = (prop) => {
   // -------------------------------------------------------------------------------
   const [members, setMembers] = useState([]);
   const [searchMember, setSearchMember] = useState("");
-
+console.log(members);
   const [reloadComponent,setReloadComponent] = useState(true);
   const [showAddContact, setShowAddContact] = useState(false);
   const [showRemoveContact, setshowRemoveContact] = useState(false);
@@ -34,7 +34,7 @@ const selectedHandler = (itemSelected) => {
     {
       searched.length != 0 && value.length != 0
         ? setSearchMember(searched)
-        : location.reload();
+        : alert ("موردی یافت نشد !")
     }
   };
   // -------------------------------------------------------------------
@@ -58,18 +58,18 @@ const selectedHandler = (itemSelected) => {
     <div
       className={
         showDrawer
-          ? "relative transition-all duration-700 overflow-x-hidden flex flex-col m-1 rounded-lg w-[400px] text-center px-4 "
+          ? "relative transition-all duration-700 overflow-x-hidden flex flex-col m-1 rounded-lg w-[300px] shrink-0 text-center px-4  border-l-2 border-blue-900 "
           : " transition-all duration-700 w-0 overflow-x-hidden hover:cursor-pointer mx-5"
       }
     >
 
-<div className="flex justify-between  items-center  h-9 mt-1 ">
+<div className="flex justify-start items-center  h-9 mt-1 ">
           <img
           src={imageAddContact}
             className={
               showAddContact
-                ? " bg-slate-300 rounded-full h-8 px-3  mx-2 cursor-pointer"
-                : " bg-slate-500 rounded-full h-8 px-3  mx-2 cursor-pointer"
+                ? " bg-slate-300 rounded-full h-8 px-3  mx-1 cursor-pointer"
+                : " bg-slate-500 rounded-full h-8 px-3  mx-1 cursor-pointer"
             }
             onClick={() => {
               setShowAddContact(!showAddContact);
@@ -78,7 +78,7 @@ const selectedHandler = (itemSelected) => {
 
 <img
           src={imageRefresh}
-            className={" bg-slate-300 rounded-full h-8 px-3  text-xs cursor-pointer"}
+            className={" bg-slate-300 rounded-full h-8 px-3 mx-1 text-xs cursor-pointer"}
             onClick={() => {setReloadComponent(!reloadComponent)}}
           />
 
@@ -86,8 +86,8 @@ const selectedHandler = (itemSelected) => {
           src={imageDeleteContact}
             className={
               showRemoveContact
-                ? " bg-slate-300 rounded-full h-8 px-3  text-xs cursor-pointer"
-                : " bg-slate-500 rounded-full h-8 px-3  text-xs cursor-pointer"
+                ? " bg-slate-300 rounded-full h-8 px-3  text-xs mx-1 cursor-pointer"
+                : " bg-slate-500 rounded-full h-8 px-3  text-xs mx-1 cursor-pointer"
             }
             onClick={() => {
               setshowRemoveContact(!showRemoveContact);
@@ -101,8 +101,8 @@ const selectedHandler = (itemSelected) => {
             alt="menu"
             className={
               showDrawer
-                ? "w-9 mx-1 hover:cursor-pointer "
-                : "w-9 mx-1 hover:cursor-pointer fixed right-6 rotate-90  "
+                ? "w-10 mr-10 hover:cursor-pointer "
+                : "w-10 mt-2  hover:cursor-pointer fixed right-6 rotate-90  "
             }
           />
         </div>
@@ -136,7 +136,7 @@ const selectedHandler = (itemSelected) => {
         </button>
         {searchMember
           ? searchMember.map((contact) => (
-              <ContactItem key={contact.index} contact={contact} />
+              <ContactItem key={contact.index} contact={contact} selectedItem={selectedHandler} />
             ))
           : ""}
       </div>
