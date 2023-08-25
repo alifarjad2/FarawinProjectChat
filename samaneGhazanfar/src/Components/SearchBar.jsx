@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export const SearchBar = ({propContact})=>{
+export const SearchBar = ({propContact , res , contactName})=>{
     const [searchInput,setSearchInput] = useState("");
     const [searchResults, setSearchResults] = useState([]);
 
@@ -13,13 +13,10 @@ export const SearchBar = ({propContact})=>{
 
 
 
-    
-
     return (
         <div>
-        <div className ="relative flex flex-row w-[200px] h-10 ml-4 mr-1 border-[#757474] rounded-xl bg-[#757474]">
+        <div className ="relative flex flex-row w-[200px] h-10 ml-4 mr-1 border-[#757474] rounded-xl bg-[#757474] ">
         <img 
-        onClick={handellSearch}
         className="rounded-xl h-9 cursor-pointer"
         src="../img/icons8-search-30.png" 
         alt="search" />
@@ -30,16 +27,20 @@ export const SearchBar = ({propContact})=>{
         x flex-row w-[120px] border-[#757474] rounded-xl bg-[#757474]"
         value={searchInput}
         onChange={(s)=>{setSearchInput(s.target.value)}}
+        onKeyUp={handellSearch}
         />
         </div>
 
 
         <div>
 
-        { searchInput.length > 3 &&
-          <ul className="flex flex-col w-[200px] h-auto min-h-[30px] text-center m-3 bg-[#757474] cursor-pointer rounded-xl">
+        {searchInput.length > 3 &&
+          <ul 
+          className="flex flex-col w-[200px] h-auto min-h-[30px] text-center m-3 bg-[#757474] cursor-pointer rounded-xl">
           {searchResults.map((result) => (
-          <li key={result.id}>
+          <li key={result.id}
+          // onClick={()=>{return contactName(res)}}
+          >
             {result.name}
           </li>
           ))}

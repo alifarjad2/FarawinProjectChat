@@ -14,12 +14,12 @@ export const SideBar = ({contactName})=>{
 // ----------------------گرفتن مخاطبین اضافه شده از سرور--------------------------
      const fetchContacts = async()=>{
        const result = await farawin.getContacts()
-      // console.table(result.contactList);
+      //  console.table(result.contactList);
 
       const showContact = result.contactList.filter((r)=>{return r.ref == localStorage.username})
 
      setContactList(showContact)
-      // console.log(contactList);
+       console.log(showContact);
     }
     useEffect(()=>{
         fetchContacts();
@@ -33,35 +33,12 @@ export const SideBar = ({contactName})=>{
         className ="relative bg-[#4f4e4e] flex flex-col min-w-[250px] p-1 m-2  "
         >
 
-
-        <div className="w-12" >
-          {/* <div>
-          <img 
-        className="absolute top-3 left-0 rounded-xl  cursor-pointer"
-        src="../img/icons8-plus-24 (2).png" 
-        alt="Add" 
-        onClick={togglePopup} />
-        {isPopupOpen && <AddContact />}
-          </div>
-          <div>
-          <img 
-        className=" absolute top-3 left-10 rounded-xl cursor-pointer "
-        src="../img/icons8-delete-24.png" 
-        alt="delete"
-        onClick={togglePopupDelete} />
-        {PopupDelete && <DeleteContact/>}
-        </div> */}
-
-        </div>
-
         <SearchBar propContact = {contactList} />
-
-
 
 
         <div 
         // showContactList
-        className ="flex flex-col h-full mt-4 overflow-hidden">
+        className ="flex flex-col h-full mt-4 overflow-y-auto">
 
         
         
