@@ -31,7 +31,7 @@ const ContactsList = ({ chatName, setChatName, isContactList, setIsContactList, 
             const rawData = await farawin.getContacts(res => res)
             const personalContacts = rawData.contactList.filter((row) => row.ref === localStorage.userPhoneNumber)
             setPersonalContacts(personalContacts)
-            // console.log(personalContacts);
+            console.log(personalContacts);
         }
 
         const gettingLastMessage = async () => {
@@ -47,7 +47,7 @@ const ContactsList = ({ chatName, setChatName, isContactList, setIsContactList, 
 
     useEffect(() => {
         searchInput.length === 0 && setIsSearching(false)
-        // console.log(isSearching);
+        console.log(searchInput);
     }, [searchInput])
 
     const handleSubmit = (e) => {
@@ -84,7 +84,7 @@ const ContactsList = ({ chatName, setChatName, isContactList, setIsContactList, 
                     })
                 }
                 {
-                    (personalContacts && isSearching) && personalContacts.filter((row) => { row.name === searchInput ? <ContactBox lastMessage={lastMessage} setLastMessage={setLastMessage} chatName={chatName} setChatName={setChatName} messageReceiver={messageReceiver} setMessageReceiver={setMessageReceiver} phoneNumber={row.username} key={row.date.toString()} name={row.name} isContactList={isContactList} setIsContactList={setIsContactList} className={'mt-6 text-white'} /> : 'مخاطب پیدا نشد' })
+                    (personalContacts && isSearching) && (personalContacts.filter((row) => row.name === searchInput)).map((row) => <ContactBox lastMessage={lastMessage} setLastMessage={setLastMessage} chatName={chatName} setChatName={setChatName} messageReceiver={messageReceiver} setMessageReceiver={setMessageReceiver} phoneNumber={row.username} key={row.date.toString()} name={row.name} isContactList={isContactList} setIsContactList={setIsContactList} className={'mt-6 text-white'} />)
                 }
             </div>
             {
