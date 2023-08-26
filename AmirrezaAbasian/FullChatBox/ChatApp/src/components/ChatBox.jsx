@@ -5,7 +5,7 @@ import ContactsList from './ContactsList.jsx'
 
 const ChatBox = () => {
   // #region State hooks
-  const [isContactList, setIsContactList] = useState(false)
+  const [isContactList, setIsContactList] = useState(true)
   const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 768)
   const [messageReceiver, setMessageReceiver] = useState('')
   const [chatName, setChatName] = useState('')

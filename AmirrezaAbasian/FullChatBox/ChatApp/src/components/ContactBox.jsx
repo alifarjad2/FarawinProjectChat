@@ -8,7 +8,7 @@ const ContactBox = ({ lastMessage, setLastMessage, chatName, setChatName, classN
         // console.log(phoneNumber);
         setMessageReceiver(phoneNumber)
         setIsContactList(false)
-        setChatName(name)
+        setChatName(name) // here to fix the date and last sent message
     }
     const _lastMessage = lastMessage?.text
 

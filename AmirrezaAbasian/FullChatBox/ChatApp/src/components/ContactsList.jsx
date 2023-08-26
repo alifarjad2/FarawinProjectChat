@@ -31,7 +31,7 @@ const ContactsList = ({ chatName, setChatName, isContactList, setIsContactList, 
             const rawData = await farawin.getContacts(res => res)
             const personalContacts = rawData.contactList.filter((row) => row.ref === localStorage.userPhoneNumber)
             setPersonalContacts(personalContacts)
-            console.log(personalContacts);
+            // console.log(personalContacts);
         }
 
         const gettingLastMessage = async () => {
@@ -47,7 +47,7 @@ const ContactsList = ({ chatName, setChatName, isContactList, setIsContactList, 
 
     useEffect(() => {
         searchInput.length === 0 && setIsSearching(false)
-        console.log(searchInput);
+        // console.log(searchInput);
     }, [searchInput])
 
     const handleSubmit = (e) => {
@@ -84,7 +84,7 @@ const ContactsList = ({ chatName, setChatName, isContactList, setIsContactList, 
                     })
                 }
                 {
-                    (personalContacts && isSearching) && (personalContacts.filter((row) => row.name === searchInput)).map((row) => <ContactBox lastMessage={lastMessage} setLastMessage={setLastMessage} chatName={chatName} setChatName={setChatName} messageReceiver={messageReceiver} setMessageReceiver={setMessageReceiver} phoneNumber={row.username} key={row.date.toString()} name={row.name} isContactList={isContactList} setIsContactList={setIsContactList} className={'mt-6 text-white'} />)
+                    (personalContacts && isSearching) && (personalContacts.filter((row) => row.name.toLowerCase() === searchInput.toLowerCase()))?.map((row) => <ContactBox lastMessage={lastMessage} setLastMessage={setLastMessage} chatName={chatName} setChatName={setChatName} messageReceiver={messageReceiver} setMessageReceiver={setMessageReceiver} phoneNumber={row.username} key={row.date.toString()} name={row.name} isContactList={isContactList} setIsContactList={setIsContactList} className={'mt-6 text-white'} />)
                 }
             </div>
             {
@@ -94,9 +94,9 @@ const ContactsList = ({ chatName, setChatName, isContactList, setIsContactList, 
                     </div>
                 ) : (
                     <form onSubmit={handleSubmit} className="flex justify-around items-center md:mt-4">
-                        <div><button disabled={(isValidPhoneNumber && newUserName.length !== 0) ? false : true} type="submit" className="bg-[#2E333D] rounded-3xl p-2 text-white hover:opacity-70 transition-opacity disabled:opacity-30 disabled:cursor-not-allowed">افزودن</button></div>
-                        <div><input onChange={(e) => setNewUserName(e.target.value)} value={newUserName} className="bg-[#2E333D] rounded-2xl h-10 outline-none text-white transition focus:outline-2 focus:outline -outline-offset-1 focus:outline-slate-800 px-2" type="text" placeholder="     نام مخاطب" /></div>
-                        <div><input onChange={(e) => setNewUserPhoneNumber(e.target.value)} value={newUserPhoneNumber} className="bg-[#2E333D] rounded-2xl h-10 outline-none text-white transition focus:outline-2 focus:outline -outline-offset-1 focus:outline-slate-800 px-2" type="tel" placeholder="     تلفن مخاطب" /></div>
+                        <div><button disabled={(isValidPhoneNumber && newUserName.length !== 0) ? false : true} type="submit" className="bg-[#2E333D] rounded-3xl p-2 text-white hover:opacity-70 transition-opacity disabled:opacity-30 disabled:cursor-not-allowed ml-4">افزودن</button></div>
+                        <div><input onChange={(e) => setNewUserName(e.target.value)} value={newUserName} className="bg-[#2E333D] rounded-2xl h-10 outline-none text-white transition focus:outline-2 focus:outline w-10/12 md:w-11/12 -outline-offset-1 focus:outline-slate-800 md:px-2" type="text" placeholder="     نام مخاطب" /></div>
+                        <div><input onChange={(e) => setNewUserPhoneNumber(e.target.value)} value={newUserPhoneNumber} className="bg-[#2E333D] rounded-2xl h-10 outline-none text-white transition focus:outline-2 focus:outline w-10/12 md:w-11/12 -outline-offset-1 focus:outline-slate-800 md:px-2" type="tel" placeholder="     تلفن مخاطب" /></div>
                     </form>
                 )
             }
