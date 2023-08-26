@@ -12,7 +12,7 @@ html {
   font-family: Estedad, "Estedad", Inter, system-ui, Avenir, Helvetica, Arial,
     sans-serif;
 
-  height:fit-content;
+  height: fit-content;
 }
 
 body {
@@ -29,5 +29,11 @@ body {
   height: 100%;
 }
 .btn {
-  background: -webkit-linear-gradient(right,#00dbde,#fc00ff,#00dbde,#fc00ff)
+  background: -webkit-linear-gradient(
+    right,
+    #00dbde,
+    #fc00ff,
+    #00dbde,
+    #fc00ff
+  );
 }

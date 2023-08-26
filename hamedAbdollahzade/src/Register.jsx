@@ -31,10 +31,15 @@ const Register = ({ onFormSwitch }) => {
         id="username"
         className="border-b-2 outline-none"
       />
-      <div className={userName.length == 0 || userName.length == 11 ? "hidden" : "text-red-700 text-[10px] text-right mt-2"}>
-        طول موبایل باید 11 رقم باشد  
+      <div
+        className={
+          userName.length == 0 || userName.length == 11
+            ? "hidden"
+            : "text-red-700 text-[10px] text-right mt-2"
+        }
+      >
+        طول موبایل باید 11 رقم باشد
       </div>
-
 
       <label className="text-xs mt-2" htmlFor="password1">
         Password :
@@ -47,8 +52,14 @@ const Register = ({ onFormSwitch }) => {
         id="password1"
         className="border-b-2 outline-none"
       />
-      <div className={password1.length == 0 || password1.length >= 8 ? "hidden" : "text-red-700 text-[10px] text-right mt-2"}>
-        رمز عبور حداقل 8 رقم باشد 
+      <div
+        className={
+          password1.length == 0 || password1.length >= 8
+            ? "hidden"
+            : "text-red-700 text-[10px] text-right mt-2"
+        }
+      >
+        رمز عبور حداقل 8 رقم باشد
       </div>
 
       <label className="text-xs mt-2" htmlFor="password2">
@@ -62,7 +73,13 @@ const Register = ({ onFormSwitch }) => {
         id="password2"
         className="border-b-2 outline-none"
       />
-      <div className={password1 === passwoord2 ? "hidden" : "text-red-700 text-[10px] text-right mt-2"}>
+      <div
+        className={
+          password1 === passwoord2
+            ? "hidden"
+            : "text-red-700 text-[10px] text-right mt-2"
+        }
+      >
         تکرار پسورد اشتباه است
       </div>
 
@@ -77,15 +94,29 @@ const Register = ({ onFormSwitch }) => {
         id="flName"
         className="border-b-2 outline-none"
       />
-      <div className={flName.length == 0 || flName.length > 2 ? "hidden" : "text-red-700 text-[10px] text-right mt-2"}>
+      <div
+        className={
+          flName.length == 0 || flName.length > 2
+            ? "hidden"
+            : "text-red-700 text-[10px] text-right mt-2"
+        }
+      >
         اسم حداقل سه حرف باشد
       </div>
 
       <button
-      //! اینجا روی خود دکمه ولیدیت ریز کردم گفتم اگه همه چی مرتب بود بعد فعال بشه
-        disabled={ password1 === passwoord2 && flName.length > 2 && userName.length == 11 ? false : true}
+        //! اینجا روی خود دکمه ولیدیت ریز کردم گفتم اگه همه چی مرتب بود بعد فعال بشه
+        disabled={
+          password1 === passwoord2 && flName.length > 2 && userName.length == 11
+            ? false
+            : true
+        }
         type="button"
-        className={password1 === passwoord2 && flName.length > 2 && userName.length == 11 ? "border mx-2 h-8 w-4/5 btn rounded-full  mt-8 self-center ":"border mx-2 h-8 w-4/5 btn rounded-full opacity-[0.7] mt-8 self-center "}
+        className={
+          password1 === passwoord2 && flName.length > 2 && userName.length == 11
+            ? "border mx-2 h-8 w-4/5 btn rounded-full  mt-8 self-center "
+            : "border mx-2 h-8 w-4/5 btn rounded-full opacity-[0.7] mt-8 self-center "
+        }
         onClick={ErsalForm}
       >
         register

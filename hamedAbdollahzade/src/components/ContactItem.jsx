@@ -1,6 +1,4 @@
-
 export const ContactItem = (prop) => {
- 
   return (
     <div
       key={prop.key}
@@ -10,7 +8,9 @@ export const ContactItem = (prop) => {
       className="cursor-pointer"
     >
       <div
-        className={"hover:bg-[rgba(28,62,156,0.2)]  flex flex-row h-12 w-full overflow-hidden rounded-lg my-1 relative"}
+        className={
+          "hover:bg-[rgba(28,62,156,0.2)]  flex flex-row h-12 w-full overflow-hidden rounded-lg my-1 relative"
+        }
       >
         <div
           className={
