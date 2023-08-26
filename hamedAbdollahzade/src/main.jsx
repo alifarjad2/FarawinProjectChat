@@ -6,5 +6,5 @@ import "./index.css";
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <FormAuthComponent />
-  </React.StrictMode>
+   </React.StrictMode>
 );
