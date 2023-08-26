@@ -7,14 +7,19 @@ const [inputMessage , setInputMessage] = useState("");
 // استیت برای زمان حال در چت ها
 const [currentDate, setCurrentDate] = useState(new Date());
 
+// چت کانتینر
+const [message , setMessage] = useState([]);
 
 
 const MessageHandler = async() =>{
     await farawin.testAddChat(selectItem.username , inputMessage )
-    
-
 }
 
+
+
+useEffect(()=>{
+  MessageHandler();
+}, [])
 
 useEffect(() => {
   const interval = setInterval(() => {
@@ -55,7 +60,7 @@ useEffect(() => {
       </div>
 
       {/* chat */}
-
+      
         <div
           id="Messages1Contact"
           className="flex flex-col  rounded w-full h-[530px] py-4 overflow-y-auto "
