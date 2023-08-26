@@ -9,6 +9,17 @@ export default function Chat() {
   const [allChats, setAllChats] = useState([]);
   const [sender, setSender] = useState([]);
   const [receiver, setReceiver] = useState([]);
+  const [openMenu, setOpenMenu] = useState(false);
+  
+
+  const handleOpenMenu = () => {
+    setOpenMenu(true);
+  };
+  const handleCloseMenu = () => {
+    setOpenMenu(false);
+  };
+
+ 
 
   useEffect(() => {
     getContact();
@@ -71,15 +82,19 @@ export default function Chat() {
         className="w-full h-full m-auto mt-5 p-2 rounded-3xl flex flex-row bg-[#202329] max-lg:relative"
       >
         <Sidebar
+          openMenu={openMenu}
+          closeMenu={handleCloseMenu}
           contact={contact}
           setSelectedContact={setSelectedContact}
           handleContactButtonClick={handleContactButtonClick}
+         
         />
         <ChatBox
           selectedContact={selectedContact}
           sender={sender}
           receiver={receiver}
           handleContactButtonClick={handleChatBoxButtonClick}
+          openMenu={handleOpenMenu}
         />
       </div>
     </div>

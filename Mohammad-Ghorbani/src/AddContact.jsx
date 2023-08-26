@@ -27,9 +27,9 @@ export default function AddContact({ onClose }) {
   };
 
   return (
-    <div className="flex flex-col w-1/3 h-full max-lg:hidden max-lg:absolute max-lg:left-0 max-lg:top-0 max-lg:w-full max-lg:h-full max-lg:bg-[#202329] max-lg:z-10 max-lg:rounded-3xl max-lg:overflow-hidden text-right">
-      <form className="w-full flex flex-col items-center gap-1 py-4 hover:bg-[#2E333D] rounded-2xl">
-        <p className="text-3xl pb-8"> افزودن مخاطب</p>
+    <div className="flex flex-col w-1/3 h-full  max-lg:absolute max-lg:left-0 max-lg:top-0 max-lg:w-full max-lg:h-full max-lg:bg-[#202329] max-lg:z-0 max-lg:rounded-3xl max-lg:overflow-hidden text-right">
+      <form className="w-full flex flex-col items-center gap-1 py-4 hover:bg-[#2E333D] rounded-2xl max-lg:pt-20">
+        <p className="text-3xl pb-8 max-lg:hidden "> افزودن مخاطب</p>
         <label htmlFor="numberPhone">شماره موبایل</label>
         <input
           onChange={handleNumberPhone}

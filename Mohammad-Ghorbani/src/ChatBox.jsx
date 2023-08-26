@@ -4,12 +4,14 @@ import ImageAttach from "./Assets/attach-48.png";
 import ImageMenu from "./Assets/menu-50.png";
 import ImageMore from "./Assets/more-50.png";
 import ImageRef from "./Assets/refresh-48.png";
+import ImageSendMessage from "./Assets/send-48.png";
 
 function ChatBox({
   selectedContact,
   sender,
   receiver,
   handleContactButtonClick,
+  openMenu,
 }) {
   const [sendMessage, setSendMessage] = useState("");
 
@@ -22,6 +24,7 @@ function ChatBox({
       selectedContact.username,
       sendMessage
     );
+    return res;
     // برای تست
     //alert(res.code);
   };
@@ -29,9 +32,14 @@ function ChatBox({
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
       senderMessages();
-      handleContactButtonClick();
       setSendMessage("");
+      handleContactButtonClick();
     }
+  };
+  const handleSendButton = () => {
+    senderMessages();
+    setSendMessage("");
+    handleContactButtonClick();
   };
 
   const messages = [
@@ -44,7 +52,7 @@ function ChatBox({
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     const newDate = date.toLocaleTimeString();
-    return newDate.substring(0, newDate.length - 6);
+    return (newDate.slice(0, 4) + newDate.slice(7)).padStart(8, "0");
   };
 
   return (
@@ -54,10 +62,12 @@ function ChatBox({
     >
       <div className="pl-5 w-full h-20 flex flex-row justify-between relative">
         <button
+          type="button"
+          onClick={openMenu}
           id="openMenu"
-          className="lg:w-0 lg:cursor-pointer absolute left-1 top-1 cursor-pointer"
+          className="lg:w-0 lg:cursor-pointer absolute left-0 top-3 cursor-pointer"
         >
-          <img className="w-7 h-9" src={ImageMenu} alt="open Menu" />
+          <img className="w-8 " src={ImageMenu} alt="open Menu" />
         </button>
         <button
           onClick={handleContactButtonClick}
@@ -106,7 +116,7 @@ function ChatBox({
         ))}
       </div>
       <div className="w-full h-14">
-        <div className="w-full h-full rounded-2xl flex my-1">
+        <div className="w-full h-full rounded-2xl flex my-1 focus-within:bg-[#2E333D]">
           <img
             className="w-10 m-auto cursor-pointer"
             src={ImageAttach}
@@ -120,8 +130,15 @@ function ChatBox({
             onKeyDown={handleKeyPress}
             placeholder="پیام خود را بنویسید"
             type="text"
-            className="bg-inherit w-full px-5 h-full m-auto rounded-2xl focus:outline-none text-right focus-within:bg-[#2E333D]"
+            className="bg-inherit w-full px-5 h-full m-auto rounded-2xl focus:outline-none text-right "
           />
+          <button
+            type="button"
+            onClick={handleSendButton}
+            className={`lg:hidden ${sendMessage.length == 0 && "w-0"} `}
+          >
+            <img src={ImageSendMessage} className="" />
+          </button>
         </div>
       </div>
     </div>
