@@ -1,7 +1,7 @@
 export const ContactItem = (prop) => {
   return (
     <div
-      key={prop.key}
+      key={prop.contact.index}
       onClick={() => {
         return prop.selectedItem(prop);
       }}

@@ -9,6 +9,8 @@ export const ChatPage = () => {
   const [getAllChat, setGetAllChat] = useState("");
   const [sender, setSender] = useState("");
   const [reciver, setReciver] = useState("");
+  
+
 
   const [reload, setReload] = useState(false);
 

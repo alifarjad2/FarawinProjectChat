@@ -8,6 +8,10 @@ import { ChatBoxSender } from "./ChatBoxSender";
 export const ChatContainer = (prop) => {
   //! ------------------------------------------------------------------------------------
   const [inputSendMessege, setinputSendMessege] = useState("");
+  const sortChat = [...prop.sender, ...prop.reciver].sort((a, b) => {
+    return new Date(a.date) - new Date(b.date);
+  });
+  // console.log(sortChat);
 
   const ersalPayam = async () => {
     const res = await farawin.testAddChat(prop.item.username, inputSendMessege);
@@ -43,30 +47,26 @@ export const ChatContainer = (prop) => {
           />
         </div>
         {/* ------------------------------------------------ قسمت نمایش چت ----------------------------------------------------- */}
-        <div className=" h-full overflow-y-auto p-2 ">
-          {prop.reciver
-            ? prop.reciver.map((reciver) => (
-                <ChatBoxReciver item={prop.item} reciver={reciver} />
-              ))
+        <div className=" h-full  overflow-y-auto p-2 ">
+          {sortChat.length != 0
+            ? sortChat.map((sortedItem) =>
+                sortedItem.sender != localStorage.userMobile ? (
+                  <ChatBoxReciver item={prop.item} reciver={sortedItem} />
+                ) : (
+                  <ChatBoxSender sender={sortedItem} />
+                )
+              )
             : ""}
           {/* ---------------- این قسمت برای اینکه اگه پیامی وجود نداشت ------------------------------ */}
           <div
             className={
-              prop.sender.length == 0 && prop.reciver.length == 0
+              sortChat.length == 0
                 ? "flex text-3xl text-yellow-400 justify-center items-center w-full h-full"
                 : "hidden"
             }
           >
             هنوز پیامی ندارید :(
           </div>
-          {/* ----------------------------------------------------------------------------------------- */}
-          {prop.sender
-            ? prop.sender.map((sender) => (
-                <>
-                  <ChatBoxSender sender={sender} />
-                </>
-              ))
-            : ""}
         </div>
         {/* ----------------------------------------------------------- این قسمت هم برای اینپوت ارسال پیام ------------------------------------------------------------- */}
         <div className="  h-12 m-2 flex flex-row relative">
@@ -89,7 +89,7 @@ export const ChatContainer = (prop) => {
           />
         </div>
       </div>
-      {/* --------------------------- اینجا هم گفتم اگه مخاطبی انتخاب نکرده بود بیاد کلا مخفی کنه صفحه چت رو --------------------------------------------- */}
+
       <div
         className={
           !prop.item
@@ -99,6 +99,6 @@ export const ChatContainer = (prop) => {
       >
         *** برای چت یک مخاطب را انتخاب کنید ***
       </div>
-    </>
+      </>    
   );
 };

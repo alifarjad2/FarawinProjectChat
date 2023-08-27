@@ -62,7 +62,8 @@ export const DrawerChat = (prop) => {
   // ------------------------------------------------------------------------------------
 
   return (
-    <div
+  
+    <div 
       className={
         showDrawer
           ? "relative transition-all duration-700 overflow-x-hidden flex flex-col m-1 rounded-lg w-[300px] shrink-0 text-center px-4  border-l-2 border-blue-900 "
@@ -178,7 +179,6 @@ export const DrawerChat = (prop) => {
         ? " مخاطبی وجود ندارد"
         : members.map((contact) => (
             <ContactItem
-              key={contact.index}
               contact={contact}
               selectedItem={selectedHandler}
             />
