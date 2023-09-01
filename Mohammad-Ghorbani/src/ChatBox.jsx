@@ -13,7 +13,7 @@ function ChatBox({
   handleContactButtonClick,
   openMenu,
 }) {
-  const [sendMessage, setSendMessage] = useState("");
+  const [sendMessage, setSendMessage] = useState([]);
 
   const handleSendMessage = (e) => {
     setSendMessage(e.target.value);
@@ -25,8 +25,6 @@ function ChatBox({
       sendMessage
     );
     return res;
-    // برای تست
-    //alert(res.code);
   };
 
   const handleKeyPress = (e) => {
@@ -36,6 +34,7 @@ function ChatBox({
       handleContactButtonClick();
     }
   };
+
   const handleSendButton = () => {
     senderMessages();
     setSendMessage("");
@@ -50,10 +49,29 @@ function ChatBox({
   messages.sort((a, b) => new Date(a.date) - new Date(b.date));
 
   const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    const newDate = date.toLocaleTimeString();
-    return (newDate.slice(0, 4) + newDate.slice(7)).padStart(8, "0");
+    const time = {
+      hourCycle: "h24",
+      hour: "2-digit",
+      minute: "2-digit",
+    };
+    const date = {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    };
+
+    const newDate = [
+      new Date(dateString).toLocaleTimeString("fa-IR", time),
+      new Date(dateString).toLocaleDateString("fa-IR", date),
+    ];
+    return newDate;
   };
+
+  const today = new Date().toLocaleDateString("fa-IR", {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  });
 
   return (
     <div
@@ -65,57 +83,73 @@ function ChatBox({
           type="button"
           onClick={openMenu}
           id="openMenu"
-          className="lg:w-0 lg:cursor-pointer absolute left-0 top-3 cursor-pointer"
+          className="lg:w-0 lg:cursor-pointer absolute left-0 top-5 cursor-pointer"
         >
           <img className="w-8 " src={ImageMenu} alt="open Menu" />
         </button>
         <button
           onClick={handleContactButtonClick}
-          className=" w-9 right-12 top-3 absolute"
+          className=" w-9 left-10 top-5 absolute max-lg:left-16"
         >
           <img src={ImageRef} />
         </button>
-        <div className="text-2xl absolute top-4 left-10">
+        <div className="text-2xl absolute top-5 right-7">
           {selectedContact && selectedContact.name}
         </div>
-        <div className="text-xs text-slate-500 absolute top-12 left-10">
+        <div className="text-xs text-slate-500 absolute top-12 right-7">
           {selectedContact && selectedContact.username}
         </div>
         <img
-          className="w-7 h-7 mt-4 mr-4 cursor-pointer absolute right-0"
+          title="خروج"
+          className="w-7 h-7 cursor-pointer absolute left-1 top-6 max-lg:left-9"
           src={ImageMore}
           alt="more"
           onClick={() => {
-            alert("این امکان هنوز پیاده سازی نشده است");
+            localStorage.removeItem("token");
+            location.reload();
           }}
         />
       </div>
-      <div className="px-1 w-full h-5/6 overflow-y-auto max-lg:overflow-x-hidden flex flex-col gap-y-4">
+      <div
+        id="pv"
+        className="px-1 w-full h-5/6 overflow-y-auto max-lg:overflow-x-hidden scroll-smooth flex flex-col  gap-y-4"
+      >
         {messages.map((message, index) => (
-          <div
-            key={index}
-            className={`mr-3 ${
-              message.sender !== localStorage.myUsername
-                ? "bg-[#2E333D] rounded-3xl rounded-bl-none text-right"
-                : "bg-[#6b8afe] rounded-3xl rounded-br-none text-right m-auto"
-            } w-2/6 p-3 max-lg:w-2/3`}
-          >
-            <div className="text-lg">{message.text}</div>
-            <div className="text-xs">
-              <p
-                className={
-                  message.sender !== localStorage.myUsername
-                    ? "text-left pt-3"
-                    : "text-right pt-3"
-                }
-              >
-                {formatDate(message.date)}
-              </p>
+          <>
+            {index === 0 ||
+            formatDate(messages[index - 1].date)[1] !==
+              formatDate(message.date)[1] ? (
+              <div className="bg-white text-black w-32 my-5 m-auto text-center rounded-full font-sans">
+                {formatDate(message.date)[1] === today
+                  ? "امروز"
+                  : formatDate(message.date)[1]}
+              </div>
+            ) : null}
+            <div
+              key={index}
+              className={`mr-1 ${
+                message.sender !== localStorage.myUsername
+                  ? "bg-[#2E333D] rounded-3xl rounded-bl-none text-right"
+                  : "bg-[#6b8afe] rounded-3xl rounded-br-none text-right m-auto"
+              } w-2/6 p-3 max-lg:w-2/3`}
+            >
+              <div className="text-lg">{message.text}</div>
+              <div className="text-xs">
+                <p
+                  className={
+                    message.sender !== localStorage.myUsername
+                      ? "text-left pt-3"
+                      : "text-right pt-3"
+                  }
+                >
+                  {formatDate(message.date)[0]}
+                </p>
+              </div>
             </div>
-          </div>
+          </>
         ))}
       </div>
-      <div className="w-full h-14">
+      <div className="w-full h-14 lg:pr-5">
         <div className="w-full h-full rounded-2xl flex my-1 focus-within:bg-[#2E333D]">
           <img
             className="w-10 m-auto cursor-pointer"
@@ -130,14 +164,14 @@ function ChatBox({
             onKeyDown={handleKeyPress}
             placeholder="پیام خود را بنویسید"
             type="text"
-            className="bg-inherit w-full px-5 h-full m-auto rounded-2xl focus:outline-none text-right "
+            className="bg-inherit w-full px-5 h-full m-auto rounded-2xl focus:outline-none text-right text-lg"
           />
           <button
             type="button"
             onClick={handleSendButton}
-            className={`lg:hidden ${sendMessage.length == 0 && "w-0"} `}
+            className={`lg:hidden ${sendMessage.length === 0 && "w-0"} `}
           >
-            <img src={ImageSendMessage} className="" />
+            <img src={ImageSendMessage} className="w-14" />
           </button>
         </div>
       </div>

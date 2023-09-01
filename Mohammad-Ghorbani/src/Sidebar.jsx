@@ -20,8 +20,12 @@ function Sidebar({
     setFilterSearch(e.target.value);
   };
 
+  //console.log(contact);
   const resultFilterSearch = contact.filter((contact) => {
-    return contact.name.toLowerCase().includes(filterSearch.toLowerCase());
+    return (
+      contact.name.toLowerCase().includes(filterSearch.toLowerCase()) ||
+      contact.username.includes(filterSearch)
+    );
   });
 
   const handleAddContact = () => {
@@ -47,7 +51,7 @@ function Sidebar({
           ${!openMenu ? "max-lg:hidden" : ""} 
           max-lg:absolute max-lg:left-0 max-lg:top-0 max-lg:w-full max-lg:h-full max-lg:bg-[#202329] max-lg:z-10 max-lg:rounded-3xl max-lg:overflow-hidden text-right`}
         >
-          <div className="h-20 flex flex-row rounded-3xl m-7 bg-[#2E333D] ">
+          <div className="h-16 flex flex-row rounded-3xl my-3 mx-4 bg-[#2E333D] ">
             <img
               className="w-10 m-auto cursor-pointer"
               src={ImageSearch}
@@ -58,7 +62,7 @@ function Sidebar({
               id="searchContact"
               type="search"
               placeholder="جستجو"
-              className="w-5/6 h-5/6 rounded- bg-inherit m-auto focus:outline-none text-right"
+              className="w-5/6 h-5/6 rounded- bg-inherit m-auto focus:outline-none text-right text-xl"
             />
             <button
               onClick={closeMenu}
@@ -69,18 +73,15 @@ function Sidebar({
             </button>
             <div
               onClick={handleAddContact}
-              className=" py-4 px-1 h-full m-auto rounded-3xl hover:bg-white "
+              className="p-3 h-full flex items-center rounded-3xl hover:bg-white "
             >
-              <img
-                src={ImageAddContact}
-                className="w-14 m-auto cursor-pointer "
-              />
+              <img src={ImageAddContact} className="w-12 cursor-pointer" />
             </div>
             <div
               onClick={handleContactButtonClick}
-              className=" py-4 px-1 h-full  m-auto rounded-3xl hover:bg-white "
+              className="p-3 h-full flex items-center rounded-3xl hover:bg-white "
             >
-              <img className="w-14 m-auto cursor-pointer " src={ImageRef} />
+              <img className="w-12 cursor-pointer" src={ImageRef} />
             </div>
           </div>
           {!contact ? (
@@ -94,14 +95,12 @@ function Sidebar({
                     <div
                       key={index}
                       onClick={() => handleContactClick(contact)}
-                      className="flex flex-row hover:bg-[#2E333D] rounded-3xl h-24 w-full m-auto cursor-pointer relative min-w-0 hover:text-black"
+                      className="flex flex-row hover:bg-[#2E333D] rounded-3xl h-24 w-full m-auto cursor-pointer relative hover:text-black"
                     >
-                      <div
-                        className={` bg-white w-16 h-16 rounded-2xl text-center m-auto ml-4 mr-3 p-4 text-xl text-black`}
-                      >
+                      <div className="bg-white  w-16 h-16 rounded-2xl text-center py-4 text-xl  text-black  absolute right-3 top-4">
                         {contact.name[0]}
                       </div>
-                      <div className="pt-5 text-xl cursor-default">
+                      <div className="absolute right-24 top-5 text-xl">
                         {contact.name}
                       </div>
                     </div>
@@ -110,14 +109,12 @@ function Sidebar({
                     <div
                       key={index}
                       onClick={() => handleContactClick(contact)}
-                      className="flex flex-row hover:bg-[#2E333D] rounded-3xl h-24 w-full m-auto cursor-pointer relative min-w-0 hover:text-black"
+                      className="flex flex-row hover:bg-[#2E333D] rounded-3xl h-24 w-full m-auto cursor-pointer relative hover:text-black"
                     >
-                      <div
-                        className={`bg-white  w-16 h-16 rounded-2xl text-center m-auto ml-4 mr-3 p-4 text-xl text-black`}
-                      >
+                      <div className="bg-white  w-16 h-16 rounded-2xl text-center py-4 text-xl  text-black  absolute right-3 top-4">
                         {contact.name[0]}
                       </div>
-                      <div className="pt-5 text-xl cursor-default">
+                      <div className="absolute right-24 top-5 text-xl">
                         {contact.name}
                       </div>
                     </div>

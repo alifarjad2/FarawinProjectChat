@@ -46,7 +46,7 @@ function Login({ changeForm }) {
         </div>
       )}
 
-      <form className="w-3/12 h-5/6 bg-white m-auto rounded-lg pt-10 flex flex-col p-8 gap-14 overflow-hidden">
+      <form className="w-4/12 h-5/6 bg-white m-auto rounded-lg pt-10 flex flex-col p-8 gap-14 overflow-hidden max-lg:w-11/12 max-lg:h-fit ">
         <h1 className="text-center text-5xl font-bold">Login</h1>
         <div>
           <label className="text-sm" htmlFor="username">
