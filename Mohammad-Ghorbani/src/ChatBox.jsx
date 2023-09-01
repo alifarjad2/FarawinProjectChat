@@ -112,7 +112,7 @@ function ChatBox({
       </div>
       <div
         id="pv"
-        className="px-1 w-full h-5/6 overflow-y-auto max-lg:overflow-x-hidden scroll-smooth flex flex-col  gap-y-4"
+        className="px-1 w-full h-5/6 overflow-y-auto max-lg:overflow-x-hidden scroll-smooth flex flex-col gap-y-4"
       >
         {messages.map((message, index) => (
           <>
@@ -133,7 +133,7 @@ function ChatBox({
                   : "bg-[#6b8afe] rounded-3xl rounded-br-none text-right m-auto"
               } w-2/6 p-3 max-lg:w-2/3`}
             >
-              <div className="text-lg">{message.text}</div>
+              <p className="text-lg overflow-auto">{message.text}</p>
               <div className="text-xs">
                 <p
                   className={

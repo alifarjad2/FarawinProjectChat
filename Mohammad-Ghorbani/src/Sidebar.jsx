@@ -12,6 +12,7 @@ function Sidebar({
   handleContactButtonClick,
   openMenu,
   closeMenu,
+  allChats,
 }) {
   const [filterSearch, setFilterSearch] = useState("");
   const [showAddContact, setShowAddContact] = useState(false);
@@ -19,14 +20,6 @@ function Sidebar({
   const handleSearch = (e) => {
     setFilterSearch(e.target.value);
   };
-
-  //console.log(contact);
-  const resultFilterSearch = contact.filter((contact) => {
-    return (
-      contact.name.toLowerCase().includes(filterSearch.toLowerCase()) ||
-      contact.username.includes(filterSearch)
-    );
-  });
 
   const handleAddContact = () => {
     setShowAddContact(true);
@@ -39,6 +32,12 @@ function Sidebar({
   const handleContactClick = (name) => {
     setSelectedContact(name);
   };
+
+  const filteredContacts = contact.filter(
+    (contact) =>
+      contact.name.toLowerCase().includes(filterSearch.toLowerCase()) ||
+      contact.username.includes(filterSearch)
+  );
 
   return (
     <>
@@ -85,40 +84,51 @@ function Sidebar({
             </div>
           </div>
           {!contact ? (
-            <div className="text-white text-2xl m-auto font bold">
+            <div className="text-white text-2xl m-auto font-bold">
               مخاطبی وجود ندارد
             </div>
           ) : (
             <div className="custom-scrollbar w-11/12 h-full rounded-2xl m-auto overflow-y-auto overflow-x-hidden">
-              {resultFilterSearch.length === 0
-                ? contact.map((contact, index) => (
+              {filteredContacts.length === 0 ? (
+                <div className="text-white text-2xl text-center font-bold">
+                  مخاطب وجود ندارد
+                </div>
+              ) : (
+                filteredContacts.map((contact, index) => {
+                  const lastMessage = allChats.reduce((lastMessage, chat) => {
+                    if (
+                      (chat.sender === localStorage.myUsername &&
+                        chat.receiver === contact.username) ||
+                      (chat.receiver === localStorage.myUsername &&
+                        chat.sender === contact.username)
+                    ) {
+                      return chat;
+                    } else {
+                      return lastMessage;
+                    }
+                  }, null);
+
+                  return (
                     <div
                       key={index}
                       onClick={() => handleContactClick(contact)}
                       className="flex flex-row hover:bg-[#2E333D] rounded-3xl h-24 w-full m-auto cursor-pointer relative hover:text-black"
                     >
-                      <div className="bg-white  w-16 h-16 rounded-2xl text-center py-4 text-xl  text-black  absolute right-3 top-4">
+                      <div className="bg-white w-16 h-16 rounded-2xl text-center py-4 text-xl text-black absolute right-3 top-4">
                         {contact.name[0]}
                       </div>
                       <div className="absolute right-24 top-5 text-xl">
                         {contact.name}
                       </div>
+                      {lastMessage && (
+                        <div className="absolute top-[3.8rem] text-xs right-24 h-5 w-40 overflow-hidden">
+                          {lastMessage.text}
+                        </div>
+                      )}
                     </div>
-                  ))
-                : resultFilterSearch.map((contact, index) => (
-                    <div
-                      key={index}
-                      onClick={() => handleContactClick(contact)}
-                      className="flex flex-row hover:bg-[#2E333D] rounded-3xl h-24 w-full m-auto cursor-pointer relative hover:text-black"
-                    >
-                      <div className="bg-white  w-16 h-16 rounded-2xl text-center py-4 text-xl  text-black  absolute right-3 top-4">
-                        {contact.name[0]}
-                      </div>
-                      <div className="absolute right-24 top-5 text-xl">
-                        {contact.name}
-                      </div>
-                    </div>
-                  ))}
+                  );
+                })
+              )}
             </div>
           )}
         </div>

@@ -57,9 +57,22 @@ export default function Chat() {
         chat.sender === selectedContact.username &&
         chat.receiver === localStorage.myUsername
     );
+
     setSender(filteredSender);
     setReceiver(filteredReceiver);
   };
+  //console.log(allChats);
+  // const lastMessageContact = () => {
+  //   const chatMyContact = allChats.filter(
+  //     (chat) =>
+  //       chat.sender === contact.username &&
+  //       chat.receiver === localStorage.myUsername
+  //   );
+
+  //   console.log(contact[1].username);
+  //   return chatMyContact;
+  // };
+  // lastMessageContact();
 
   const handleContactButtonClick = () => {
     getContact();
@@ -88,6 +101,7 @@ export default function Chat() {
           contact={contact}
           setSelectedContact={setSelectedContact}
           handleContactButtonClick={handleContactButtonClick}
+          allChats={allChats}
         />
       </div>
     </div>
