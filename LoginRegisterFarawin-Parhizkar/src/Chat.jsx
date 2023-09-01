@@ -1,3 +1,5 @@
+// import sections : import is for having a file in this file that we have opened and use them here like css styles other components etc.
+
 import farawin from "farawin";
 import Input from "postcss/lib/input";
 import { useEffect, useState } from "react";
@@ -5,10 +7,15 @@ import "./App.css";
 import Refresh from "./assets/refresh-svgrepo-com.png";
 import Popup from "./popup";
 import SearchBar from "./searchbar";
-import RecieverChatMassage from "./resieverchatMassage";
+import RecieverChatMassage from "./resieverChatMassage";
 import { useRef } from "react";
 
+// this is the Main function of this component and I exported to the other component
+// we have the whole component of this page in this function
+// passing props in the function means I can use passed values from other components in this componenet
+
 export default function ChatPage(props) {
+  // state sections : we have many states like useState useRef and Effect to control or saving something or getting nonReact informations from the outside of the React with useEffect
   const [filteredContacts, setFilteredContacts] = useState(null);
   const [buttonToggle, setButtonToggle] = useState(null);
   const [buttonToggle2, setButtonToggle2] = useState(null);
@@ -23,17 +30,26 @@ export default function ChatPage(props) {
   const [selectedNumber, setSelectedNumber] = useState("");
   const [controlChats, setControlChats] = useState(false);
   const [controlContact, setControl] = useState(false);
-  const contactListController = useRef(null);
   const [sendText , setSendText] = useState("");
   const[isOpenEdit , setIsOpenEdit]=useState(false);
   const [editPhoneNumber,setEditPhoneNumber]=useState("")
   const [contactEditName , setContactEditName]=useState("");
+  const contactListController = useRef(null);
+
+
   console.log(buttonToggle2)
   console.log(filteredContacts);
   console.log(sendText);
+
+  // this condition is for controling useRef state
+  //در اینجا من یک اینتروال برای کنترل کردن مقدار یک استیت ساختم تا هر یک ثانیه اجرا شود و برای متوقف کردن آن در از حلقه شرط زیر استفاده کردم تا با چک کردن مقدار یوز رف که مقدار استیت را گرفته است شرط را کنترل کند و اینترل وال را متوقف کند
+
   if (contactListController?.current) {
     clearInterval(contactListController.current);
   }
+
+  // در اینجا یک اینتروال درست کردم تا مقدار متغیر مورد نظر را تورو فالس کند تا با استفاده از این متغیر در دپندنسی یک یوز افکت آن را هم کنترل میکند که دوباره اجرا شود
+  // ست اینتروال یک تابع تایم دار برای کنترل استیت های تکرار شونده است تا از ری رندر زیاد آن ها جلوگیری کرد
 
   contactListController.current = setInterval(() => {
     if (buttonToggle == null) {
@@ -42,9 +58,16 @@ export default function ChatPage(props) {
       setControl(true);
     }
   }, 1000);
+  
+  // یوز افکت یک استیت برای گرفتن یک مقدار خارج از ری اکت است مانند فچ یا اطلاعات سرور
+  // در دپندنسی آن میتوان مقادیری قرار داد تا ری رندر آن را بتوان کنترل کرد
 
   useEffect(() => {
+
     let ignore = false;
+
+    // getting contacts from api
+
     farawin.getContacts((res) => {
       if (!ignore) {
         setFilteredContacts(
@@ -54,7 +77,7 @@ export default function ChatPage(props) {
         );
       }
     });
-
+    // for controlling useEffect run or not 
     return () => {
       ignore = true;
     };
@@ -62,21 +85,25 @@ export default function ChatPage(props) {
 
   console.info(selectedNumber);
 
+  // a function for refresh chat control the useEffects when you press the refresh buttons for chats
   const handleRefreshChat = () => {
     setButtonToggle2(Math.random());
     setControlChats(true);
   };
+  // a function for refresh chat control the useEffects when you press the refresh buttons for contacts
   const handleRefresh = () => {
     console.log(filteredContacts);
     setButtonToggle(Math.random());
   };
-
+  // a function for openning pop up section when you press the Add
   const handleAddContact = () => {
     setIsOpenAdd(!isOpenAdd);
   };
+  // same as the last one for Delete contact
   const handleDeleteContact = () => {
     setIsOpenDelete(!isOpenDelete);
   };
+  // this is a function that control the phone number value which is user fill it 
   const handleAddPhoneChange = (event) => {
     var addPhoneNumber = event.target.value;
     const mobileRegex = farawin.mobileRegex;
@@ -92,6 +119,7 @@ export default function ChatPage(props) {
       setIsValidPhone(false);
     }
   };
+  // same as the last one
   const handleDeleteChange = (event) => {
     var deletePhoneNumber = event.target.value;
     const mobileRegex = farawin.mobileRegex;
@@ -107,6 +135,7 @@ export default function ChatPage(props) {
       setIsValidPhone(false);
     }
   };
+  // same as the last one but for the name input
   const handleAddNameChange = (event) => {
     const contactName = event.target.value;
     const regex = /^.{3,}$/;
@@ -121,6 +150,7 @@ export default function ChatPage(props) {
       setIsValidName(false);
     }
   };
+  // in this function phone number and a name will be send to the server for adding contacts 
   const handleAddMembers = async () => {
     const phoneSend = addPhoneNumber;
     const nameSend = contactName;
@@ -131,6 +161,7 @@ export default function ChatPage(props) {
       alert(resultAdd.message);
     }
   };
+  // same as the last one for delete contact
   const handleDeleteMembers = async () => {
     const deletePhoneSend = deletePhoneNumber;
     const resultDelete = await farawin.testDeleteContact(deletePhoneSend);
@@ -140,9 +171,11 @@ export default function ChatPage(props) {
       alert(resultDelete.message);
     }
   };
+  // its a function for Edit contact pop up section
   const handleEditContact = ()=>{
     setIsOpenEdit(!isOpenEdit);
   }
+  // this is a function that will edit the selected contact by name and phone number
   const handleEditMember = async()=>{
     const resultEdit = await farawin.testEditContact(editPhoneNumber , contactEditName);
     if(resultEdit.code !== 200){
@@ -151,6 +184,7 @@ export default function ChatPage(props) {
       alert(resultEdit.message)
     }
   }
+  // this is a function that control the name input in the edit member pop up
   const handleEditNameChange = (event) => {
     const contactName = event.target.value;
     const regex = /^.{3,}$/;
@@ -165,6 +199,7 @@ export default function ChatPage(props) {
       setIsValidName(false);
     }
   };
+  // same as the last one but for phone number
   const handleEditPhoneChange = (event) => {
     var PhoneNumber = event.target.value;
     const mobileRegex = farawin.mobileRegex;
@@ -180,10 +215,12 @@ export default function ChatPage(props) {
       setIsValidPhone(false);
     }
   };
+  //  this is a function for getting value from send chat input and we get the text that user wants to send it 
   const handleSendTextsChange = (event)=>{
     const text = event.target.value;
     setSendText(text);
   };
+  // this is a function that send the text to the contact by the server
   const handleTextSender=async()=>{
     const toUser = selectedNumber;
     const textSend = sendText;
@@ -194,9 +231,12 @@ export default function ChatPage(props) {
       alert(resultSend.message)
     }
   };
+  // we have 3 variable that control the buttons in the pop ups by filling the inputs in the right way by the chat laws
   const isSabtDisabled = !isValidPhone || !isValidName;
   const isHazfDisabled = !isValidPhone;
   const isEditDisabled = !isValidPhone || !isValidName;
+
+  // a simple js function for showing or hiding contact menu in the smaller devices 
   const handleShowMenu = () => {
     const contactMenu = document.getElementById("Contact-menu");
     const chatContainer = document.getElementById("chat-container");
@@ -220,6 +260,7 @@ export default function ChatPage(props) {
     contactMenu.style.top = "0";
     contactMenu.style.right = "0";
   };
+  // same as the last one for closing menu
   const handleCloseMenu = () => {
     const contactMenu = document.getElementById("Contact-menu");
     const closeContactMenu = document.getElementById("close-contact-menu");
@@ -227,11 +268,14 @@ export default function ChatPage(props) {
     contactMenu.style.display = "none";
     closeContactMenu.style.display = "none";
   };
-
+  // returning section in the main function is for returning elemnts that we want to show to the user by the conditions or other things that we want
   return (
     <div dir="rtl" lang="fa">
+      {/* pop up for edit contact */}
          {isOpenEdit && (
+          // a component for showing pop ups 
         <Popup
+        // i send the elements with this content to the pop up component because I have variable pop ups and I need to add them here by my needs
           content={
             <>
               <button
@@ -290,6 +334,7 @@ export default function ChatPage(props) {
           }
         />
       )}
+      {/* pop up for delete contact */}
       {isOpenDelete && (
         <Popup
           content={
@@ -330,6 +375,7 @@ export default function ChatPage(props) {
           }
         />
       )}
+      {/* pop up for adding contact */}
       {isOpenAdd && (
         <Popup
           content={
@@ -390,17 +436,20 @@ export default function ChatPage(props) {
           }
         />
       )}
-
+      {/* main container for the whole chat page */}
       <div className="bg-[#34393C]">
         <section
           className="h-screen flex align-middle justify-center w-screen"
           id="Container"
         >
+          {/* contact menu container */}
           <div
             id="Contact-menu"
             className="h-screen bg-[#202329] rounded-r-2xl lg:block min-[425px]:hidden min-[375px]:hidden min-[320px]:hidden p-2"
           >
+            {/* contact menu header for needed buttons like refresh , add ,etc. */}
             <div className="flex justify-center items-center gap-1 mt-[27px] w-full">
+              {/* button for closing menu */}
               <button
                 id="close-contact-menu"
                 onClick={handleCloseMenu}
@@ -417,6 +466,7 @@ export default function ChatPage(props) {
                   <path d="M 7 4 C 6.744125 4 6.4879687 4.0974687 6.2929688 4.2929688 L 4.2929688 6.2929688 C 3.9019687 6.6839688 3.9019687 7.3170313 4.2929688 7.7070312 L 11.585938 15 L 4.2929688 22.292969 C 3.9019687 22.683969 3.9019687 23.317031 4.2929688 23.707031 L 6.2929688 25.707031 C 6.6839688 26.098031 7.3170313 26.098031 7.7070312 25.707031 L 15 18.414062 L 22.292969 25.707031 C 22.682969 26.098031 23.317031 26.098031 23.707031 25.707031 L 25.707031 23.707031 C 26.098031 23.316031 26.098031 22.682969 25.707031 22.292969 L 18.414062 15 L 25.707031 7.7070312 C 26.098031 7.3170312 26.098031 6.6829688 25.707031 6.2929688 L 23.707031 4.2929688 C 23.316031 3.9019687 22.682969 3.9019687 22.292969 4.2929688 L 15 11.585938 L 7.7070312 4.2929688 C 7.5115312 4.0974687 7.255875 4 7 4 z" />
                 </svg>
               </button>
+              {/* button for refreshing contact lists */}
               <button
                 id="refresh-contact"
                 onClick={handleRefresh}
@@ -424,18 +474,21 @@ export default function ChatPage(props) {
               >
                 <img className="w-[22px] h-[22px]" src={Refresh} alt="" />
               </button>
+              {/* button for adding contacts  */}
               <button
                 onClick={handleAddContact}
                 className="hover:bg-blue-400 w-fit rounded-lg p-1 "
               >
                 Add
               </button>
+              {/* button for deleting contacts */}
               <button
                 onClick={handleDeleteContact}
                 className="hover:bg-blue-400 w-fit rounded-lg p-1 "
               >
                 Del
               </button>
+              {/* button for editing contacts  */}
               <button
                className="hover:bg-blue-400 w-fit rounded-lg p-1" 
                onClick={handleEditContact}
@@ -443,7 +496,7 @@ export default function ChatPage(props) {
                 Edit
               </button>
             </div>
-
+            {/* search bar section with calling back a component for searching contacts */}
             <div id="search-bar" className="flex pt-4 mb-5 pl-2">
               <SearchBar data={filteredContacts} set={setSelectedContact} number={setSelectedNumber} />
               <svg
@@ -454,7 +507,7 @@ export default function ChatPage(props) {
                 <path d="M 21 3 C 11.601563 3 4 10.601563 4 20 C 4 29.398438 11.601563 37 21 37 C 24.355469 37 27.460938 36.015625 30.09375 34.34375 L 42.375 46.625 L 46.625 42.375 L 34.5 30.28125 C 36.679688 27.421875 38 23.878906 38 20 C 38 10.601563 30.398438 3 21 3 Z M 21 7 C 28.199219 7 34 12.800781 34 20 C 34 27.199219 28.199219 33 21 33 C 13.800781 33 8 27.199219 8 20 C 8 12.800781 13.800781 7 21 7 Z" />
               </svg>
             </div>
-
+            {/* this section is contained the contact lists that we get from server */}
             <div className="overflow-scroll overflow-x-hidden h-[70%]">
               {!controlContact ? (
                 <p className="text-white font bold">مخاطبی وجود ندارد</p>
@@ -490,15 +543,18 @@ export default function ChatPage(props) {
               )}
             </div>
           </div>
+          {/* chat page main container */}
           <div
             id="chat-container"
             className="bg-[#202329] h-screen lg:w-5/12 flex flex-col items-start lg:rounded-l-2xl md:w-screen min-[425px]:w-screen min-[375px]:w-screen min-[320px]:w-screen max-md:rounded-lg max-[425px]:rounded-lg max-[375px]:rounded-lg max-[320px]:rounded-lg"
           >
+            {/* chat header section that has refresh button for chats and a header element for showing contact's name */}
             <div
               id="chat-header"
               className="w-11/12 flex justify-between align-middle p-4 mt-5 mx-auto rounded-lg h-fit"
             >
               <div className="flex gap-3 items-center">
+                {/* button for showing contact menu in the smaller devices */}
                 <button
                   onClick={handleShowMenu}
                   className=" p-2 hover:bg-blue-400 rounded-2xl lg:hidden"
@@ -516,15 +572,17 @@ export default function ChatPage(props) {
                     <path d="M5 19.9998C4.44772 19.9998 4 20.4475 4 20.9998C4 21.552 4.44772 21.9997 5 21.9997H22C22.5523 21.9997 23 21.552 23 20.9998C23 20.4475 22.5523 19.9998 22 19.9998H5Z" />
                   </svg>
                 </button>
+                {/* refresh button for showing chats and update them by every tap */}
                 <button
                   onClick={handleRefreshChat}
                   className=" p-2 hover:bg-blue-400 rounded-2xl"
                 >
                   Refresh Chat
                 </button>
+                {/* header element for showing contact's name */}
                 <h1
                   id="chat-header-title"
-                  className="font-bold text-lg bg-white text-black rounded-full p-2 pr-2"
+                  className="font-bold text-lg text-white rounded-full p-2 pr-2"
                 >
                   {selectedContact}
                 </h1>
@@ -534,14 +592,16 @@ export default function ChatPage(props) {
               id="chat-body"
               className=" mx-auto p-5 h-3/4 w-full overflow-scroll overflow-x-hidden"
             >
+              {/* a component for getting and sorting chats coming from the server */}
               <div className="p-2 mr-5 h-full w-full">
                 {controlChats && (
-                  
-                    <RecieverChatMassage toggle={buttonToggle2} number={selectedNumber} />
+                    // passing 3 porps for the reciver chat component 
+                    <RecieverChatMassage toggle={buttonToggle2} number={selectedNumber} contactName={selectedContact} />
                   
                 )}
               </div>
             </div>
+            {/* chat sender input section */}
             <div id="chat-sender" className="w-full p-3 flex justify-center">
               <input
               onChange={handleSendTextsChange}

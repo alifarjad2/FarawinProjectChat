@@ -1,13 +1,14 @@
 import { useState } from "react";
-
+// main function with an export for using it as a component
 export default function SearchBar(props) {
+  // a state for saving user inputs
   const [searchInput, setSearchInput] = useState("");
-  
+  //getting user inputs 
   const handleChange = (e) => {
     e.preventDefault();
     setSearchInput(e.target.value);
   };
-
+  // filtering contacts by user search and show the specific contact that user wants to find it by name and phonenumber
   let filteredData = [];
   if (searchInput.length > 0) {
     filteredData = props.data.filter(
