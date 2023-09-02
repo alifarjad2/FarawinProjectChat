@@ -4,11 +4,31 @@ import AddContact from "./AddContact";
 import { useEffect, useRef, useState } from "react";
 import searchIcon from "./assets/Screenshot 2023-07-17 121255.png";
 
+<<<<<<< HEAD
+export default function SideBar({ sC, contacts, load, setC, chats }) {
+  const [isAddContactPage, setIsAddContactPage] = useState(false);
+  const loading = useRef();
+  const contactsContainer = useRef();
+  let lastM = (c) => {
+    let messages = chats
+      .filter(
+        (message) =>
+          message.receiver == c.username || message.sender == c.username
+      )
+      .sort((a, b) => new Date(a.date) - new Date(b.date));
+    if (messages.length > 0) {
+      let clasc = { ...messages[messages.length - 1] };
+      return clasc;
+    }
+    return { text: "پیامی وجود ندارد!", date: false };
+  };
+=======
 export default function SideBar({ sC, contacts, load, setC, lastM }) {
   const [isAddContactPage, setIsAddContactPage] = useState(false);
   const loading = useRef();
   const contactsContainer = useRef();
   
+>>>>>>> 0ce7ebd73975271029a0b45a34e4dcc7e5c93c75
 
   return (
     <>
@@ -110,12 +130,16 @@ export default function SideBar({ sC, contacts, load, setC, lastM }) {
         >
           {contacts?.map((contact) => (
             <Contact
+<<<<<<< HEAD
+              lastM={lastM(contact)}
+=======
               last={() => {
                 if(e.key.search(contact.username)){
                   return e.value;
                 }
                 return "No Message";
               }}
+>>>>>>> 0ce7ebd73975271029a0b45a34e4dcc7e5c93c75
               key={contact.username}
               contact={contact}
               set={sC}

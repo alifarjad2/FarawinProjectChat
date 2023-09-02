@@ -8,6 +8,92 @@ import Recevie from "./RecevieMessage";
 import Send from "./SendMessage";
 import ChatDate from "./ChatDate";
 
+<<<<<<< HEAD
+export default function ChatBox({
+  prof,
+  header,
+  num,
+  chats,
+  setSelect,
+  setC,
+  setChats,
+}) {
+  const [isEditContactPage, setIsEditContactPage] = useState(false);
+  const [message, setMessage] = useState("");
+  let ref = useRef();
+  let duplicateMessage = [];
+
+  let showMessage = (message, key) => {
+    if (message.sender == num) {
+      duplicateMessage.push(message);
+      return (
+        <>
+          {duplicateMessage.length <= 1 ? (
+            <ChatDate chats={message} />
+          ) : `${new Date(
+              duplicateMessage[duplicateMessage.length - 2].date
+            ).getMonth()} ${new Date(
+              duplicateMessage[duplicateMessage.length - 2].date
+            ).getDate()}` !=
+            `${new Date(message.date).getMonth()} ${new Date(
+              message.date
+            ).getDate()}` ? (
+            <ChatDate chats={message} />
+          ) : (
+            ""
+          )}
+          <Recevie
+            key={key}
+            text={message.text}
+            pro={prof}
+            name={header}
+            date={`${
+              new Date(message.date).getHours() < 10
+                ? `0${new Date(message.date).getHours()}`
+                : new Date(message.date).getHours()
+            }:${
+              new Date(message.date).getMinutes() < 10
+                ? `0${new Date(message.date).getMinutes()}`
+                : new Date(message.date).getMinutes()
+            }`}
+          />
+        </>
+      );
+    } else if (message.receiver == num) {
+      duplicateMessage.push(message);
+      return (
+        <>
+          {duplicateMessage.length <= 1 ? (
+            <ChatDate chats={message} />
+          ) : `${new Date(
+              duplicateMessage[duplicateMessage.length - 2].date
+            ).getMonth()} ${new Date(
+              duplicateMessage[duplicateMessage.length - 2].date
+            ).getDate()}` !=
+            `${new Date(message.date).getMonth()} ${new Date(
+              message.date
+            ).getDate()}` ? (
+            <ChatDate chats={message} />
+          ) : (
+            ""
+          )}
+          <Send
+            key={key}
+            text={message.text}
+            pro={localStorage.prof}
+            name={localStorage.name}
+            date={`${
+              new Date(message.date).getHours() < 10
+                ? `0${new Date(message.date).getHours()}`
+                : new Date(message.date).getHours()
+            }:${
+              new Date(message.date).getMinutes() < 10
+                ? `0${new Date(message.date).getMinutes()}`
+                : new Date(message.date).getMinutes()
+            }`}
+          />
+        </>
+=======
 export default function ChatBox({ prof, header, num, chats, setSelect, setC  , setChats }) {
   const [isEditContactPage, setIsEditContactPage] = useState(false);
   const [message, setMessage] = useState("");
@@ -49,6 +135,7 @@ export default function ChatBox({ prof, header, num, chats, setSelect, setC  , s
               : new Date(message.date).getMinutes()
           }`}
         />
+>>>>>>> 0ce7ebd73975271029a0b45a34e4dcc7e5c93c75
       );
     }
     return;
@@ -127,6 +214,19 @@ export default function ChatBox({ prof, header, num, chats, setSelect, setC  , s
       {
         //#region MiddleChat
       }
+<<<<<<< HEAD
+      <div
+        id="messageBox"
+        className="grow w-full overflow-y-scroll p-1 flex flex-col pr-[10px] h-full"
+      >
+        {chats.length != 0 ? (
+          <>
+            <div className="grow"></div>
+            <div id="Messages1Contact" className="grid row-auto w-full">
+              {chats.map((key, message) => showMessage(key, message))}
+            </div>
+          </>
+=======
       <div id="messageBox" className="grow w-full pr-[10px] h-full flex">
         {chats.length != 0 ? (
           <div
@@ -136,6 +236,7 @@ export default function ChatBox({ prof, header, num, chats, setSelect, setC  , s
             {<ChatDate chats={chats} />}
             {chats.map((key, message) => showMessage(key, message))}
           </div>
+>>>>>>> 0ce7ebd73975271029a0b45a34e4dcc7e5c93c75
         ) : (
           <div className="m-auto">No Message</div>
         )}
@@ -167,8 +268,13 @@ export default function ChatBox({ prof, header, num, chats, setSelect, setC  , s
             !message && "hidden"
           } rotate-[-90deg] self-center hover:cursor-pointer hover:fill-[#2F313D]`}
           onClick={() => {
+<<<<<<< HEAD
+            farawin.testAddChat(num, message, (mess) => {
+              if (mess.code == 200) {
+=======
             farawin.testAddChat(num, message,(mess)=>{
               if(mess.code == 200){
+>>>>>>> 0ce7ebd73975271029a0b45a34e4dcc7e5c93c75
                 farawin.getChats((res) => {
                   setChats(
                     res.chatList.filter(
@@ -177,7 +283,11 @@ export default function ChatBox({ prof, header, num, chats, setSelect, setC  , s
                         message.receiver == localStorage.username
                     )
                   );
+<<<<<<< HEAD
+                });
+=======
                 })
+>>>>>>> 0ce7ebd73975271029a0b45a34e4dcc7e5c93c75
               }
             });
             ref.current.value = "";

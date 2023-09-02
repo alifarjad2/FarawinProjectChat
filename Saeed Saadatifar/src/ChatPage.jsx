@@ -9,7 +9,11 @@ export default function ChatPage() {
   const [contactList, setContactList] = useState(null);
   const [isLoadedContact, setIsLoadedContact] = useState(false);
   const [chatList, setChatList] = useState(null);
+<<<<<<< HEAD
+  const [lastMessages, setLastMessages] = useState(null);
+=======
   const [lastMessages , setLastMessages] = useState(null)
+>>>>>>> 0ce7ebd73975271029a0b45a34e4dcc7e5c93c75
 
   useEffect(() => {
     farawin.getUsers((res) => {
@@ -39,6 +43,10 @@ export default function ChatPage() {
       setIsLoadedContact(true);
     });
   }, []);
+<<<<<<< HEAD
+
+  
+=======
   
   // #region LastMessage
   let LastMessage = () => {
@@ -71,6 +79,7 @@ export default function ChatPage() {
   },[chatList]);
   // #endregion
 
+>>>>>>> 0ce7ebd73975271029a0b45a34e4dcc7e5c93c75
   // #region ProfileContent
   const createImageProfile = () => {
     let imageWordProfile = "";
@@ -98,13 +107,22 @@ export default function ChatPage() {
     <div className="flex items-center justify-center" dir="rtl">
       <div className="flex items-center justify-center h-screen max-w-[962px] w-screen">
         <div className="w-screen h-screen p-[35px] bg-[#21242B] text-[#FAFBFD] flex">
+<<<<<<< HEAD
+          {chatList && <SideBar
+            chats = {chatList && chatList}
+=======
           <SideBar
             lastM={lastMessages && lastMessages}
+>>>>>>> 0ce7ebd73975271029a0b45a34e4dcc7e5c93c75
             sC={setSelectedontact}
             load={isLoadedContact}
             contacts={contactList && contactList}
             setC={setContactList}
+<<<<<<< HEAD
+          />}
+=======
           />
+>>>>>>> 0ce7ebd73975271029a0b45a34e4dcc7e5c93c75
           {selectedContact && (
             <ChatBox
               setChats={setChatList}
