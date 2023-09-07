@@ -1,34 +1,74 @@
 
 import Chats from "./Chats";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { toast } from "react-toastify";
 import farawin from "farawin";
+import { PhoneContext, UserContext } from "../pages/Home";
 
 const Sidebar = () => {
     const [clicked, setClicked] = useState(false);
     const [plus, setPlus] = useState(false);
     const [mobile, setmobile] = useState('');
     const [name, setName] = useState('');
+    const [donefordelete, setDonefordelete] = useState(false);
     const [formErrors, setformErrors] = useState({});
-    const [flag, setFlag] = useState('');
+    const [deletecontact, setDeletecontact] = useState("");
+    const [userphone, setUserphone] = useContext(PhoneContext);
+    const [user, setUser] = useContext(UserContext);
 
 
-    
-if(flag === true){
-    location.reload();
-}
+    const handleDelete = () => {
 
-    const validate = (mobile,name) =>{
-        const errors ={};
-        if(!mobile){
-            errors.mobile = "این فیلد الزامی است"
-        }else if(!farawin.mobileRegex.test(mobile)){
-            errors.mobile ="شماره موبایل وارد شده معتبر نیست"
+        setDonefordelete(true);
+        setDeletecontact(true);
+
+        async function deletecontacts() {
+            try {
+                if (deletecontact && donefordelete) {
+
+                    const response = await farawin.testDeleteContact(userphone);
+                    const { code, message } = response;
+                    if (code === "200") {
+                        toast.success(message, {
+                            position: "top-right",
+                            closeButton: true,
+                            closeOnClick: true,
+                        }
+                        )
+                        setDeletecontact(false);
+                        location.reload()
+                    } else {
+                        toast.info(message, {
+                            position: "top-right",
+                            closeButton: true,
+                            closeOnClick: true,
+                        }
+                        )
+                        setDeletecontact(false);
+                    }
+
+                }
+            } catch (error) {
+                console.log(error);
+
+            }
         }
-        if(!name){
+        
+        deletecontacts();
+    }
+
+
+    const validate = (mobile, name) => {
+        const errors = {};
+        if (!mobile) {
+            errors.mobile = "این فیلد الزامی است"
+        } else if (!farawin.mobileRegex.test(mobile)) {
+            errors.mobile = "شماره موبایل وارد شده معتبر نیست"
+        }
+        if (!name) {
             errors.name = "این فیلد الزامی است"
-        }else if(name.length < 3){
-            errors.name ="حداقل باید 3 کاراکتر باشد"
+        } else if (name.length < 3) {
+            errors.name = "حداقل باید 3 کاراکتر باشد"
         }
 
         return errors;
@@ -38,7 +78,7 @@ if(flag === true){
     const handleSubmit = (e) => {
         e.preventDefault();
         setformErrors(validate(mobile, name))
-        
+
         async function getValues() {
             try {
                 if (farawin.mobileRegex.test(farawin.toEnDigit(mobile)) && name.length >= 3) {
@@ -53,7 +93,7 @@ if(flag === true){
                         }
                         )
                         setPlus(false);
-                    }else{
+                    } else {
                         toast.info(message, {
                             position: "top-right",
                             closeButton: true,
@@ -75,6 +115,7 @@ if(flag === true){
 
     return (
         <>
+
             <img style={{ marginRight: "20px", cursor: "pointer" }}
                 onClick={() => setClicked(true)}
                 src="../../public/img/person-lines-fill.svg"
@@ -123,12 +164,12 @@ if(flag === true){
                     <i onClick={() => setPlus(true)}
                         style={
                             {
-                                color: "white",
+                                color: "green",
                                 marginRight: "160px",
                                 paddingLeft: "20px",
                                 fontSize: "20px",
                                 marginTop: "18px",
-                                cursor:"pointer"
+                                cursor: "pointer"
                             }}
                         className="fa fa-plus"
                     ></i>
@@ -137,20 +178,70 @@ if(flag === true){
 
                     <i style={
                         {
-                            color: "white",
+                            color: "red",
                             paddingLeft: "20px",
                             fontSize: "20px",
                             marginTop: "18px",
-                            cursor:"pointer"
+                            cursor: "pointer"
                         }}
-                        onClick={() => setFlag(true)}
-                        className="fa fa-retweet"
+                        onClick={handleDelete}
+                        className="fa fa-trash"
                     ></i>
 
                     <Chats />
 
                 </div>
             </div>
+
+            <div style={deletecontact ? ({
+                width: "300px",
+                position: "absolute",
+                display: "flex",
+                zIndex: "1000",
+                background: "linear-gradient(10deg, rgb(35, 32, 64) 0%, rgb(34, 166, 211) 98.77%)",
+                borderRadius: "25px",
+                padding: "30px",
+                marginTop: "10px",
+                marginRight: "99px",
+                animation: "fadeInLeft 1s",
+                alignItems: "center",
+
+            }) : (null)} className="col-start-1 col-span-1 hidden ">
+                <div style={{
+                        marginBottom:"111px"
+                    }}>
+                     <i onClick={() => setDeletecontact(false)}
+                    style={{
+                        color: "white",
+                        cursor: "pointer",
+                        position: "absolute",
+                    }}
+                    className="fa fa-times"></i>
+                </div>
+               
+                <div >
+                    <div style={{
+                        color: "white",
+                        cursor: "pointer"
+                    }}> آیا مایل به حذف {user} هستید؟</div>
+
+                    <button onClick={handleDelete} style={{
+                        paddingLeft: "660px",
+                        background: "linear-gradient(92deg, rgb(135, 252, 196) 0%, rgb(40, 193, 245) 98.77%)",
+                        borderRadius: "25px",
+                        marginLeft: "11px",
+                        marginTop: "25px",
+                        paddingLeft: "110px",
+                        paddingRight: "110px",
+                        paddingTop: "5px",
+                        paddingBottom: "5px",
+                        color: "white",
+
+                    }}> بله</button>
+                </div>
+
+            </div>
+
 
             <div
                 style={plus ? ({
@@ -164,15 +255,17 @@ if(flag === true){
                     marginTop: "10px",
                     marginRight: "66px",
                     animation: "fadeInLeft 1s",
-                    
+
                 }) : (null)}
                 className="col-start-1 col-span-1 hidden ">
 
                 <form onSubmit={handleSubmit}>
                     <i onClick={() => setPlus(false)}
-                        style={{ color: "white",
-                         marginLeft: "280px",
-                         cursor:"pointer" }}
+                        style={{
+                            color: "white",
+                            marginLeft: "280px",
+                            cursor: "pointer"
+                        }}
                         className="fa fa-times"></i>
                     <h4 style={{
                         color: "white",
@@ -209,16 +302,16 @@ if(flag === true){
                             type="tel"
                             className="form-control"
                             placeholder="شماره موبایل را وارد کنید ..."
-                            
+
                         />
                         <p
-                       style={{
-                        color:"orange",
-                        fontSize:"12px",
-                        fontFamily:"BYekan",
-                        marginLeft:"55px"
-                
-                    }}>{formErrors.mobile}</p>
+                            style={{
+                                color: "orange",
+                                fontSize: "12px",
+                                fontFamily: "BYekan",
+                                marginLeft: "55px"
+
+                            }}>{formErrors.mobile}</p>
                     </div>
 
                     <div>
@@ -253,12 +346,12 @@ if(flag === true){
                             aria-describedby="name"
                         />
                         <p
-                       style={{
-                        color:"orange",
-                        fontSize:"12px",
-                        fontFamily:"BYekan",
-                        marginLeft:"55px"
-                    }}>{formErrors.name}</p>
+                            style={{
+                                color: "orange",
+                                fontSize: "12px",
+                                fontFamily: "BYekan",
+                                marginLeft: "55px"
+                            }}>{formErrors.name}</p>
                     </div>
 
                     <button style={{

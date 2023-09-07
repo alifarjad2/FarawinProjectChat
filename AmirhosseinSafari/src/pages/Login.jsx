@@ -8,11 +8,15 @@ import { Link , useNavigate} from "react-router-dom";
 
 const Login = () => {
 
+   
+
     const navigate = useNavigate();
     const [mobile, setmobile] = useState('');
     const [password, setpassword] = useState('');
     const [formErrors, setformErrors] = useState({});
+    
 
+    localStorage.setItem('phone',mobile );
 
     const alertMess = () => {
         toast.info("این امکان هنوز پیاده سازی نشده است.", {
@@ -46,7 +50,7 @@ const Login = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         setformErrors(validate(mobile,password))
-
+    
         async function getValues() {
             try {
                 if (farawin.mobileRegex.test(farawin.toEnDigit(mobile)) && validPass.test(password)) {
@@ -80,6 +84,7 @@ const Login = () => {
         
     }
 
+console.log(mobile)
     return (
 
         <div className="CON">
