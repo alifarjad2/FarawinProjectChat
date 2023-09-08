@@ -1,10 +1,12 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
+import React from "react";
+import ReactDOM from "react-dom/client";
 import FormAuthComponent from "./FormAuth";
-import './index.css';
+import { Chat } from "./Chat";
+import "./index.css";
 
-ReactDOM.createRoot(document.getElementById('root')).render(
+ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <FormAuthComponent />
-  </React.StrictMode>,
+    {/* {( !localStorage.token ? <FormAuthComponent /> : <Chat/>)} */}
+  </React.StrictMode>
 );
