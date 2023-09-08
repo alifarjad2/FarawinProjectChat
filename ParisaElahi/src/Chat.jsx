@@ -7,6 +7,7 @@ import pm from "./assets/image/pm.png";
 import clip from "./assets/image/clip.svg";
 
 export const Chat = () => {
+  
   const [phoneNum, setPhoneNum] = useState("");
   const [name, setName] = useState("");
 
