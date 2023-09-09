@@ -22,3 +22,16 @@ body {
 #root {
   height: 100%;
 }
+
+input::placeholder {
+  font-size: 0.8em;
+}
+
+#LoginBtn {
+  background: -webkit-linear-gradient(right,#00dbde 20%,#fc00ff,#00dbde 20%,#fc00ff);
+}
+
+.userActive {
+  background-color: #30323e;
+}
+
