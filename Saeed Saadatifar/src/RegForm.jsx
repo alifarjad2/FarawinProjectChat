@@ -5,16 +5,22 @@ export default function RegForm() {
   // #region States
   const [userName, setUsename] = useState("");
   const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
   const [verificationPass, setVerificationPass] = useState("");
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [isRepeatPasswordVisible, setIsRepeatPasswordVisible] = useState(false);
   const [isFirstUserInp, setIsFirstUserInp] = useState(true);
   const [isFirstPassInp, setIsFirstPassInp] = useState(true);
+  const [isFirstNameInp, setIsFirstNameInp] = useState(true);
   const [isFirstRepeatPassInp, setIsFirstRepeatPassInp] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   // #endregion
 
   // #region Functions
+  let nameValid = ()=>{
+    if(name.length >= 3) return true;
+    return false;
+  }
   let userNameValid = () => {
     if (!farawin.mobileRegex.test(userName)) {
       return false;
@@ -52,7 +58,7 @@ export default function RegForm() {
 
   return (
     <>
-      <h1 className="font-bold text-3xl mb-16">Register</h1>
+      <h1 className="font-bold text-3xl mb-16">Sign Up</h1>
       {
         //#region UserName
       }
@@ -82,6 +88,40 @@ export default function RegForm() {
         onInput={(event) => {
           setIsFirstUserInp(false);
           setUsename(event.target.value);
+        }}
+      />
+      {
+        //#endregion
+      }
+      {
+        //#region Name
+      }
+
+      <div className="flex self-start w-full mt-7">
+        <label htmlFor="Username" className="grow w-max opacity-70 self-start">
+          Name:
+        </label>
+        <span
+          className={
+            nameValid()
+              ? "hidden"
+              : isFirstNameInp
+              ? "hidden"
+              : "text-[12px] text-red-500 self-end italic"
+          }
+        >
+          Wrong
+        </span>
+      </div>
+      <input
+        id="Username"
+        maxLength={11}
+        type="text"
+        className="focus:outline-none border-black border-b-[1px] w-full border-opacity-30"
+        placeholder="Saeed"
+        onInput={(event) => {
+          setIsFirstNameInp(false);
+          setName(event.target.value);
         }}
       />
       {
@@ -271,7 +311,7 @@ export default function RegForm() {
             farawin.testRegister(
               userName,
               password,
-              "Saeed Saadatifar",
+              name,
               (response) => {
                 //response is object like {code: string, message: string}
                 //if code is '200' mean success
@@ -282,10 +322,29 @@ export default function RegForm() {
                 // این قسمت رو خودم تغییر دادم که اگر دکمه ثبت نام موفقیت آمیز بود پیام رو آلرت کنه و اگر غلط بود خطا را زیر دکمه ثبت نام چاپ کنه
                 if (success) {
                   console.log("result from api -> ", response);
+                  farawin.testLogin(userName, password, (response) => {
+                    //response is object like {code: string, message: string}
+                    //if code is '200' mean success
+                    //else mean error!
+                    //Goodluck:)
+      
+                    const success = response.code == "200";
+                    // این قسمت رو خودم تغییر دادم که اگر دکمه ثبت نام موفقیت آمیز بود پیام رو آلرت کنه و اگر غلط بود خطا را زیر دکمه ثبت نام چاپ کنه
+                    if (success) {
+                      console.log("result from api -> ", response);
+                      localStorage.username = userName;
+                      localStorage.name = name;
+                      alert(response.message);
+                      location.reload();
+                    } else {
+                      console.error("error from api -> ", response);
+                      alert(response.message);
+                    }
+                  });
                 } else {
                   console.error("error from api -> ", response);
+                  alert(response.message);
                 }
-                alert(response.message);
                 setIsLoading(false);
               }
             );
@@ -305,7 +364,7 @@ export default function RegForm() {
               fill="currentFill"
             />
           </svg>
-          <span class="sr-only">Loading...</span>
+          <span className="sr-only">Loading...</span>
         </div>
         {!isLoading && 'Register'}
       </button>
