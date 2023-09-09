@@ -1,6 +1,6 @@
-import farawin from "farawin";
-import LoginForm from "./login";
-import RegisterForm from "./register";
+
+import LoginForm from "./Components/login";
+import RegisterForm from "./Components/register";
 import { useState } from "react";
 
 

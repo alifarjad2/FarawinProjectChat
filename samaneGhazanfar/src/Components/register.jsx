@@ -27,7 +27,11 @@ export default function RegisterForm({ch2}) {
         const mobileRegex = farawin.mobileRegex;
         
         if (mobileRegex.test(mobile)) {
-        await farawin.testRegister(mobile,pass, "NEW ACCOUNT" , (res) => alert(res.message));
+        const res = await farawin.testRegister(mobile,pass, "NEW ACCOUNT");
+        alert(res.message);
+        if(res.code == 200){
+          location.reload();
+        }
       }
       }
 
