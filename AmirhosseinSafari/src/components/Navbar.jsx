@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
 import farawin from "farawin";
+import { useContext } from "react";
+import { UserContext , PhoneContext } from "../pages/Home";
 
 
 
@@ -8,21 +10,23 @@ import farawin from "farawin";
 
 const Navbar = () => {
     const [edit, setEdit] = useState(false);
-    const [mobile, setmobile] = useState('');
     const [name, setName] = useState('');
     const [formErrors, setformErrors] = useState({});
     const [flag, setFlag] = useState('');
-
+   
+    const [user , setUser] = useContext(UserContext);
+    const [userphone , setUserphone] = useContext(PhoneContext);
+    
   
     if(flag === true){
         location.reload();
     }
 
-    const validate = (mobile,name) =>{
+    const validate = (userphone,name) =>{
         const errors ={};
-        if(!mobile){
+        if(!userphone){
             errors.mobile = "این فیلد الزامی است"
-        }else if(!farawin.mobileRegex.test(mobile)){
+        }else if(!farawin.mobileRegex.test(userphone)){
             errors.mobile ="شماره موبایل وارد شده معتبر نیست"
         }
         if(!name){
@@ -37,13 +41,13 @@ const Navbar = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        setformErrors(validate(mobile, name))
+        setformErrors(validate(userphone, name))
         
         async function getValues() {
             try {
-                if (farawin.mobileRegex.test(farawin.toEnDigit(mobile)) && name.length >= 3) {
+                if (farawin.mobileRegex.test(farawin.toEnDigit(userphone)) && name.length >= 3) {
 
-                    const response = await farawin.testEditContact(mobile, name);
+                    const response = await farawin.testEditContact(userphone, name);
                     const { code, message } = response;
                     if (code === "200") {
                         toast.success(message, {
@@ -77,7 +81,12 @@ const Navbar = () => {
     return (
         <>
         
-            <div className="flex  items-center">
+            <div style={{background:"rgb(46, 51, 61)",
+                         borderRadius:"10px",
+                         paddingRight:"2px",
+                         paddingTop:"2px",
+                         paddingBottom:"2px"
+                        }} className="flex  items-center">
                 <div>
                      
                    
@@ -85,8 +94,12 @@ const Navbar = () => {
                             <div className="flex justify-between items-center">
                             
                             <div style={{ borderRadius:"15px"}} 
-                                className="text-center w-[50px] leading-[50px] bg-[#a9d2fe] ">ع م</div>
-                                <h6 className="text-[#e5e6ea]">علی موسوی</h6>
+                                className="text-center w-[50px] leading-[50px] bg-[#a9d2fe] ">
+                            {user === "" ? "?" : null}    
+                            {user.charAt(0)}{" "}
+                            {(user.charAt(0))!== user.charAt(user.length-1) ? user.charAt(user.length-1): null}
+                                     </div>
+                                <h6 className="text-[#e5e6ea]">{user === "" ? "یک مخاطب انتخاب کنید ..."  : null}{user}</h6>
                                 
                             </div>
                         </div>
@@ -97,10 +110,10 @@ const Navbar = () => {
                     <i onClick={() => setEdit(true)}
                         style={
                             {
-                                color:"white",
+                                color:"aqua",
                                 marginRight:"auto" ,
                                 paddingLeft:"20px" ,
-                                fontSize:"20px" ,
+                                fontSize:"20px" , 
                                 marginTop:"18px",
                                 cursor:"pointer"
                             }}  
@@ -114,7 +127,6 @@ const Navbar = () => {
                            cursor:'pointer'}} 
                             onClick={() => setFlag(true)}
                   className="fa fa-retweet ml-3"></i>
-                
             </div>
 
             <div
@@ -166,13 +178,10 @@ const Navbar = () => {
                             }}
                             id="mobile"
                             name="mobile"
-                            value={mobile}
-                            onChange={(e) =>
-                                setmobile(e.target.value)}
+                            value={userphone}
                             autoFocus
                             type="tel"
                             className="form-control"
-                            placeholder="شماره موبایل را وارد کنید ..."
                             aria-describedby="email-address"
                         />
                          <p
