@@ -5,24 +5,31 @@ import { AddContact } from "./AddContact";
 import { RemoveContact } from "./RemoveContact";
 import { Search } from "./search";
 import imageDrawerMenu from "../../img/drawer-menu.png";
-import imageAddContact from "../../img/addContact.png"
-import imageDeleteContact from "../../img/delete.png"
-import imageRefresh from "../../img/refresh.png"
-
+import imageAddContact from "../../img/addContact.png";
+import imageDeleteContact from "../../img/delete.png";
+import imageRefresh from "../../img/refresh.png";
+import imageEditContact from "../../img/editContact.png";
+import { EditContact } from "./EditContact";
 
 export const DrawerChat = (prop) => {
   // -------------------------------------------------------------------------------
   const [members, setMembers] = useState([]);
   const [searchMember, setSearchMember] = useState("");
-
-  const [reloadComponent,setReloadComponent] = useState(true);
+  // console.log(members);
+  const [reloadComponent, setReloadComponent] = useState(true);
   const [showAddContact, setShowAddContact] = useState(false);
+  const [showEditContact, setShowEditContact] = useState(false);
   const [showRemoveContact, setshowRemoveContact] = useState(false);
   const [showDrawer, setShowDrawer] = useState(true);
-// ---------------------------------------------------------------------------------
-const selectedHandler = (itemSelected) => {
-  return prop.selectedItem(itemSelected)
-}
+  // ---------------------------------------------------------------------------------
+  const hiddenOrShow = (v) => {
+    setShowEditContact(!v);
+  };
+
+  // ---------------------------------------------------------------------------------
+  const selectedHandler = (itemSelected) => {
+    return prop.selectedItem(itemSelected);
+  };
 
   // -----------------------------------------------------------------------
   const searchHandler = (value) => {
@@ -34,7 +41,7 @@ const selectedHandler = (itemSelected) => {
     {
       searched.length != 0 && value.length != 0
         ? setSearchMember(searched)
-        : location.reload();
+        : alert("موردی یافت نشد !");
     }
   };
   // -------------------------------------------------------------------
@@ -55,73 +62,80 @@ const selectedHandler = (itemSelected) => {
   // ------------------------------------------------------------------------------------
 
   return (
-    <div
+  
+    <div 
       className={
         showDrawer
-          ? "relative transition-all duration-700 overflow-x-hidden flex flex-col m-1 rounded-lg w-[400px] text-center px-4 "
+          ? "relative transition-all duration-700 overflow-x-hidden flex flex-col m-1 rounded-lg w-[300px] shrink-0 text-center px-4  border-l-2 border-blue-900 "
           : " transition-all duration-700 w-0 overflow-x-hidden hover:cursor-pointer mx-5"
       }
     >
-
-<div className="flex justify-between  items-center  h-9 mt-1 ">
-          <img
+      <div className="flex justify-start items-center  h-9 mt-1 ">
+        <img
           src={imageAddContact}
-            className={
-              showAddContact
-                ? " bg-slate-300 rounded-full h-8 px-3  mx-2 cursor-pointer"
-                : " bg-slate-500 rounded-full h-8 px-3  mx-2 cursor-pointer"
-            }
-            onClick={() => {
-              setShowAddContact(!showAddContact);
-            }}
-          />
+          className={
+            showAddContact
+              ? " bg-slate-300 rounded-full h-10 mr-2   cursor-pointer"
+              : " bg-slate-500 rounded-full h-10 mr-2  hover:bg-green-500  cursor-pointer"
+          }
+          onClick={() => {
+            setShowAddContact(!showAddContact);
+          }}
+        />
 
-<img
+        <img
           src={imageRefresh}
-            className={" bg-slate-300 rounded-full h-8 px-3  text-xs cursor-pointer"}
-            onClick={() => {setReloadComponent(!reloadComponent)}}
-          />
+          className={
+            " bg-cyan-500 hover:bg-white rounded-full h-10  mr-2 text-xs cursor-pointer"
+          }
+          onClick={() => {
+            setReloadComponent(!reloadComponent);
+          }}
+        />
 
-          <img
+        <img
           src={imageDeleteContact}
-            className={
-              showRemoveContact
-                ? " bg-slate-300 rounded-full h-8 px-3  text-xs cursor-pointer"
-                : " bg-slate-500 rounded-full h-8 px-3  text-xs cursor-pointer"
-            }
-            onClick={() => {
-              setshowRemoveContact(!showRemoveContact);
-            }}
-          />
-          <img
-            src={imageDrawerMenu}
-            onClick={() => {
-              setShowDrawer(!showDrawer);
-            }}
-            alt="menu"
-            className={
-              showDrawer
-                ? "w-9 mx-1 hover:cursor-pointer "
-                : "w-9 mx-1 hover:cursor-pointer fixed right-6 rotate-90  "
-            }
-          />
-        </div>
-
-
+          className={
+            showRemoveContact
+              ? " bg-slate-300 rounded-full h-10 mr-2  text-xs mx-1 cursor-pointer"
+              : " bg-slate-500 rounded-full h-10 mr-2  hover:bg-red-500 text-xs mx-1 cursor-pointer"
+          }
+          onClick={() => {
+            setshowRemoveContact(!showRemoveContact);
+          }}
+        />
+        <img
+          src={imageEditContact}
+          onClick={() => {
+            setShowEditContact(!showEditContact);
+          }}
+          className=" w-10 mx-1 cursor-pointer"
+          alt="editContact"
+        />
+        <img
+          src={imageDrawerMenu}
+          onClick={() => {
+            setShowDrawer(!showDrawer);
+          }}
+          alt="menu"
+          className={
+            showDrawer
+              ? "w-10 mr-9 hover:cursor-pointer "
+              : "w-10 mt-2  hover:cursor-pointer fixed right-6 rotate-90  "
+          }
+        />
+      </div>
 
       {/* این دیو مخصوص قسمت سرچ و دکمه های دراور می باشد */}
       <div className="flex justify-between items-center">
         <Search searchHandler={searchHandler} />
       </div>
-      
-      
-    
 
       {/* این دیو برای نمایش موارد جستجو شده می باشد */}
       <div
         className={
           searchMember
-            ? "  bg-zinc-800 overflow-y-auto absolute left-2 right-4 top-24 bottom-1 z-10 rounded-sm p-2   "
+            ? "  bg-zinc-800 overflow-y-auto absolute left-2 right-4 top-24 bottom-1 z-10 rounded-lg p-2   "
             : "hidden"
         }
       >
@@ -136,13 +150,26 @@ const selectedHandler = (itemSelected) => {
         </button>
         {searchMember
           ? searchMember.map((contact) => (
-              <ContactItem key={contact.index} contact={contact} />
+              <ContactItem
+                key={contact.index}
+                contact={contact}
+                selectedItem={selectedHandler}
+              />
             ))
           : ""}
       </div>
 
       {/* این دیو برای مدیریت افزودن مخاطب است */}
       <div>{showAddContact ? <AddContact /> : ""}</div>
+
+      {/* این دیو برای مدیریت ویرایش مخاطب است */}
+      {showEditContact ? (
+        <div className="fixed z-[1] left-0 right-0 top-0 bottom-0   0 flex justify-center items-center   backdrop-blur-sm ">
+          <EditContact close={hiddenOrShow} />
+        </div>
+      ) : (
+        ""
+      )}
 
       {/* این دیو برای مدیریت حذف مخاطب است */}
       <div>{showRemoveContact ? <RemoveContact /> : ""}</div>
@@ -151,7 +178,10 @@ const selectedHandler = (itemSelected) => {
       {members.length == 0
         ? " مخاطبی وجود ندارد"
         : members.map((contact) => (
-            <ContactItem key={contact.index} contact={contact} selectedItem={selectedHandler} />
+            <ContactItem
+              contact={contact}
+              selectedItem={selectedHandler}
+            />
           ))}
     </div>
   );
