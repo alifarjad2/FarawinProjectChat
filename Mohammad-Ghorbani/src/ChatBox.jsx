@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import farawin from "farawin";
 import ImageAttach from "./Assets/attach-48.png";
 import ImageMenu from "./Assets/menu-50.png";
@@ -14,6 +14,10 @@ function ChatBox({
   openMenu,
 }) {
   const [sendMessage, setSendMessage] = useState([]);
+
+  useEffect(() => {
+    selectedContact ? (document.title = selectedContact.name) : null;
+  }, [selectedContact]);
 
   const handleSendMessage = (e) => {
     setSendMessage(e.target.value);
@@ -96,7 +100,7 @@ function ChatBox({
         <div className="text-2xl absolute top-5 right-7">
           {selectedContact && selectedContact.name}
         </div>
-        <div className="text-xs text-slate-500 absolute top-12 right-7">
+        <div className="text-xs text-slate-500 absolute top-[3.3rem] right-[1.73rem]">
           {selectedContact && selectedContact.username}
         </div>
         <img
@@ -112,38 +116,50 @@ function ChatBox({
       </div>
       <div
         id="pv"
-        className="px-1 w-full h-5/6 overflow-y-auto max-lg:overflow-x-hidden scroll-smooth flex flex-col gap-y-4"
+        className="px-1 w-full h-5/6 overflow-y-auto max-lg:overflow-x-hidden scroll-smooth flex flex-col gap-y-2"
       >
         {messages.map((message, index) => (
           <>
             {index === 0 ||
             formatDate(messages[index - 1].date)[1] !==
               formatDate(message.date)[1] ? (
-              <div className="bg-white text-black w-32 my-5 m-auto text-center rounded-full font-sans">
+              <div className="bg-white text-black w-32 my-5 m-auto text-center rounded-full ">
                 {formatDate(message.date)[1] === today
                   ? "امروز"
                   : formatDate(message.date)[1]}
               </div>
             ) : null}
-            <div
-              key={index}
-              className={`mr-1 ${
-                message.sender !== localStorage.myUsername
-                  ? "bg-[#2E333D] rounded-3xl rounded-bl-none text-right"
-                  : "bg-[#6b8afe] rounded-3xl rounded-br-none text-right m-auto"
-              } w-2/6 p-3 max-lg:w-2/3`}
-            >
-              <p className="text-lg overflow-auto">{message.text}</p>
-              <div className="text-xs">
-                <p
-                  className={
-                    message.sender !== localStorage.myUsername
-                      ? "text-left pt-3"
-                      : "text-right pt-3"
-                  }
-                >
-                  {formatDate(message.date)[0]}
+            <div className="flex">
+              {/* <div
+                className={`" bg-white w-11 h-11 rounded-2xl text-center text-xl text-black mr-[0.4rem]  py-2 " ${
+                  message.sender !== localStorage.myUsername ? null : " hidden "
+                }`}
+              >
+                {" "}
+                {selectedContact && selectedContact.name[0]}{" "}
+              </div> */}
+              <div
+                key={index}
+                className={`mr-1 ${
+                  message.sender !== localStorage.myUsername
+                    ? " bg-[#2E333D] rounded-3xl rounded-bl-none text-right w-fit max-w-2xl min-w-[8rem] "
+                    : " bg-[#6b8afe] rounded-3xl rounded-br-none text-right w-fit max-w-2xl min-w-[8rem] m-auto "
+                } p-3 `}
+              >
+                <p className="text-lg overflow-auto font-sans">
+                  {message.text}
                 </p>
+                <div className="text-sm">
+                  <p
+                    className={
+                      message.sender !== localStorage.myUsername
+                        ? "text-left pt-3  "
+                        : "text-right pt-3"
+                    }
+                  >
+                    {formatDate(message.date)[0]}
+                  </p>
+                </div>
               </div>
             </div>
           </>

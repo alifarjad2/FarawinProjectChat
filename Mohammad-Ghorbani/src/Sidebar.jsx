@@ -38,6 +38,13 @@ function Sidebar({
       contact.name.toLowerCase().includes(filterSearch.toLowerCase()) ||
       contact.username.includes(filterSearch)
   );
+  const time = (dateString) => {
+    return new Date(dateString).toLocaleTimeString("fa-IR", {
+      hourCycle: "h24",
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+  };
 
   return (
     <>
@@ -112,7 +119,7 @@ function Sidebar({
                     <div
                       key={index}
                       onClick={() => handleContactClick(contact)}
-                      className="flex flex-row hover:bg-[#2E333D] rounded-3xl h-24 w-full m-auto cursor-pointer relative hover:text-black"
+                      className="flex flex-row hover:bg-[#2E333D] rounded-3xl h-24 w-full m-auto cursor-pointer relative hover:text-black "
                     >
                       <div className="bg-white w-16 h-16 rounded-2xl text-center py-4 text-xl text-black absolute right-3 top-4">
                         {contact.name[0]}
@@ -121,9 +128,14 @@ function Sidebar({
                         {contact.name}
                       </div>
                       {lastMessage && (
-                        <div className="absolute top-[3.8rem] text-xs right-24 h-5 w-40 overflow-hidden">
-                          {lastMessage.text}
-                        </div>
+                        <>
+                          <div className="absolute top-[3.7rem] text-xs right-24 h-5 w-44 text-slate-400 overflow-hidden ">
+                            {lastMessage.text}
+                          </div>
+                          <div className="absolute top-7 left-2 text-xs text-slate-400 ">
+                            {time(lastMessage.date)}
+                          </div>
+                        </>
                       )}
                     </div>
                   );
