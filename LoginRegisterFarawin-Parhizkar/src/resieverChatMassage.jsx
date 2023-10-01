@@ -54,6 +54,36 @@ export default function RecieverChatMassage(props) {
   const sortedChats = [...senderChats, ...receiverChats].sort((a, b) => {
     return new Date(a.date) - new Date(b.date);
   });
+  // A function for getting dat obj and extracting months and days and full years
+  function getMonthDayYearFromDate(date) {
+    const monthNames = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ];
+    return `${
+      monthNames[date.getMonth()]
+    } ${date.getDate()}, ${date.getFullYear()}`;
+  }
+  // Adding chats with the same date of sent to an array with the reduser and show them in a groupe chats with each other and use this array to show chats in the chat section 
+  const groupedChats = sortedChats.reduce((groups, chat) => {
+    const dateObj = new Date(chat.date);
+    const monthDayYear = getMonthDayYearFromDate(dateObj);
+    if (!groups[monthDayYear]) {
+      groups[monthDayYear] = [];
+    }
+    groups[monthDayYear].push(chat);
+    return groups;
+  }, {});
 
   return (
     <div>
@@ -61,61 +91,66 @@ export default function RecieverChatMassage(props) {
         {props.toggle && !control ? (
           <p className="text-white font-bold">پیغامی وجود ندارد</p>
         ) : (
-          <div>
-            {sortedChats.map((chat) => {
-              // Convert chat.date to a Date object
-              const dateObj = new Date(chat.date);
+          Object.entries(groupedChats).map(([monthDayYear, chats]) => (
+            <div key={monthDayYear}>
+              <h2 className="text-violet-400 text-lg shadow-lg w-1/3 m-auto shadow-violet-400 text-center rounded-lg ">
+                {monthDayYear}
+              </h2>
+              {chats.map((chat) => {
+                // Convert chat.date to a Date object
+                const dateObj = new Date(chat.date);
 
-              // Extract the hour from the Date object
-              const hour = dateObj.getHours();
-              const minute = dateObj.getMinutes();
-              // control is massage is for localstorage usernam or not
-              const isSender = chat.sender === localStorage.username;
+                // Extract the hour from the Date object
+                const hour = dateObj.getHours();
+                const minute = dateObj.getMinutes();
+                // control is massage is for localstorage usernam or not
+                const isSender = chat.sender === localStorage.username;
 
-              return (
-                // in this returning elements i check the chats by the sender and styling it to show the texts in the left or right of the screen .
-                <div
-                  className={`w-full p-2  h-fit rounded-lg flex items-end gap-1 ${
-                    isSender ? "direction2" : "direction"
-                  } my-5`}
-                  key={chat.date}
-                >
-                  {/* avatar for every chats */}
+                return (
+                  // in this returning elements i check the chats by the sender and styling it to show the texts in the left or right of the screen .
                   <div
-                    className={`w-10 h-10 bg-violet-500 flex items-center justify-center font-bold ${
-                      isSender
-                        ? "rounded-r-lg rounded-tl-lg"
-                        : "rounded-l-lg rounded-tr-lg"
-                    }`}
+                    className={`w-full p-2  h-fit rounded-lg flex items-end gap-1 ${
+                      isSender ? "direction2" : "direction"
+                    } my-5`}
+                    key={chat.date}
                   >
-                    {isSender ? (
-                      <p>User</p>
-                    ) : (
-                      <p> {props.contactName.slice(0, 2)} </p>
-                    )}
-                  </div>
-                  <div
-                    className={`w-1/3 p-1 ${
-                      isSender
-                        ? "bg-blue-400 rounded-l-lg rounded-tr-lg"
-                        : "bg-[#2E333D] rounded-r-lg rounded-tl-lg"
-                    }`}
-                  >
-                    <p className=" text-white p-2 ">{chat.text}</p>
+                    {/* avatar for every chats */}
                     <div
-                      className={`text-white flex ${
-                        isSender ? "direction" : "direction2"
+                      className={`w-10 h-10 bg-violet-500 flex items-center justify-center font-bold ${
+                        isSender
+                          ? "rounded-r-lg rounded-tl-lg"
+                          : "rounded-l-lg rounded-tr-lg"
                       }`}
                     >
-                      <p>{hour > 9 ? <p>{hour}</p> : <p>0{hour}</p>}</p>
-                      <p>:</p>
-                      <p>{minute > 9 ? <p>{minute}</p> : <p>0{minute}</p>}</p>
+                      {isSender ? (
+                        <p>User</p>
+                      ) : (
+                        <p> {props.contactName.slice(0, 2)} </p>
+                      )}
+                    </div>
+                    <div
+                      className={`w-1/3 p-1 ${
+                        isSender
+                          ? "bg-blue-400 rounded-l-lg rounded-tr-lg"
+                          : "bg-[#2E333D] rounded-r-lg rounded-tl-lg"
+                      }`}
+                    >
+                      <p className=" text-white p-2 ">{chat.text}</p>
+                      <div
+                        className={`text-white flex ${
+                          isSender ? "direction" : "direction2"
+                        }`}
+                      >
+                        <p>{hour > 9 ? <p>{hour}</p> : <p>0{hour}</p>}</p>
+                        <p>:</p>
+                        <p>{minute > 9 ? <p>{minute}</p> : <p>0{minute}</p>}</p>
+                      </div>
                     </div>
                   </div>
-                </div>
-              );
-            })}
-          </div>
+                );
+              })}
+            </div>
+          ))
         )}
       </div>
     </div>
