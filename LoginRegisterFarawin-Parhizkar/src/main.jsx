@@ -4,7 +4,6 @@ import FormAuthComponent from "./FormAuth";
 import "./index.css";
 import ChatPage from "./Chat";
 
-
 ReactDOM.createRoot(document.getElementById("root")).render(
-          ( !localStorage.token ? <FormAuthComponent /> : <ChatPage/>)
+  !localStorage.token ? <FormAuthComponent /> : <ChatPage />
 );

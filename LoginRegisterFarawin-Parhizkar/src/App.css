@@ -1,17 +1,14 @@
 #root {
-  margin: 0 ;
+  margin: 0;
   padding: 0;
   text-align: center;
   box-sizing: inherit;
   scrollbar-color: rgb(1, 1, 1) rgb(110, 110, 110);
 }
 
-body{
+body {
   box-sizing: border-box;
 }
-
-
-
 
 /* Note: The -webkit-scrollbar is not supported by Firefox or IE and Edge. */
 
