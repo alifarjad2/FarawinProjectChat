@@ -3,7 +3,7 @@ import { useState } from "react";
 export default function SearchBar(props) {
   // a state for saving user inputs
   const [searchInput, setSearchInput] = useState("");
-  //getting user inputs 
+  //getting user inputs
   const handleChange = (e) => {
     e.preventDefault();
     setSearchInput(e.target.value);
@@ -30,8 +30,7 @@ export default function SearchBar(props) {
         {filteredData.map((contact) => (
           <div
             onClick={() => {
-              props.set(contact.name), 
-              props.number(contact.username);
+              props.set(contact.name), props.number(contact.username);
             }}
             className="absolute backdrop-blur-lg cursor-pointer  hover:bg-violet-800 hover:bg-opacity-30 text-white flex flex-col items-start p-3 w-[245px] rounded-lg "
             key={contact.username}
