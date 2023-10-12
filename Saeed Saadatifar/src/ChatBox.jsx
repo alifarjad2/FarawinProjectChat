@@ -7,8 +7,7 @@ import farawin from "farawin";
 import Recevie from "./RecevieMessage";
 import Send from "./SendMessage";
 import ChatDate from "./ChatDate";
-
-<<<<<<< HEAD
+// {<ChatDate chats={ch} />}
 export default function ChatBox({
   prof,
   header,
@@ -17,33 +16,19 @@ export default function ChatBox({
   setSelect,
   setC,
   setChats,
+  setHideSideBar,
 }) {
   const [isEditContactPage, setIsEditContactPage] = useState(false);
   const [message, setMessage] = useState("");
+  let lastChat;
   let ref = useRef();
-  let duplicateMessage = [];
-
-  let showMessage = (message, key) => {
+  let showMessage = (message, key, messageId, last) => {
     if (message.sender == num) {
-      duplicateMessage.push(message);
       return (
         <>
-          {duplicateMessage.length <= 1 ? (
-            <ChatDate chats={message} />
-          ) : `${new Date(
-              duplicateMessage[duplicateMessage.length - 2].date
-            ).getMonth()} ${new Date(
-              duplicateMessage[duplicateMessage.length - 2].date
-            ).getDate()}` !=
-            `${new Date(message.date).getMonth()} ${new Date(
-              message.date
-            ).getDate()}` ? (
-            <ChatDate chats={message} />
-          ) : (
-            ""
-          )}
+          {(new Date(last.date).getDate() != new Date(message.date).getDate() ||
+            key == 0) && <ChatDate chat={message} />}
           <Recevie
-            key={key}
             text={message.text}
             pro={prof}
             name={header}
@@ -56,29 +41,16 @@ export default function ChatBox({
                 ? `0${new Date(message.date).getMinutes()}`
                 : new Date(message.date).getMinutes()
             }`}
+            id={messageId}
           />
         </>
       );
     } else if (message.receiver == num) {
-      duplicateMessage.push(message);
       return (
         <>
-          {duplicateMessage.length <= 1 ? (
-            <ChatDate chats={message} />
-          ) : `${new Date(
-              duplicateMessage[duplicateMessage.length - 2].date
-            ).getMonth()} ${new Date(
-              duplicateMessage[duplicateMessage.length - 2].date
-            ).getDate()}` !=
-            `${new Date(message.date).getMonth()} ${new Date(
-              message.date
-            ).getDate()}` ? (
-            <ChatDate chats={message} />
-          ) : (
-            ""
-          )}
+          {(new Date(last.date).getDate() != new Date(message.date).getDate() ||
+            key == 0) && <ChatDate chat={message} />}
           <Send
-            key={key}
             text={message.text}
             pro={localStorage.prof}
             name={localStorage.name}
@@ -91,58 +63,17 @@ export default function ChatBox({
                 ? `0${new Date(message.date).getMinutes()}`
                 : new Date(message.date).getMinutes()
             }`}
+            id={messageId}
           />
         </>
-=======
-export default function ChatBox({ prof, header, num, chats, setSelect, setC  , setChats }) {
-  const [isEditContactPage, setIsEditContactPage] = useState(false);
-  const [message, setMessage] = useState("");
-  let ref = useRef();
-
-  let showMessage = (message, key) => {
-    if (message.sender == num) {
-      return (
-        <Recevie
-          key={key}
-          text={message.text}
-          pro={prof}
-          name={header}
-          date={`${
-            new Date(message.date).getHours() < 10
-              ? `0${new Date(message.date).getHours()}`
-              : new Date(message.date).getHours()
-          }:${
-            new Date(message.date).getMinutes() < 10
-              ? `0${new Date(message.date).getMinutes()}`
-              : new Date(message.date).getMinutes()
-          }`}
-        />
-      );
-    } else if (message.receiver == num) {
-      return (
-        <Send
-          key={key}
-          text={message.text}
-          pro={localStorage.prof}
-          name={localStorage.name}
-          date={`${
-            new Date(message.date).getHours() < 10
-              ? `0${new Date(message.date).getHours()}`
-              : new Date(message.date).getHours()
-          }:${
-            new Date(message.date).getMinutes() < 10
-              ? `0${new Date(message.date).getMinutes()}`
-              : new Date(message.date).getMinutes()
-          }`}
-        />
->>>>>>> 0ce7ebd73975271029a0b45a34e4dcc7e5c93c75
       );
     }
     return;
   };
 
   return (
-    <div className="flex flex-col grow mr-[35px]  h-full">
+    // eslint-disable-next-line react/no-unknown-property
+    <div className="flex flex-col grow h-full">
       {isEditContactPage && (
         <EditContact
           nam={header}
@@ -154,97 +85,93 @@ export default function ChatBox({ prof, header, num, chats, setSelect, setC  , s
       <div className="h-[70px] w-full rounded-[20px] flex">
         <div
           id="headerContact"
-          className="flex grow p-[5px] hover:cursor-default rounded-[14px]"
+          className="flex grow bg-[#21242B] p-[5px] hover:cursor-default rounded-[14px]"
         >
           <Profile name={prof} />
           <div
             id="nameHeaderContact"
-            className="align-middle text-[18px] mr-[8px] pt-[11px]"
+            className="align-middle grow text-[18px] mr-[8px]"
           >
-            {header}
+            <div className="flex flex-col">
+              <p>{header}</p>
+              <p className="text-[11px]">{num}</p>
+            </div>
           </div>
+          {
+            //#region editIcon
+          }
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="w-7 text-[#9CA0A6] hover:text-[#FAFBFD] cursor-pointer"
+            onClick={() => {
+              setIsEditContactPage(true);
+            }}
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"
+            />
+          </svg>
+          {
+            //#endregion
+          }
+          {
+            //#region closeIcon
+          }
+          <svg
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="w-7 mr-2 text-[#9CA0A6] hover:text-[#FAFBFD] cursor-pointer"
+            onClick={() => {
+              setSelect(null);
+              setHideSideBar(false);
+            }}
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"
+            />
+          </svg>
+          {
+            //#endregion
+          }
         </div>
-        {
-          //#region editIcon
-        }
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          strokeWidth={1.5}
-          stroke="currentColor"
-          className="w-7 text-[#9CA0A6] hover:text-[#FAFBFD] cursor-pointer"
-          onClick={() => {
-            setIsEditContactPage(true);
-          }}
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"
-          />
-        </svg>
-        {
-          //#endregion
-        }
-        {
-          //#region closeIcon
-        }
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          strokeWidth={1.5}
-          stroke="currentColor"
-          className="w-7 mr-2 text-[#9CA0A6] hover:text-[#FAFBFD] cursor-pointer"
-          onClick={() => {
-            setSelect(null);
-          }}
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"
-          />
-        </svg>
-        {
-          //#endregion
-        }
       </div>
       {
         //#region MiddleChat
       }
-<<<<<<< HEAD
       <div
         id="messageBox"
-        className="grow w-full overflow-y-scroll p-1 flex flex-col pr-[10px] h-full"
+        className="grow w-full m-1.5 pr-[10px] p-3 h-full flex flex-col overflow-x-hidden"
       >
-        {chats.length != 0 ? (
-          <>
-            <div className="grow"></div>
-            <div id="Messages1Contact" className="grid row-auto w-full">
-              {chats.map((key, message) => showMessage(key, message))}
-            </div>
-          </>
-=======
-      <div id="messageBox" className="grow w-full pr-[10px] h-full flex">
         {chats.length != 0 ? (
           <div
             id="Messages1Contact"
-            className="flex flex-col justify-end w-full h-full"
+            className="flex flex-col w-full m-1.5 pr-[10px] grow h-full"
           >
-            {<ChatDate chats={chats} />}
-            {chats.map((key, message) => showMessage(key, message))}
+            {chats.map((message, key) => {
+              if (!lastChat) lastChat = message;
+              let a = showMessage(message, key, message.id, lastChat);
+              lastChat = message;
+              return a;
+            })}
           </div>
->>>>>>> 0ce7ebd73975271029a0b45a34e4dcc7e5c93c75
         ) : (
-          <div className="m-auto">No Message</div>
+          <div className="m-auto">پیامی وجود ندارد!</div>
         )}
       </div>
       {
         //#endregion
       }
-      <div className="w-full h-[60px] flex">
+      <div className="w-full flex bg-[#21242B] py-1 px-3 rounded-md">
         <div className="mt-[20px] ml-[10px] w-[18px] h-fit rounded-[15px] hover:cursor-pointer hover:bg-[#2F313D]">
           <img src={pinIcon} alt="" />
         </div>
@@ -263,18 +190,12 @@ export default function ChatBox({ prof, header, num, chats, setSelect, setC  , s
           height="30"
           viewBox="0 0 48 48"
           fill="none"
-          xmrns="http://www.w3.org/2000/svg"
           className={`${
             !message && "hidden"
           } rotate-[-90deg] self-center hover:cursor-pointer hover:fill-[#2F313D]`}
           onClick={() => {
-<<<<<<< HEAD
             farawin.testAddChat(num, message, (mess) => {
               if (mess.code == 200) {
-=======
-            farawin.testAddChat(num, message,(mess)=>{
-              if(mess.code == 200){
->>>>>>> 0ce7ebd73975271029a0b45a34e4dcc7e5c93c75
                 farawin.getChats((res) => {
                   setChats(
                     res.chatList.filter(
@@ -283,11 +204,7 @@ export default function ChatBox({ prof, header, num, chats, setSelect, setC  , s
                         message.receiver == localStorage.username
                     )
                   );
-<<<<<<< HEAD
                 });
-=======
-                })
->>>>>>> 0ce7ebd73975271029a0b45a34e4dcc7e5c93c75
               }
             });
             ref.current.value = "";
