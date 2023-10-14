@@ -117,7 +117,7 @@ export default function SideBar({
                   id="SearchInp"
                   type="text"
                   placeholder="جستجو"
-                  className="bg-[#30323E] bg-opacity-10 text-[18px] grow h-full border-none focus:outline-none"
+                  className="bg-[#30323E] min-w-44 w-full grow bg-opacity-10 text-[18px] shrink h-full border-none focus:outline-none"
                   onInput={(event) =>
                     setSearchInp(event.target.value.toUpperCase())
                   }
@@ -126,7 +126,6 @@ export default function SideBar({
               {
                 //#endregion
               }
-
               <svg
                 onClick={() => {
                   localStorage.clear();
