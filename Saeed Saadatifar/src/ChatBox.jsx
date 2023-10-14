@@ -17,11 +17,14 @@ export default function ChatBox({
   setC,
   setChats,
   setHideSideBar,
+  selectedContact,
+  size,
 }) {
   const [isEditContactPage, setIsEditContactPage] = useState(false);
   const [message, setMessage] = useState("");
   let lastChat;
   let ref = useRef();
+  let messageBox = useRef();
   let showMessage = (message, key, messageId, last) => {
     if (message.sender == num) {
       return (
@@ -29,6 +32,7 @@ export default function ChatBox({
           {(new Date(last.date).getDate() != new Date(message.date).getDate() ||
             key == 0) && <ChatDate chat={message} />}
           <Recevie
+            size={size}
             text={message.text}
             pro={prof}
             name={header}
@@ -51,6 +55,7 @@ export default function ChatBox({
           {(new Date(last.date).getDate() != new Date(message.date).getDate() ||
             key == 0) && <ChatDate chat={message} />}
           <Send
+            size={size}
             text={message.text}
             pro={localStorage.prof}
             name={localStorage.name}
@@ -80,6 +85,8 @@ export default function ChatBox({
           num={num}
           setActive={setIsEditContactPage}
           setC={setC}
+          selectedContact={selectedContact}
+          setSelect={setSelect}
         />
       )}
       <div className="h-[70px] w-full rounded-[20px] flex">
@@ -149,13 +156,14 @@ export default function ChatBox({
         //#region MiddleChat
       }
       <div
+        ref={messageBox}
         id="messageBox"
-        className="grow w-full m-1.5 pr-[10px] p-3 h-full flex flex-col overflow-x-hidden"
+        className="grow w-full m-1.5 pr-[10px] h-full flex flex-col overflow-x-hidden"
       >
         {chats.length != 0 ? (
           <div
             id="Messages1Contact"
-            className="flex flex-col w-full m-1.5 pr-[10px] grow h-full"
+            className="flex flex-col gap-2 w-full m-1.5 pr-[10px] grow h-full"
           >
             {chats.map((message, key) => {
               if (!lastChat) lastChat = message;
@@ -182,6 +190,24 @@ export default function ChatBox({
           className="text-[16px] grow h-[52px] mr-[5px] bg-[#21242B] border-none focus:outline-none text-[#FAFBFD]"
           onInput={(e) => {
             setMessage(e.target.value);
+          }}
+          onKeyDown={(e) => {
+            if (e.code == "Enter") {
+              farawin.testAddChat(num, message, (mess) => {
+                if (mess.code == 200) {
+                  ref.current.value = "";
+                  farawin.getChats((res) => {
+                    setChats(
+                      res.chatList.filter(
+                        (message) =>
+                          message.sender == localStorage.username ||
+                          message.receiver == localStorage.username
+                      )
+                    );
+                  });
+                }
+              });
+            }
           }}
         />
         <svg

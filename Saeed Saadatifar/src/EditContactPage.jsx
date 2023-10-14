@@ -1,7 +1,14 @@
 import { useEffect, useRef, useState } from "react";
 import farawin from "farawin";
 
-export default function EditContact({ setActive, nam, num, setC }) {
+export default function EditContact({
+  setActive,
+  nam,
+  num,
+  setC,
+  setSelect,
+  selectedContact,
+}) {
   const [username, setUsername] = useState("");
   const [name, setName] = useState("");
   const [firstUseName, setFirstUseName] = useState(true);
@@ -139,6 +146,9 @@ export default function EditContact({ setActive, nam, num, setC }) {
                     );
                   });
                   setSeccessfullAdd(true);
+                  let a = selectedContact;
+                  a[1] = name;
+                  setSelect(a);
                 } else {
                   setSeccessfullAdd(false);
                 }
