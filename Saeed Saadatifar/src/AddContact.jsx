@@ -24,9 +24,14 @@ export default function AddContact({ setActive, setC }) {
   return (
     <div
       className={`absolute flex justify-center items-center top-0 bottom-0 right-0 left-0 backdrop-blur-sm z-10`}
+      onClick={(e) => {
+        setActive(false);
+        e.stopPropagation();
+      }}
     >
       <div
         className={`relative flex items-center flex-col px-16 py-10 w-96 rounded-2xl bg-[#888890] z-20`}
+        onClick={(e) => e.stopPropagation()}
       >
         {
           //#region closeIcon
@@ -135,7 +140,11 @@ export default function AddContact({ setActive, setC }) {
                 ref.current.textContent = res.message;
                 if (res.code == 200) {
                   farawin.getContacts((e) => {
-                    setC(e.contactList.filter((e) => e.ref == localStorage.username));
+                    setC(
+                      e.contactList.filter(
+                        (e) => e.ref == localStorage.username
+                      )
+                    );
                   });
                   setSeccessfullAdd(true);
                 } else {
