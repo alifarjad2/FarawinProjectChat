@@ -33,7 +33,7 @@ export default function Contact({
     <div
       className="relative"
       onClick={(e) => {
-        setHideSideBar(true);
+        if (window.innerWidth <= 640) setHideSideBar(true);
         set([e.target.id, e.target.title, createImageProfile(contact)]);
       }}
       id={contact.username}
@@ -70,7 +70,11 @@ export default function Contact({
             title={contact.name}
             className="text-[#888890] text-[14px]"
           >
-            {last ? last.text : "پیامی وجود ندارد!"}
+            {last
+              ? last.text.length < 25
+                ? last.text
+                : `${last.text.substr(0, 25)}...`
+              : "پیامی وجود ندارد!"}
           </div>
           <div
             id={contact.username}
@@ -80,7 +84,9 @@ export default function Contact({
             {last &&
               ((new Date() - new Date(last?.date)) / 1000 >= 1
                 ? (new Date() - new Date(last?.date)) / 1000 < 60
-                  ? `${(new Date() - new Date(last?.date)) / 1000} Second`
+                  ? `${Math.ceil(
+                      (new Date() - new Date(last?.date)) / 1000
+                    )} Second`
                   : Math.ceil(
                       (new Date() - new Date(last?.date)) / (1000 * 60)
                     ) < 60
