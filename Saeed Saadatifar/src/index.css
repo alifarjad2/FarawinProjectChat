@@ -11,7 +11,7 @@
 html {
   font-family: Estedad, "Estedad", Inter, system-ui, Avenir, Helvetica, Arial,
     sans-serif;
-  background-image: url("./assets/1.jpg");
+
   height: 100%;
 }
 
@@ -21,6 +21,7 @@ body {
 
 #root {
   height: 100%;
+  background-image: url("./assets/1.jpg");
 }
 
 *::-webkit-scrollbar {

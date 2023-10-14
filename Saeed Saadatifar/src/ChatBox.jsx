@@ -191,6 +191,24 @@ export default function ChatBox({
           onInput={(e) => {
             setMessage(e.target.value);
           }}
+          onKeyDown={(e) => {
+            if (e.code == "Enter") {
+              farawin.testAddChat(num, message, (mess) => {
+                if (mess.code == 200) {
+                  ref.current.value = "";
+                  farawin.getChats((res) => {
+                    setChats(
+                      res.chatList.filter(
+                        (message) =>
+                          message.sender == localStorage.username ||
+                          message.receiver == localStorage.username
+                      )
+                    );
+                  });
+                }
+              });
+            }
+          }}
         />
         <svg
           id="sendMessageIcon"
