@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import farawin from "farawin";
 
 export default function ChatPage() {
-  const [sizeLow, setSizeLow] = useState(false);
+  const [size, setSize] = useState("large");
   const [hideSideBar, setHideSideBar] = useState(false);
   const [selectedContact, setSelectedontact] = useState(null);
   const [contactList, setContactList] = useState(null);
@@ -68,8 +68,10 @@ export default function ChatPage() {
         setIsLoadedContact(true);
       });
     }, 10000);
-    if (window.innerWidth <= 640) setSizeLow(true);
-    else setSizeLow(false);
+    if (window.innerWidth <= 640) setSize("sm");
+    else if (window.innerWidth > 640 && window.innerWidth < 800) setSize("md");
+    else if (window.innerWidth > 640 && window.innerWidth < 960) setSize("lg");
+    else setSize("xl");
     return () => {
       clearInterval(a);
     };
@@ -140,8 +142,12 @@ export default function ChatPage() {
     }
   }, [selectedContact]);
   window.onresize = (e) => {
-    if (e.target.innerWidth <= 640) setSizeLow(true);
-    else setSizeLow(false);
+    if (e.target.innerWidth <= 640) setSize("sm");
+    else if (e.target.innerWidth > 640 && e.target.innerWidth < 800)
+      setSize("md");
+    else if (e.target.innerWidth > 640 && e.target.innerWidth < 960)
+      setSize("lg");
+    else setSize("xl");
     if (e.target.innerWidth <= 640 && selectedContact) setHideSideBar(true);
     else setHideSideBar(false);
   };
@@ -157,7 +163,7 @@ export default function ChatPage() {
         <div className="w-screen h-screen p-[35px] bg-[#21242B] bg-opacity-75 text-[#FAFBFD] flex gap-8">
           {(!hideSideBar || !selectedContact) && chatList && contactList && (
             <SideBar
-              sizeLow={sizeLow}
+              size={size}
               setHideSideBar={setHideSideBar}
               lastM={
                 lastMessages && (lastMessages.size > 0 ? lastMessages : null)
@@ -175,6 +181,7 @@ export default function ChatPage() {
           )}
           {selectedContact && chatList && contactList && (
             <ChatBox
+              size={size}
               setHideSideBar={setHideSideBar}
               setChats={setChatList}
               setSelect={setSelectedontact}

@@ -1,6 +1,6 @@
 import Profile from "./Profile";
 
-export default function Send({ text, pro, name, date, id }) {
+export default function Send({ text, pro, name, date, id, size }) {
   function wordWrap(str, maxWidth) {
     var newLineStr = "\n";
     let res = "";
@@ -42,7 +42,13 @@ export default function Send({ text, pro, name, date, id }) {
         <div className="text-[18px] mb-[6px]">{name}</div>
         <div className="before:absolute before:border-[#6B8AFE] before:border-[25px] before:right-[-16px] before:bottom-[0px] before:border-r-transparent whitespace-break-spaces before:border-l-transparent before:border-t-transparent before:rounded-[40%] grow text-[14px]">
           {words.map((word) => {
-            if (word.length > 39) return wordWrap(word, 39);
+            if (word.length > 39 && size == "xl") return wordWrap(word, 39);
+            else if (word.length > 30 && size == "lg")
+              return wordWrap(word, 30);
+            else if (word.length > 10 && size == "md")
+              return wordWrap(word, 10);
+            else if (word.length > 25 && size == "sm")
+              return wordWrap(word, 25);
             return `${word} `;
           })}
         </div>

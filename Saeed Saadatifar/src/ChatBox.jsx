@@ -18,6 +18,7 @@ export default function ChatBox({
   setChats,
   setHideSideBar,
   selectedContact,
+  size,
 }) {
   const [isEditContactPage, setIsEditContactPage] = useState(false);
   const [message, setMessage] = useState("");
@@ -31,6 +32,7 @@ export default function ChatBox({
           {(new Date(last.date).getDate() != new Date(message.date).getDate() ||
             key == 0) && <ChatDate chat={message} />}
           <Recevie
+            size={size}
             text={message.text}
             pro={prof}
             name={header}
@@ -53,6 +55,7 @@ export default function ChatBox({
           {(new Date(last.date).getDate() != new Date(message.date).getDate() ||
             key == 0) && <ChatDate chat={message} />}
           <Send
+            size={size}
             text={message.text}
             pro={localStorage.prof}
             name={localStorage.name}

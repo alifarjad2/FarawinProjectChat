@@ -16,7 +16,7 @@ export default function SideBar({
   chatList,
   lastM,
   setHideSideBar,
-  sizeLow,
+  size,
 }) {
   const [isAddContactPage, setIsAddContactPage] = useState(false);
   const [searchInp, setSearchInp] = useState("");
@@ -25,14 +25,10 @@ export default function SideBar({
   return (
     <>
       {isAddContactPage && (
-        <AddContact
-          sizeLow={sizeLow}
-          setActive={setIsAddContactPage}
-          setC={setC}
-        />
+        <AddContact setActive={setIsAddContactPage} setC={setC} />
       )}
 
-      <div className={`flex flex-col ${sizeLow ? "w-full" : ""}`}>
+      <div className={`flex flex-col ${size == "sm" ? "w-full" : ""}`}>
         {
           //#region HeaderSideBar
         }
