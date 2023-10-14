@@ -16,6 +16,7 @@ export default function SideBar({
   chatList,
   lastM,
   setHideSideBar,
+  sizeLow,
 }) {
   const [isAddContactPage, setIsAddContactPage] = useState(false);
   const [searchInp, setSearchInp] = useState("");
@@ -24,10 +25,14 @@ export default function SideBar({
   return (
     <>
       {isAddContactPage && (
-        <AddContact setActive={setIsAddContactPage} setC={setC} />
+        <AddContact
+          sizeLow={sizeLow}
+          setActive={setIsAddContactPage}
+          setC={setC}
+        />
       )}
 
-      <div className="flex flex-col">
+      <div className={`flex flex-col ${sizeLow ? "w-full" : ""}`}>
         {
           //#region HeaderSideBar
         }
@@ -38,7 +43,7 @@ export default function SideBar({
                 isSearchBox ? "rounded-t-[15px]" : "rounded-[15px]"
               } bg-[#30323E] ${
                 isSearchBox ? "bg-opacity-100" : "bg-opacity-75"
-              } w-fit p-[15px] box-border`}
+              } p-[15px] box-border gap-2`}
             >
               {
                 //#region RefreshList
@@ -58,11 +63,11 @@ export default function SideBar({
                       "grow flex flex-col overflow-scroll pt-[11px] mt-4";
                   });
                 }}
-                className="w-6 h-full text-[#9CA0A6] ml-3 self-center cursor-pointer hover:text-[#FAFBFD]"
+                className="h-full shrink-0 w-5 text-[#9CA0A6] self-center cursor-pointer hover:text-[#FAFBFD]"
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
-                viewBox="0 0 20 18"
+                viewBox="0 0 20 20"
               >
                 <path
                   stroke="currentColor"
@@ -82,11 +87,10 @@ export default function SideBar({
                 onClick={() => {
                   setIsAddContactPage(true);
                 }}
-                className="w-6 h-6 text-[#9CA0A6] ml-3 self-center cursor-pointer hover:text-[#FAFBFD]"
+                className="shrink-0 w-5 h-full text-[#9CA0A6] self-center cursor-pointer hover:text-[#FAFBFD]"
                 aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
                 fill="none"
-                viewBox="0 0 18 20"
+                viewBox="0 0 20 20"
               >
                 <path
                   stroke="currentColor"
@@ -103,25 +107,21 @@ export default function SideBar({
                 //#region SearchBox
               }
               <div
-                id="SearchIconBox"
-                className="hover:cursor-pointer w-[25px] self-center"
+                onClick={() => setIsSearchBox(true)}
+                id="SearchInpBox"
+                className=" grow flex gap-2"
               >
-                <img
-                  id="SearchIcon"
-                  src={searchIcon}
-                  alt="searchIcon"
-                  onClick={() => {
-                    if (contacts && chatList) setIsSearchBox(true);
-                  }}
-                />
-              </div>
-              <div id="SearchInpBox" className="mr-[10px]">
+                <div
+                  id="SearchIconBox"
+                  className="hover:cursor-pointer w-[25px] self-center"
+                >
+                  <img id="SearchIcon" src={searchIcon} alt="searchIcon" />
+                </div>
                 <input
                   id="SearchInp"
                   type="text"
                   placeholder="جستجو"
-                  className="bg-[#30323E] bg-opacity-10 text-[18px] grow h-full border-none focus:outline-none w-[190px]"
-                  onClick={() => setIsSearchBox(true)}
+                  className="bg-[#30323E] bg-opacity-10 text-[18px] grow h-full border-none focus:outline-none"
                   onInput={(event) =>
                     setSearchInp(event.target.value.toUpperCase())
                   }

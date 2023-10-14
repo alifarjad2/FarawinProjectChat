@@ -17,11 +17,13 @@ export default function ChatBox({
   setC,
   setChats,
   setHideSideBar,
+  selectedContact,
 }) {
   const [isEditContactPage, setIsEditContactPage] = useState(false);
   const [message, setMessage] = useState("");
   let lastChat;
   let ref = useRef();
+  let messageBox = useRef();
   let showMessage = (message, key, messageId, last) => {
     if (message.sender == num) {
       return (
@@ -80,6 +82,8 @@ export default function ChatBox({
           num={num}
           setActive={setIsEditContactPage}
           setC={setC}
+          selectedContact={selectedContact}
+          setSelect={setSelect}
         />
       )}
       <div className="h-[70px] w-full rounded-[20px] flex">
@@ -149,13 +153,14 @@ export default function ChatBox({
         //#region MiddleChat
       }
       <div
+        ref={messageBox}
         id="messageBox"
-        className="grow w-full m-1.5 pr-[10px] p-3 h-full flex flex-col overflow-x-hidden"
+        className="grow w-full m-1.5 pr-[10px] h-full flex flex-col overflow-x-hidden"
       >
         {chats.length != 0 ? (
           <div
             id="Messages1Contact"
-            className="flex flex-col w-full m-1.5 pr-[10px] grow h-full"
+            className="flex flex-col gap-2 w-full m-1.5 pr-[10px] grow h-full"
           >
             {chats.map((message, key) => {
               if (!lastChat) lastChat = message;

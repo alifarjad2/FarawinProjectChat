@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import farawin from "farawin";
 
 export default function ChatPage() {
+  const [sizeLow, setSizeLow] = useState(false);
   const [hideSideBar, setHideSideBar] = useState(false);
   const [selectedContact, setSelectedontact] = useState(null);
   const [contactList, setContactList] = useState(null);
@@ -11,26 +12,45 @@ export default function ChatPage() {
   const [chatList, setChatList] = useState(null);
   const [lastMessages, setLastMessages] = useState(null);
   const [isSearchBox, setIsSearchBox] = useState(false);
-  let device = useRef();
   useEffect(() => {
     farawin.getUsers((res) => {
-      localStorage.name = res.userList.filter(
-        (user) => user.username == localStorage.username
-      )[0].name;
+      if (res.code == "200")
+        localStorage.name = res.userList.filter(
+          (user) => user.username == localStorage.username
+        )[0].name;
     });
   }, []);
 
   useEffect(() => {
     farawin.getChats().then((res) => {
       setChatList(
-        res.chatList.filter(
-          (message) =>
-            message.sender != message.receiver &&
-            (message.sender == localStorage.username ||
-              message.receiver == localStorage.username)
-        )
+        res.chatList
+          .filter(
+            (message) =>
+              message.sender != message.receiver &&
+              (message.sender == localStorage.username ||
+                message.receiver == localStorage.username)
+          )
+          .sort((a, b) => new Date(a.date) - new Date(b.date))
       );
     });
+    let a = setInterval(() => {
+      farawin.getChats().then((res) => {
+        setChatList(
+          res.chatList
+            .filter(
+              (message) =>
+                message.sender != message.receiver &&
+                (message.sender == localStorage.username ||
+                  message.receiver == localStorage.username)
+            )
+            .sort((a, b) => new Date(a.date) - new Date(b.date))
+        );
+      });
+    }, 5000);
+    return () => {
+      clearInterval(a);
+    };
   }, []);
 
   useEffect(() => {
@@ -40,7 +60,19 @@ export default function ChatPage() {
       );
       setIsLoadedContact(true);
     });
-    if (window.innerWidth < 640) setHideSideBar;
+    let a = setInterval(() => {
+      farawin.getContacts().then((res) => {
+        setContactList(
+          res.contactList.filter((e) => e.ref == localStorage.username)
+        );
+        setIsLoadedContact(true);
+      });
+    }, 10000);
+    if (window.innerWidth <= 640) setSizeLow(true);
+    else setSizeLow(false);
+    return () => {
+      clearInterval(a);
+    };
   }, []);
 
   // #region LastMessage
@@ -97,17 +129,25 @@ export default function ChatPage() {
         setTimeout(() => {
           element.classList.toggle("bg-slate-600");
         }, 800);
-        element.scrollIntoView();
+        element.scrollIntoView({ inline: "center" });
       }
+    } else if (selectedContact) {
+      let element = document.getElementById("messageBox");
+      element.scroll({
+        top: element.scrollHeight - element.clientHeight,
+        behavior: "instant",
+      });
     }
   }, [selectedContact]);
   window.onresize = (e) => {
+    if (e.target.innerWidth <= 640) setSizeLow(true);
+    else setSizeLow(false);
     if (e.target.innerWidth <= 640 && selectedContact) setHideSideBar(true);
     else setHideSideBar(false);
   };
   return (
     <div
-      className="flex items-center justify-center bg-myImage"
+      className="flex items-center justify-center"
       dir="rtl"
       onClick={(event) => {
         if (!event.target.id.match("Search")) setIsSearchBox(false);
@@ -115,8 +155,9 @@ export default function ChatPage() {
     >
       <div className="flex items-center justify-center max-w-[962px] w-screen">
         <div className="w-screen h-screen p-[35px] bg-[#21242B] bg-opacity-75 text-[#FAFBFD] flex gap-8">
-          {!hideSideBar && chatList && contactList && (
+          {(!hideSideBar || !selectedContact) && chatList && contactList && (
             <SideBar
+              sizeLow={sizeLow}
               setHideSideBar={setHideSideBar}
               lastM={
                 lastMessages && (lastMessages.size > 0 ? lastMessages : null)
@@ -137,19 +178,18 @@ export default function ChatPage() {
               setHideSideBar={setHideSideBar}
               setChats={setChatList}
               setSelect={setSelectedontact}
+              selectedContact={selectedContact}
               prof={selectedContact && selectedContact[2]}
               header={selectedContact && selectedContact[1]}
               num={selectedContact && selectedContact[0]}
               setC={setContactList}
               chats={
                 chatList &&
-                chatList
-                  .filter(
-                    (message) =>
-                      message.receiver == selectedContact[0] ||
-                      message.sender == selectedContact[0]
-                  )
-                  .sort((a, b) => new Date(a.date) - new Date(b.date))
+                chatList.filter(
+                  (message) =>
+                    message.receiver == selectedContact[0] ||
+                    message.sender == selectedContact[0]
+                )
               }
             />
           )}

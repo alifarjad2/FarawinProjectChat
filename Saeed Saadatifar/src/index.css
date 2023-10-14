@@ -11,7 +11,7 @@
 html {
   font-family: Estedad, "Estedad", Inter, system-ui, Avenir, Helvetica, Arial,
     sans-serif;
-
+  background-image: url("./assets/1.jpg");
   height: 100%;
 }
 
@@ -24,27 +24,25 @@ body {
 }
 
 *::-webkit-scrollbar {
-  width: 3px;               /* width of the entire scrollbar */
+  width: 3px; /* width of the entire scrollbar */
 }
 
 *::-webkit-scrollbar-track {
-  
-       /* color of the tracking area */
+  /* color of the tracking area */
 }
 
 *::-webkit-scrollbar-thumb {
-  background-color: #30323E70;    /* color of the scroll thumb */
-  border-radius: 20px;       /* roundness of the scroll thumb */
-  
-    /* creates padding around scroll thumb */
+  background-color: #30323e70; /* color of the scroll thumb */
+  border-radius: 20px; /* roundness of the scroll thumb */
+
+  /* creates padding around scroll thumb */
 }
 *::-webkit-scrollbar-thumb:hover {
-  background: #30323E;
-  
+  background: #30323e;
 }
 
 * {
-  scrollbar-color: #30323E70 rgba(0,0,0,0.0);
+  scrollbar-color: #30323e70 rgba(0, 0, 0, 0);
   scroll-behavior: smooth;
   scrollbar-width: thin;
 }
