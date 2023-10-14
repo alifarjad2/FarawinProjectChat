@@ -28,7 +28,7 @@ export default function SideBar({
         <AddContact setActive={setIsAddContactPage} setC={setC} />
       )}
 
-      <div className={`flex flex-col ${size == "sm" ? "w-full" : ""}`}>
+      <div className={`flex flex-col shrink-0 ${size == "sm" ? "w-full" : ""}`}>
         {
           //#region HeaderSideBar
         }
