@@ -35,10 +35,15 @@ function useFarawin(name) {
       const data = await farawin.fetch("Get", name);
       if (!isMount.current) return;
       // throw " sds خطایی روی داد";
-      if (data.code == "200") setList(data[name + "List"]);
-      else setError(data);
+      if (data.code == "200") {
+        setList(data[name + "List"]);
+        localStorage[name + "List"] = JSON.stringify(data[name + "List"]);
+      } else {
+        setError(data);
+        setList(JSON.parse(localStorage[name + "List"]));
+      }
     } catch (e) {
-      setList([]);
+      setList(JSON.parse(localStorage[name + "List"]));
       setError(e);
     }
     setLoading(false);
@@ -99,7 +104,7 @@ export default function Home() {
   //main bg and its container
   return (
     <div className="flex h-full justify-center bg-[#34393C] py-2 text-[#989BA0] p-4">
-      <div className=" flex bg-[#000000] rounded-3xl h-full w-24 ml-[-34px] overflow-y-auto">
+      <div className="flex bg-[#000000] rounded-3xl h-full min-w-[6rem] max-w-[6rem] w-24 ml-[-34px] overflow-y-auto">
         <div className="pl-[44px] py-4 flex flex-col text-[10px]">
           <div className="bg-[#ccccceaa] text-[#161a1b] cursor-not-allowed p-1 m-1 rounded-md mb-2">
             <h4>{_currentUser.name}</h4>
@@ -129,7 +134,10 @@ export default function Home() {
           })}
         </div>
       </div>
-      <div className="container flex bg-[#202329] rounded-3xl p-5 h-full flex-1 gap-10">
+      <div
+        style={{ maxWidth: "calc(100% - 80px)" }}
+        className="container flex bg-[#202329] rounded-3xl p-5 h-full flex-1 gap-10"
+      >
         <DataContext.Provider
           value={{
             currentUserName,
@@ -163,6 +171,7 @@ function ContactsSection() {
     contactLoading,
     searchText,
     setSearchText,
+    chatList,
   } = useContext(DataContext);
 
   const myContactList = contactList.filter((c) => c.ref == currentUserName);
@@ -172,6 +181,17 @@ function ContactsSection() {
       contact.username.toLowerCase().includes(searchText.toLowerCase())
     );
   });
+
+  filteredContactList.push(
+    ...myContactList.filter((contact) => {
+      return chatList.find(
+        (chat) =>
+          (chat.receiver == contact.username ||
+            chat.receiver == contact.username) &&
+          !filteredContactList.find((c) => contact.username == c.username)
+      );
+    })
+  );
 
   return (
     <div className="flex-[2] flex flex-col max-w-[25%]">
@@ -215,7 +235,7 @@ function ContactsSection() {
                     : ""
                 }`}
               >
-                <div className="text-center w-[70px] leading-[50px] rounded-xl bg-sky-500 text-[#2E333D]">
+                <div className="text-center min-w-[48px] w-[48px] h-[48px] leading-[50px] rounded-xl bg-sky-500 text-[#2E333D]">
                   {contact.name
                     .split(/\s/)
                     .reduce(
@@ -226,7 +246,7 @@ function ContactsSection() {
                 </div>
                 <div className="ml-2 max-w-[66%]">
                   <div className="flex justify-between items-center">
-                    <h4 className="text-[#e5e6ea] nameActive">
+                    <h4 className="text-[#e5e6ea] nameActive whitespace-nowrap">
                       {contact.name}
 
                       <span className="text-[#e5e6ea88] text-xs mr-2 inline-block">
@@ -236,7 +256,7 @@ function ContactsSection() {
                     {/* <span className="text-[#989BA0] text-xs">time</span> */}
                   </div>
                   <div>
-                    <p className="inline-block text-xs text-[#989BA0] break-words max-w-[300px]">
+                    <p className="inline-block text-xs text-[#989BA0] break-words max-w-[100%] max-h-10 overflow-hidden">
                       {contactChatList(contact.username)?.slice(-1)[0]?.text}
                     </p>
                     {/* <span className="rounded-full leading-[8px] p-2 bg-[#7189f8] text-[#e5e6ea] text-sm hidden inline-block ml-3  numberText">
