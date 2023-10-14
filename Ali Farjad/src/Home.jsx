@@ -60,7 +60,7 @@ function useFarawin(name) {
     };
   }, []);
 
-  return { list, error, loading, fetchData };
+  return { list, error, loading, fetchData, setList };
 }
 
 export default function Home() {
@@ -75,6 +75,7 @@ export default function Home() {
     list: chatList,
     loading: chatLoading,
     fetchData: fetchChats,
+    setList: setChatList,
   } = useFarawin("chat");
 
   const { list: userList } = useFarawin("user");
@@ -102,6 +103,19 @@ export default function Home() {
     );
   });
   //main bg and its container
+
+  useEffect(() => {
+    const socket = new WebSocket(
+      "wss://farawin.iran.liara.run/api/ws/eyJ1c2VybmFtZSI6IjA5MzkzMDEzMzk3IiwicGFzc3dvcmQiOiIxMjMxMjMxMjMiLCJuYW1lIjoiRmFyYXdpbiIsImRhdGUiOiIyMDIzLTA3LTA1VDE3OjU0OjMwLjcwM1oifQ=="
+    );
+    socket.addEventListener("message", (e) => {
+      const newChat = JSON.parse(e.data);
+      setChatList((chatList) => [...chatList, newChat]);
+    });
+
+    return () => socket.close();
+  }, []);
+
   return (
     <div className="flex h-full justify-center bg-[#34393C] py-2 text-[#989BA0] p-4">
       <div className="flex bg-[#000000] rounded-3xl h-full min-w-[6rem] max-w-[6rem] w-24 ml-[-34px] overflow-y-auto">
@@ -289,7 +303,7 @@ function ChatsSection() {
 
   useEffect(() => {
     if (scrollContainer.current) scrollContainer.current.scrollTop = 1000000;
-  }, [selectContact]);
+  }, [selectedUserChatList]);
 
   if (selectContact == null)
     return (
