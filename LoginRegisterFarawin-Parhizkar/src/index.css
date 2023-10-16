@@ -64,13 +64,13 @@ button:focus-visible {
   }
 }
 
-.my__button{
-background-image: -webkit-linear-gradient(right,#fc00ff,#00dbde,#fc00ff) ;  
-background-size: 300%;
-background-position: right;
-transition: all 0.7s ease;
+.my__button {
+  background-image: -webkit-linear-gradient(right, #fc00ff, #00dbde, #fc00ff);
+  background-size: 300%;
+  background-position: right;
+  transition: all 0.7s ease;
 }
 
-.my__button:hover{
+.my__button:hover {
   background-position: left;
 }

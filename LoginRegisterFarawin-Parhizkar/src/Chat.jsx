@@ -30,14 +30,13 @@ export default function ChatPage(props) {
   const [selectedNumber, setSelectedNumber] = useState("");
   const [controlChats, setControlChats] = useState(false);
   const [controlContact, setControl] = useState(false);
-  const [sendText , setSendText] = useState("");
-  const[isOpenEdit , setIsOpenEdit]=useState(false);
-  const [editPhoneNumber,setEditPhoneNumber]=useState("")
-  const [contactEditName , setContactEditName]=useState("");
+  const [sendText, setSendText] = useState("");
+  const [isOpenEdit, setIsOpenEdit] = useState(false);
+  const [editPhoneNumber, setEditPhoneNumber] = useState("");
+  const [contactEditName, setContactEditName] = useState("");
   const contactListController = useRef(null);
 
-
-  console.log(buttonToggle2)
+  console.log(buttonToggle2);
   console.log(filteredContacts);
   console.log(sendText);
 
@@ -58,12 +57,11 @@ export default function ChatPage(props) {
       setControl(true);
     }
   }, 1000);
-  
+
   // یوز افکت یک استیت برای گرفتن یک مقدار خارج از ری اکت است مانند فچ یا اطلاعات سرور
   // در دپندنسی آن میتوان مقادیری قرار داد تا ری رندر آن را بتوان کنترل کرد
 
   useEffect(() => {
-
     let ignore = false;
 
     // getting contacts from api
@@ -77,7 +75,7 @@ export default function ChatPage(props) {
         );
       }
     });
-    // for controlling useEffect run or not 
+    // for controlling useEffect run or not
     return () => {
       ignore = true;
     };
@@ -103,7 +101,7 @@ export default function ChatPage(props) {
   const handleDeleteContact = () => {
     setIsOpenDelete(!isOpenDelete);
   };
-  // this is a function that control the phone number value which is user fill it 
+  // this is a function that control the phone number value which is user fill it
   const handleAddPhoneChange = (event) => {
     var addPhoneNumber = event.target.value;
     const mobileRegex = farawin.mobileRegex;
@@ -150,7 +148,7 @@ export default function ChatPage(props) {
       setIsValidName(false);
     }
   };
-  // in this function phone number and a name will be send to the server for adding contacts 
+  // in this function phone number and a name will be send to the server for adding contacts
   const handleAddMembers = async () => {
     const phoneSend = addPhoneNumber;
     const nameSend = contactName;
@@ -172,18 +170,21 @@ export default function ChatPage(props) {
     }
   };
   // its a function for Edit contact pop up section
-  const handleEditContact = ()=>{
+  const handleEditContact = () => {
     setIsOpenEdit(!isOpenEdit);
-  }
+  };
   // this is a function that will edit the selected contact by name and phone number
-  const handleEditMember = async()=>{
-    const resultEdit = await farawin.testEditContact(editPhoneNumber , contactEditName);
-    if(resultEdit.code !== 200){
-      alert(resultEdit.message)
-    }else{
-      alert(resultEdit.message)
+  const handleEditMember = async () => {
+    const resultEdit = await farawin.testEditContact(
+      editPhoneNumber,
+      contactEditName
+    );
+    if (resultEdit.code !== 200) {
+      alert(resultEdit.message);
+    } else {
+      alert(resultEdit.message);
     }
-  }
+  };
   // this is a function that control the name input in the edit member pop up
   const handleEditNameChange = (event) => {
     const contactName = event.target.value;
@@ -215,20 +216,33 @@ export default function ChatPage(props) {
       setIsValidPhone(false);
     }
   };
-  //  this is a function for getting value from send chat input and we get the text that user wants to send it 
-  const handleSendTextsChange = (event)=>{
+  //  this is a function for getting value from send chat input and we get the text that user wants to send it
+  const handleSendTextsChange = (event) => {
     const text = event.target.value;
     setSendText(text);
   };
   // this is a function that send the text to the contact by the server
-  const handleTextSender=async()=>{
+  const handleTextSender = async () => {
     const toUser = selectedNumber;
     const textSend = sendText;
-    const resultSend = await farawin.testAddChat(toUser , textSend);
-    if(resultSend.code !== 200){
-      alert(resultSend.message)
-    }else{
-      alert(resultSend.message)
+    const resultSend = await farawin.testAddChat(toUser, textSend);
+    if (resultSend.code !== 200) {
+      alert(resultSend.message);
+    } else {
+      alert(resultSend.message);
+    }
+  };
+  //  this is a function for getting value from send chat input and we get the text that user wants to send it by pressing Enter key
+  const handleTextSendByEnter = async (event) => {
+    if (event.key === "Enter") {
+      const toUser = selectedNumber;
+      const textSend = sendText;
+      const resultSend = await farawin.testAddChat(toUser, textSend);
+      if (resultSend.code !== 200) {
+        alert(resultSend.message);
+      } else {
+        alert(resultSend.message);
+      }
     }
   };
   // we have 3 variable that control the buttons in the pop ups by filling the inputs in the right way by the chat laws
@@ -236,7 +250,7 @@ export default function ChatPage(props) {
   const isHazfDisabled = !isValidPhone;
   const isEditDisabled = !isValidPhone || !isValidName;
 
-  // a simple js function for showing or hiding contact menu in the smaller devices 
+  // a simple js function for showing or hiding contact menu in the smaller devices
   const handleShowMenu = () => {
     const contactMenu = document.getElementById("Contact-menu");
     const chatContainer = document.getElementById("chat-container");
@@ -272,10 +286,10 @@ export default function ChatPage(props) {
   return (
     <div dir="rtl" lang="fa">
       {/* pop up for edit contact */}
-         {isOpenEdit && (
-          // a component for showing pop ups 
+      {isOpenEdit && (
+        // a component for showing pop ups
         <Popup
-        // i send the elements with this content to the pop up component because I have variable pop ups and I need to add them here by my needs
+          // i send the elements with this content to the pop up component because I have variable pop ups and I need to add them here by my needs
           content={
             <>
               <button
@@ -490,15 +504,19 @@ export default function ChatPage(props) {
               </button>
               {/* button for editing contacts  */}
               <button
-               className="hover:bg-blue-400 w-fit rounded-lg p-1" 
-               onClick={handleEditContact}
+                className="hover:bg-blue-400 w-fit rounded-lg p-1"
+                onClick={handleEditContact}
               >
                 Edit
               </button>
             </div>
             {/* search bar section with calling back a component for searching contacts */}
             <div id="search-bar" className="flex pt-4 mb-5 pl-2">
-              <SearchBar data={filteredContacts} set={setSelectedContact} number={setSelectedNumber} />
+              <SearchBar
+                data={filteredContacts}
+                set={setSelectedContact}
+                number={setSelectedNumber}
+              />
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 50 50"
@@ -595,25 +613,37 @@ export default function ChatPage(props) {
               {/* a component for getting and sorting chats coming from the server */}
               <div className="p-2 mr-5 h-full w-full">
                 {controlChats && (
-                    // passing 3 porps for the reciver chat component 
-                    <RecieverChatMassage toggle={buttonToggle2} number={selectedNumber} contactName={selectedContact} />
-                  
+                  // passing 3 porps for the reciver chat component
+                  <RecieverChatMassage
+                    toggle={buttonToggle2}
+                    number={selectedNumber}
+                    contactName={selectedContact}
+                  />
                 )}
               </div>
             </div>
             {/* chat sender input section */}
             <div id="chat-sender" className="w-full p-3 flex justify-center">
               <input
-              onChange={handleSendTextsChange}
+                onChange={handleSendTextsChange}
+                onKeyDown={() => {
+                  handleTextSendByEnter(event);
+                  setButtonToggle2(Math.random());
+                }}
                 value={sendText}
                 type="text"
                 placeholder="پیغام خود را بنویسید ... "
                 className="w-9/12 p-2 text-white outline-none rounded-r-lg border-none bg-[#2E333D]"
               />
-              <button onClick={ ()=>{
-                handleTextSender();
-                setButtonToggle2(Math.random())
-              } } className="bg-[#2E333D] text-white hover:bg-blue-400 w-fit rounded-l-lg rounded-r-none p-1">ارسال</button>
+              <button
+                onClick={() => {
+                  handleTextSender();
+                  setButtonToggle2(Math.random());
+                }}
+                className="bg-[#2E333D] text-white hover:bg-blue-400 w-fit rounded-l-lg rounded-r-none p-1"
+              >
+                ارسال
+              </button>
             </div>
           </div>
         </section>

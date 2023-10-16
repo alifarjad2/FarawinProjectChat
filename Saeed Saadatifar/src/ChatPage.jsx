@@ -1,87 +1,107 @@
 import SideBar from "./SideBar";
-import Profile from "./Profile";
 import ChatBox from "./ChatBox";
 import { useEffect, useRef, useState } from "react";
 import farawin from "farawin";
 
 export default function ChatPage() {
+  const [size, setSize] = useState("large");
+  const [hideSideBar, setHideSideBar] = useState(false);
   const [selectedContact, setSelectedontact] = useState(null);
   const [contactList, setContactList] = useState(null);
   const [isLoadedContact, setIsLoadedContact] = useState(false);
   const [chatList, setChatList] = useState(null);
-<<<<<<< HEAD
   const [lastMessages, setLastMessages] = useState(null);
-=======
-  const [lastMessages , setLastMessages] = useState(null)
->>>>>>> 0ce7ebd73975271029a0b45a34e4dcc7e5c93c75
-
+  const [isSearchBox, setIsSearchBox] = useState(false);
   useEffect(() => {
     farawin.getUsers((res) => {
-      localStorage.name = res.userList.filter(
-        (user) => user.username == localStorage.username
-      )[0].name;
+      if (res.code == "200")
+        localStorage.name = res.userList.filter(
+          (user) => user.username == localStorage.username
+        )[0].name;
     });
   }, []);
 
   useEffect(() => {
-    farawin.getChats((res) => {
+    farawin.getChats().then((res) => {
       setChatList(
-        res.chatList.filter(
-          (message) =>
-            message.sender == localStorage.username ||
-            message.receiver == localStorage.username
-        )
+        res.chatList
+          .filter(
+            (message) =>
+              message.sender != message.receiver &&
+              (message.sender == localStorage.username ||
+                message.receiver == localStorage.username)
+          )
+          .sort((a, b) => new Date(a.date) - new Date(b.date))
       );
     });
+    let a = setInterval(() => {
+      farawin.getChats().then((res) => {
+        setChatList(
+          res.chatList
+            .filter(
+              (message) =>
+                message.sender != message.receiver &&
+                (message.sender == localStorage.username ||
+                  message.receiver == localStorage.username)
+            )
+            .sort((a, b) => new Date(a.date) - new Date(b.date))
+        );
+      });
+    }, 5000);
+    return () => {
+      clearInterval(a);
+    };
   }, []);
 
   useEffect(() => {
-    farawin.getContacts((e) => {
+    farawin.getContacts().then((res) => {
       setContactList(
-        e.contactList.filter((e) => e.ref == localStorage.username)
+        res.contactList.filter((e) => e.ref == localStorage.username)
       );
       setIsLoadedContact(true);
     });
-  }, []);
-<<<<<<< HEAD
-
-  
-=======
-  
-  // #region LastMessage
-  let LastMessage = () => {
-    let lastMessages = [];
-    let chats = chatList.sort((a, b) => new Date(a.date) - new Date(b.date));
-    let lastRecevier = chatList[chatList.length - 1].receiver;
-    let lastSender = chatList[chatList.length - 1].sender;
-
-    for (let i = chatList.length - 1; i >= 0; i--) {
-      if (
-        (chatList[i].receiver == lastRecevier &&
-          chatList[i].sender == lastSender &&
-          i != chatList.length - 1) ||
-        chatList[i].sender == chatList[i].receiver ||
-        (chatList[i].receiver == lastSender &&
-          chatList[i].sender == lastRecevier)
-      )
-        continue;
-      lastRecevier = chatList[i].receiver;
-      lastSender = chatList[i].sender;
-      lastMessages.push({
-        key: `${lastSender}` + `${lastRecevier}`,
-        value: chatList[i].text,
+    let a = setInterval(() => {
+      farawin.getContacts().then((res) => {
+        setContactList(
+          res.contactList.filter((e) => e.ref == localStorage.username)
+        );
+        setIsLoadedContact(true);
       });
-    }
-    return lastMessages;
-  };
-  useEffect(()=>{
-    chatList && setLastMessages(LastMessage());
-  },[chatList]);
-  // #endregion
+    }, 10000);
+    if (window.innerWidth <= 640) setSize("sm");
+    else if (window.innerWidth > 640 && window.innerWidth < 800) setSize("md");
+    else if (window.innerWidth > 640 && window.innerWidth < 960) setSize("lg");
+    else setSize("xl");
+    return () => {
+      clearInterval(a);
+    };
+  }, []);
 
->>>>>>> 0ce7ebd73975271029a0b45a34e4dcc7e5c93c75
+  // #region LastMessage
+
+  let LastMessage = () => {
+    let lastChats = new Map();
+    if (chatList && contactList) {
+      for (let i = contactList.length - 1; i >= 0; i--) {
+        for (let j = chatList.length - 1; j >= 0; j--) {
+          if (
+            chatList[j].sender == contactList[i].username ||
+            chatList[j].receiver == contactList[i].username
+          ) {
+            lastChats.set(contactList[i], chatList[j]);
+            break;
+          }
+        }
+      }
+    }
+    return lastChats;
+  };
+  useEffect(() => {
+    setLastMessages(LastMessage());
+  }, [chatList, contactList]);
+  // #endregion
   // #region ProfileContent
-  const createImageProfile = () => {
+  const createImageProfile = (contact = {}) => {
     let imageWordProfile = "";
     let nameSplitBySpace = localStorage.name.split(" ");
     let countSpace = Math.floor(nameSplitBySpace.length / 2);
@@ -102,44 +122,81 @@ export default function ChatPage() {
   };
   localStorage.name && createImageProfile();
   // #endregion
-
+  useEffect(() => {
+    if (selectedContact && selectedContact[3]) {
+      let element = document.getElementById(`${selectedContact[3]}`);
+      let element2 = document.getElementById(`messageBox`);
+      if (element2 && element) {
+        element.classList.toggle("bg-slate-600");
+        setTimeout(() => {
+          element.classList.toggle("bg-slate-600");
+        }, 800);
+        element.scrollIntoView({ inline: "center" });
+      }
+    } else if (selectedContact) {
+      let element = document.getElementById("messageBox");
+      element.scroll({
+        top: element.scrollHeight - element.clientHeight,
+        behavior: "instant",
+      });
+    }
+  }, [selectedContact]);
+  window.onresize = (e) => {
+    if (e.target.innerWidth <= 640) setSize("sm");
+    else if (e.target.innerWidth > 640 && e.target.innerWidth < 800)
+      setSize("md");
+    else if (e.target.innerWidth > 640 && e.target.innerWidth < 960)
+      setSize("lg");
+    else setSize("xl");
+    if (e.target.innerWidth <= 640 && selectedContact) setHideSideBar(true);
+    else setHideSideBar(false);
+  };
   return (
-    <div className="flex items-center justify-center" dir="rtl">
-      <div className="flex items-center justify-center h-screen max-w-[962px] w-screen">
-        <div className="w-screen h-screen p-[35px] bg-[#21242B] text-[#FAFBFD] flex">
-<<<<<<< HEAD
-          {chatList && <SideBar
-            chats = {chatList && chatList}
-=======
-          <SideBar
-            lastM={lastMessages && lastMessages}
->>>>>>> 0ce7ebd73975271029a0b45a34e4dcc7e5c93c75
-            sC={setSelectedontact}
-            load={isLoadedContact}
-            contacts={contactList && contactList}
-            setC={setContactList}
-<<<<<<< HEAD
-          />}
-=======
-          />
->>>>>>> 0ce7ebd73975271029a0b45a34e4dcc7e5c93c75
-          {selectedContact && (
+    <div
+      className="flex items-center justify-center"
+      dir="rtl"
+      onClick={(event) => {
+        if (!event.target.id.match("Search")) setIsSearchBox(false);
+      }}
+    >
+      <div className="flex items-center justify-center max-w-[962px] w-screen">
+        <div className="w-screen h-screen p-[35px] bg-[#21242B] bg-opacity-75 text-[#FAFBFD] flex gap-8">
+          {(!hideSideBar || !selectedContact) && chatList && contactList && (
+            <SideBar
+              size={size}
+              setHideSideBar={setHideSideBar}
+              lastM={
+                lastMessages && (lastMessages.size > 0 ? lastMessages : null)
+              }
+              sC={setSelectedontact}
+              load={isLoadedContact}
+              contacts={contactList && contactList}
+              setC={setContactList}
+              isSearchBox={isSearchBox}
+              setIsSearchBox={setIsSearchBox}
+              createImageProfile={createImageProfile}
+              selectedContact={selectedContact}
+              chatList={chatList}
+            />
+          )}
+          {selectedContact && chatList && contactList && (
             <ChatBox
+              size={size}
+              setHideSideBar={setHideSideBar}
               setChats={setChatList}
               setSelect={setSelectedontact}
+              selectedContact={selectedContact}
               prof={selectedContact && selectedContact[2]}
               header={selectedContact && selectedContact[1]}
               num={selectedContact && selectedContact[0]}
               setC={setContactList}
               chats={
                 chatList &&
-                chatList
-                  .filter(
-                    (message) =>
-                      message.receiver == selectedContact[0] ||
-                      message.sender == selectedContact[0]
-                  )
-                  .sort((a, b) => new Date(a.date) - new Date(b.date))
+                chatList.filter(
+                  (message) =>
+                    message.receiver == selectedContact[0] ||
+                    message.sender == selectedContact[0]
+                )
               }
             />
           )}
