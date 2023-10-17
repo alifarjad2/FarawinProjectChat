@@ -9,7 +9,6 @@ export default function Home() {
   const [allChats, setAllChats] = useState([]);
   const [sender, setSender] = useState([]);
   const [receiver, setReceiver] = useState([]);
-  const [openMenu, setOpenMenu] = useState(false);
 
   useEffect(() => {
     getContact();
@@ -82,14 +81,15 @@ export default function Home() {
           receiver={receiver}
           handleContactButtonClick={handleChatBoxButtonClick}
           openMenu={handleOpenMenu}
+          setSelectedContact={setSelectedContact}
         />
         <Sidebar
-          openMenu={openMenu}
           closeMenu={handleCloseMenu}
           contact={contact}
           setSelectedContact={setSelectedContact}
           handleContactButtonClick={handleContactButtonClick}
           allChats={allChats}
+          selectedContact={selectedContact}
         />
       </div>
     </div>

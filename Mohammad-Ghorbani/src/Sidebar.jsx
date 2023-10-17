@@ -10,9 +10,8 @@ function Sidebar({
   contact,
   setSelectedContact,
   handleContactButtonClick,
-  openMenu,
-  closeMenu,
   allChats,
+  selectedContact,
 }) {
   const [filterSearch, setFilterSearch] = useState("");
   const [showAddContact, setShowAddContact] = useState(false);
@@ -54,7 +53,7 @@ function Sidebar({
         <div
           id="sidebar"
           className={`flex flex-col w-1/3 h-full 
-          ${!openMenu ? "max-lg:hidden" : ""} 
+          ${selectedContact ? "max-lg:hidden" : ""} 
           max-lg:absolute max-lg:left-0 max-lg:top-0 max-lg:w-full max-lg:h-full max-lg:bg-[#202329] max-lg:z-10 max-lg:rounded-3xl max-lg:overflow-hidden text-right`}
         >
           <div className="h-16 flex flex-row rounded-3xl my-3 mx-4 bg-[#2E333D] ">
@@ -70,13 +69,6 @@ function Sidebar({
               placeholder="جستجو"
               className="w-5/6 h-5/6 rounded- bg-inherit m-auto focus:outline-none text-right text-xl"
             />
-            <button
-              onClick={closeMenu}
-              id="closeMenu"
-              className="lg:hidden p-3 h-full  rounded-3xl flex  items-center bg-inherit max-lg:hover:bg-red-600 overflow-hidden"
-            >
-              <img className="lg:hidden w-12 " src={ImageClose} />
-            </button>
             <div
               onClick={handleAddContact}
               className="p-3 h-full flex items-center rounded-3xl hover:bg-white "
