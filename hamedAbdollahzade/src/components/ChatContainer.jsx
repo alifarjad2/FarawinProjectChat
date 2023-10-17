@@ -1,13 +1,29 @@
 import farawin from "farawin";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import imageSend from "../../img/send.png";
 import imageRefresh from "../../img/refresh.png";
 import { ChatBoxReciver } from "./ChatBoxReciver";
 import { ChatBoxSender } from "./ChatBoxSender";
 
 export const ChatContainer = (prop) => {
+  const enterSend = (e) => {
+    if (e.key === "Enter") {
+      ersalPayam();
+      refreshHandler();
+      setinputSendMessege("");
+    }
+  };
+
+  const refreshHandler = () => {
+    prop.force((c) => c + 1);
+  };
+
   //! ------------------------------------------------------------------------------------
   const [inputSendMessege, setinputSendMessege] = useState("");
+  const ref = useRef();
+  if (ref.current) {
+    ref.current.scrollTop = ref.current.scrollHeight ;
+  }
   const sortChat = [...prop.sender, ...prop.reciver].sort((a, b) => {
     return new Date(a.date) - new Date(b.date);
   });
@@ -15,7 +31,6 @@ export const ChatContainer = (prop) => {
 
   const ersalPayam = async () => {
     const res = await farawin.testAddChat(prop.item.username, inputSendMessege);
-    alert(res.message);
     res.code == 200 ? setinputSendMessege("") : "";
   };
   //! --------------------------------------------------------------------------------------
@@ -24,7 +39,7 @@ export const ChatContainer = (prop) => {
       <div
         className={
           prop.item
-            ? "flex flex-col w-full m-1 rounded-xl text-start max-sm:w-full "
+            ? "flex flex-col w-full m-1 rounded-xl text-start max-sm:w-full   "
             : "hidden"
         }
       >
@@ -38,16 +53,14 @@ export const ChatContainer = (prop) => {
             alt="menu-vertical"
           />
           <img
-            onClick={() => {
-              return prop.refresh();
-            }}
+            onClick={() => refreshHandler()}
             className="h-8 mx-6  bg-blue-400 rounded-full hover:bg-white  cursor-pointer"
             src={imageRefresh}
             alt="Refresh"
           />
         </div>
         {/* ------------------------------------------------ قسمت نمایش چت ----------------------------------------------------- */}
-        <div className=" h-full  overflow-y-auto p-2 ">
+        <div ref={ref} className=" h-full  overflow-y-auto p-2 scroll-smooth  ">
           {sortChat.length != 0
             ? sortChat.map((sortedItem) =>
                 sortedItem.sender != localStorage.userMobile ? (
@@ -84,6 +97,7 @@ export const ChatContainer = (prop) => {
             onChange={(e) => {
               setinputSendMessege(e.target.value);
             }}
+            onKeyDown={enterSend}
             placeholder="پیام شما ..."
             className="bg-[rgba(17,27,54,0.4)]  text-lg w-full pl-10 pr-2 outline-none"
           />
@@ -99,6 +113,6 @@ export const ChatContainer = (prop) => {
       >
         *** برای چت یک مخاطب را انتخاب کنید ***
       </div>
-      </>    
+    </>
   );
 };
