@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import farawin from "farawin";
 import ImageAttach from "./Assets/attach-48.png";
 import ImageMenu from "./Assets/menu-50.png";
-import ImageMore from "./Assets/more-50.png";
+// import ImageMore from "./Assets/more-50.png";
 import ImageRef from "./Assets/refresh-48.png";
 import ImageSendMessage from "./Assets/send-48.png";
+import ImageExit from "./Assets/exit-48.png";
 
 function ChatBox({
   selectedContact,
@@ -77,6 +78,14 @@ function ChatBox({
     day: "2-digit",
   });
 
+  const chatContainerRef = useRef();
+  useEffect(() => {
+    if (chatContainerRef.current)
+      chatContainerRef.current.scrollTop =
+        chatContainerRef.current.scrollHeight -
+        chatContainerRef.current.clientHeight;
+  });
+
   return (
     <div
       id="chatBox"
@@ -104,9 +113,9 @@ function ChatBox({
           {selectedContact && selectedContact.username}
         </div>
         <img
-          title="خروج"
+          title="خروج از اکانت "
           className="w-7 h-7 cursor-pointer absolute left-1 top-6 max-lg:left-9"
-          src={ImageMore}
+          src={ImageExit}
           alt="more"
           onClick={() => {
             localStorage.removeItem("token");
@@ -116,7 +125,8 @@ function ChatBox({
       </div>
       <div
         id="pv"
-        className="px-1 w-full h-5/6 overflow-y-auto max-lg:overflow-x-hidden scroll-smooth flex flex-col gap-y-2"
+        ref={chatContainerRef}
+        className="px-1 w-full h-5/6 overflow-y-auto  flex flex-col gap-y-2 scroll-smooth "
       >
         {messages.map((message, index) => (
           <>
@@ -142,14 +152,14 @@ function ChatBox({
                 key={index}
                 className={`mr-1 ${
                   message.sender !== localStorage.myUsername
-                    ? " bg-[#2E333D] rounded-3xl rounded-bl-none text-right w-fit max-w-2xl min-w-[8rem] "
-                    : " bg-[#6b8afe] rounded-3xl rounded-br-none text-right w-fit max-w-2xl min-w-[8rem] m-auto "
+                    ? " bg-[#2E333D] rounded-3xl rounded-bl-none text-right w-fit max-w-2xl min-w-[8rem] break-words "
+                    : " bg-[#6b8afe] rounded-3xl rounded-br-none text-right w-fit max-w-2xl min-w-[8rem] m-auto break-words "
                 } p-3 `}
               >
-                <p className="text-lg overflow-auto font-sans">
+                <p className="text-lg overflow-auto font-sans ">
                   {message.text}
                 </p>
-                <div className="text-sm">
+                <div className="text-sm ">
                   <p
                     className={
                       message.sender !== localStorage.myUsername

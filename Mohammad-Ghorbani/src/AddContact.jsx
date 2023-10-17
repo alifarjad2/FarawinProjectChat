@@ -73,7 +73,7 @@ export default function AddContact({ onClose }) {
       <button
         onClick={onClose}
         type="button"
-        className="m-auto bg-white rounded-full p-1 hover:bg-red-500"
+        className="m-auto bg-white rounded-full p-1 hover:bg-red-500 w-11"
       >
         <img src={ImageClose} alt="Close" />
       </button>
