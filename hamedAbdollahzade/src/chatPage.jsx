@@ -67,7 +67,7 @@ export const ChatPage = () => {
         <DrawerChat selectedItem={selectedHandler} />
 
         {/*  این کامپوننت مربوط به کانتینر قسمت چت ک شامل هدر و صفحه چت و اینپوت ارسال پیام  */}
-        <ChatContainer item={selectedItem} sender={sender} reciver={reciver} force={force} />
+        <ChatContainer item={selectedItem} sender={sender} reciver={reciver} force={force}  />
       </div>
     </div>
   );

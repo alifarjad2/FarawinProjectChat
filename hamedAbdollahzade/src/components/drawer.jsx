@@ -34,9 +34,7 @@ export const DrawerChat = (prop) => {
   // -----------------------------------------------------------------------
   const searchHandler = (value) => {
     const searched = members.filter((item) => {
-      return item.name.toLocaleLowerCase().includes(value.toLocaleLowerCase())
-        ? item.name
-        : "";
+      return item.name.toLocaleLowerCase().includes(value.toLocaleLowerCase());
     });
     {
       searched.length != 0 && value.length != 0
@@ -62,8 +60,7 @@ export const DrawerChat = (prop) => {
   // ------------------------------------------------------------------------------------
 
   return (
-  
-    <div 
+    <div
       className={
         showDrawer
           ? "relative transition-all duration-700 overflow-x-hidden flex flex-col m-1 rounded-lg w-[300px] shrink-0 text-center px-4  border-l-2 border-blue-900 "
@@ -178,10 +175,7 @@ export const DrawerChat = (prop) => {
       {members.length == 0
         ? " مخاطبی وجود ندارد"
         : members.map((contact) => (
-            <ContactItem
-              contact={contact}
-              selectedItem={selectedHandler}
-            />
+            <ContactItem contact={contact} selectedItem={selectedHandler} />
           ))}
     </div>
   );

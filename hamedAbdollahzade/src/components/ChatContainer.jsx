@@ -62,11 +62,11 @@ export const ChatContainer = (prop) => {
         {/* ------------------------------------------------ قسمت نمایش چت ----------------------------------------------------- */}
         <div ref={ref} className=" h-full  overflow-y-auto p-2 scroll-smooth  ">
           {sortChat.length != 0
-            ? sortChat.map((sortedItem) =>
+            ? sortChat.map((sortedItem , i) =>
                 sortedItem.sender != localStorage.userMobile ? (
-                  <ChatBoxReciver item={prop.item} reciver={sortedItem} />
+                  <ChatBoxReciver key={i} item={prop.item} reciver={sortedItem} />
                 ) : (
-                  <ChatBoxSender sender={sortedItem} />
+                  <ChatBoxSender key={i} sender={sortedItem} />
                 )
               )
             : ""}

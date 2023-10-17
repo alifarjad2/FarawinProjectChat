@@ -3,7 +3,7 @@ export const ChatBoxSender = (prop) => {
     const timer = new Date(time).toLocaleTimeString("fa-IR", {
      hourCycle: "h24",
      hour: "2-digit",
-     minute: "2-digit",
+     minute: "2-digit"
    });
    return timer ;
  };
