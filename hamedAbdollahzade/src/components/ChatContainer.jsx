@@ -4,6 +4,7 @@ import imageSend from "../../img/send.png";
 import imageRefresh from "../../img/refresh.png";
 import { ChatBoxReciver } from "./ChatBoxReciver";
 import { ChatBoxSender } from "./ChatBoxSender";
+import menuVertical from "../../img/menu-vertical.png"
 
 export const ChatContainer = (prop) => {
   const enterSend = (e) => {
@@ -49,7 +50,7 @@ export const ChatContainer = (prop) => {
           <img
             onClick={() => alert(" اینم قراره کار کنه ؟ |: ")}
             className="h-8 absolute left-2 top-0 cursor-pointer "
-            src="../img/menu-vertical.png"
+            src={menuVertical}
             alt="menu-vertical"
           />
           <img
@@ -60,7 +61,7 @@ export const ChatContainer = (prop) => {
           />
         </div>
         {/* ------------------------------------------------ قسمت نمایش چت ----------------------------------------------------- */}
-        <div ref={ref} className=" h-full  overflow-y-auto p-2 scroll-smooth  ">
+        <div ref={ref}  className="grow overflow-y-auto p-2 scroll-smooth  ">
           {sortChat.length != 0
             ? sortChat.map((sortedItem , i) =>
                 sortedItem.sender != localStorage.userMobile ? (
@@ -82,15 +83,8 @@ export const ChatContainer = (prop) => {
           </div>
         </div>
         {/* ----------------------------------------------------------- این قسمت هم برای اینپوت ارسال پیام ------------------------------------------------------------- */}
-        <div className="  h-12 m-2 flex flex-row relative">
-          <img
-            src={imageSend}
-            alt="attachment"
-            className="p-1 w-10 absolute left-0 top-1 cursor-pointer"
-            onClick={() => {
-              ersalPayam();
-            }}
-          />
+        <div className=" flex flex-row justify-center items-center">
+        <div className="flex-1 mx-3">
           <input
             type="text"
             value={inputSendMessege}
@@ -99,8 +93,21 @@ export const ChatContainer = (prop) => {
             }}
             onKeyDown={enterSend}
             placeholder="پیام شما ..."
-            className="bg-[rgba(17,27,54,0.4)]  text-lg w-full pl-10 pr-2 outline-none"
+            className="bg-[rgba(100,211,255,0.4)]  text-lg w-full h-10 pl-10 pr-2 rounded-lg outline-none"
           />
+          </div>
+         <div>
+         <img
+         className="w-8 mx-1 cursor-pointer"
+            src={imageSend}
+            alt="attachment"
+            onClick={() => {
+              ersalPayam();
+            }}
+          />
+         </div>
+          
+         
         </div>
       </div>
 
