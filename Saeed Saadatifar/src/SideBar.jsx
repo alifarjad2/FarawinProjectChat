@@ -17,6 +17,7 @@ export default function SideBar({
   lastM,
   setHideSideBar,
   size,
+  contactss,
 }) {
   const [isAddContactPage, setIsAddContactPage] = useState(false);
   const [searchInp, setSearchInp] = useState("");
@@ -150,6 +151,8 @@ export default function SideBar({
           <div id="SearchedBox" onClick={() => setIsSearchBox(true)}>
             {isSearchBox && (
               <SearchBox
+                setHideSideBar={setHideSideBar}
+                contactss={contactss}
                 id="SearchedBox"
                 contacts={contacts}
                 searchInp={searchInp}
