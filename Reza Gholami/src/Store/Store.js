@@ -1,0 +1,21 @@
+import { create } from "zustand";
+export const useStore = create((set) => ({
+  phoneNumber: "",
+  setPhoneNumber: (value) =>set((state) => ({ phoneNumber: (state.phoneNumber = value) })),
+  password: "",
+  setPassword: (value) =>set((state) => ({ password: (state.password = value) })),
+  repeatPassword: "",
+  setRepeatPassword: (value) =>set((state) => ({ repeatPassword: (state.repeatPassword = value) })),
+  isValidatePhoneNum: null,
+  setIsValidatePhoneNum: (value) =>set((state) => ({isValidatePhoneNum: (state.isValidatePhoneNum = value),})),
+  isValidatePass: null,
+  setIsValidatePass: (value) =>set((state) => ({ isValidatePass: (state.isValidatePass = value) })),
+  isValidateRepPass: null,
+  setIsValidateRepPass: (value) =>set((state) => ({ isValidateRepPass: (state.isValidateRepPass = value) })),
+  contactSelected: "",
+  setContactSelected: (value) =>set((state) => ({ contactSelected: (state.contactSelected = value) })),
+  chatData: "",
+  setChatData: (value) =>set((state) => ({chatData:(state.chatData = value)})),
+  showDrawer: false,
+  setShowDrawer: (value) =>set((state) => ({showDrawer:(state.showDrawer = value)})),
+}));
