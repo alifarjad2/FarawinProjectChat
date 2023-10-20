@@ -1,5 +1,7 @@
 import farawin from "farawin";
 import { useState } from "react";
+import exit from "../../img/icons8-exit-50.png"
+
 
 export const AddContact = () => {
   const [name, setName] = useState("");
@@ -27,7 +29,7 @@ export const AddContact = () => {
     >
       <form className="relative bg-[#4f4e4e] text-center flex flex-col rounded-xl p-8 ">
         <img
-          src="../img/icons8-exit-50.png"
+          src={exit}
           onClick={() => {
             location.reload();
           }}

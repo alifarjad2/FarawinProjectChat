@@ -1,5 +1,8 @@
 import farawin from "farawin";
 import { useState } from "react";
+import exite from "../../img/icons8-exit-50.png"
+
+
 
 export const DeleteContact = () => {
   const [number, setNumber] = useState("");
@@ -26,7 +29,7 @@ export const DeleteContact = () => {
     >
       <form className="relative bg-[#4f4e4e] text-center flex flex-col rounded-xl p-8 ">
         <img
-          src="../img/icons8-exit-50.png"
+          src={exite}
           onClick={() => {
             location.reload();
           }}

@@ -10,6 +10,7 @@ export const Messenger = () => {
 // استیت کلی چت ها
 const [chatAll , setChatAll] = useState("");
 // ---------------------------------------------------------------------
+const [reload , setRelode] = useState(0)
 
 // استیت فرستنده چت
     const [isSender , setIsSender] = useState("");
@@ -57,18 +58,21 @@ useEffect(()=>{
     
     isItem ?
     reciver() : "";
-},[isItem]);
+},[isItem,reload]);
 
-
+const [PopupContact, setPopupContact] = useState(true);
+const togglePopUpContact = () =>{
+  setPopupContact (!PopupContact);
+}
 
 
     return (
         <div className ="bg-[#4f4e4e] flex w-[80vw] h-screen ml-auto mr-auto rounded-lg text-white min-w-fit">
-           <Icons/>
+           <Icons setPopupContact = {togglePopUpContact} />
            
-            <SideBar contactName = {itemHandler} />
+            {PopupContact &&  <SideBar contactName = {itemHandler} />}
             
-            <ChatBox  selectItem = {isItem} sendMessage = {isSender}  reciveMessage={isReciver} />
+            <ChatBox  selectItem = {isItem} sendMessage = {isSender}  reciveMessage={isReciver} setRelode ={setRelode} />
             
         </div>
         );

@@ -4,6 +4,7 @@ import { Contacts } from "./Contacts";
 import { SearchBar } from "./SearchBar";
 
 
+
 export const SideBar = ({contactName})=>{
 
     const [contactList , setContactList ] = useState ([])
@@ -30,10 +31,10 @@ export const SideBar = ({contactName})=>{
 
         <div
         // drawer
-        className ="relative bg-[#4f4e4e] flex flex-col min-w-[250px] p-1 m-2  "
+        className ="relative bg-[#4f4e4e] flex flex-col min-w-[250px] p-2  "
         >
-
-        <SearchBar propContact = {contactList} />
+        
+        <SearchBar propContact = {contactList}  contactName = {itemHandler}/>
 
 
         <div 

@@ -1,5 +1,6 @@
 import farawin from "farawin"
 import { useState } from "react"
+import edit from "../../img/icons8-exit-50.png"
 
 export const EditChat =()=>{
 
@@ -28,7 +29,7 @@ export const EditChat =()=>{
       >
         <form className="relative bg-[#4f4e4e] text-center flex flex-col rounded-xl p-5 ">
           <img
-            src="../img/icons8-exit-50.png"
+            src={edit}
             onClick={() => {
               location.reload();
             }}
