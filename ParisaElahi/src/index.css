@@ -9,6 +9,10 @@
 @tailwind utilities;
 
 
+[x-cloak] {
+  display: none !important;
+}
+
 html {
   font-family: Estedad, "Estedad", Inter, system-ui, Avenir, Helvetica, Arial,
     sans-serif;
