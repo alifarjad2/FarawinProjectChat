@@ -3,19 +3,20 @@ import { useState } from "react";
 import { Register } from "./Register";
 import { Login } from "./Login";
 import { Chat } from "./Chat";
+
 // 1- کاربر بتونه درست لاگین و رجیستر کنه
 // ۲- کارکرد صحیح سناریو های گفته شده
 export default function FormAuth() {
   const [currentForm, setCurrentForm] = useState("Login");
-  const toggleForm = (formName) => {
-    setCurrentForm(formName);
+  const toggleForm = (value) => {
+    setCurrentForm(value);
   };
 
   return (
     <>
       {currentForm === "Login" && <Login switchForm={toggleForm} />}
       {currentForm === "Register" && <Register switchForm={toggleForm} />}
-      {currentForm === "Chat" && <Chat />}
+      {currentForm === "Chat" && localStorage.username && <Chat />}
     </>
   );
 }
