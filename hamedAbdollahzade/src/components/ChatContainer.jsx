@@ -34,6 +34,7 @@ export const ChatContainer = (prop) => {
   const ersalPayam = async () => {
     const res = await farawin.testAddChat(prop.item.username, inputSendMessege);
     res.code == 200 ? setinputSendMessege("") : "";
+    refreshHandler();
   };
   //! --------------------------------------------------------------------------------------
   return (
