@@ -7,15 +7,91 @@ import pm from "./assets/image/pm.png";
 import clip from "./assets/image/clip.svg";
 
 export const Chat = () => {
-  farawin.getContacts((result) => {
-    const contList = result.contactList.filter(
-      (contacs) => (contacs.ref = "09000000000")
+  
+  const [phoneNum, setPhoneNum] = useState("");
+  const [name, setName] = useState("");
+
+  // section add & delete & edit contact
+  const AddContact = async () => {
+    const EnMobile = farawin.toEnDigit(phoneNum);
+    const mobileRegex = farawin.mobileRegex;
+
+    if (mobileRegex.test(EnMobile) && name.length >= 3) {
+      const validAdd = await farawin.testAddContact(EnMobile, name);
+      alert(validAdd.message);
+      location.reload();
+    }
+  };
+  const deleteContact = async () => {
+    const EnMobile = farawin.toEnDigit(phoneNum);
+    const mobileRegex = farawin.mobileRegex;
+
+    if (mobileRegex.test(EnMobile) && name.length >= 3) {
+      const validADell = await farawin.testDeleteContact(EnMobile, name);
+      alert(validADell.message);
+      location.reload();
+    }
+  };
+
+  const editContact = async () => {
+    const EnMobile = farawin.toEnDigit(phoneNum);
+    const mobileRegex = farawin.mobileRegex;
+
+    if (mobileRegex.test(EnMobile) && name.length >= 3) {
+      const validEdit = await farawin.testEditContact(EnMobile, name);
+      alert(validEdit.message);
+      location.reload();
+    }
+  };
+  const [contList, setContList] = useState([]);
+
+  const getContact = async () => {
+    const result = await farawin.getContacts();
+    const List = result.contactList.filter(
+      (contacs) => contacs.ref == localStorage.username
     );
-    console.table(contList);
+    console.log(localStorage.username);
+    console.table(List);
+    setContList(List);
+  };
+
+  useEffect(() => {
+    getContact();
+  }, []);
+
+  const [open, setOpen] = useState({
+    openForm: false,
   });
 
-  //   const [name,setName] = useState("");
-  //   const [username,userName] = useState("");
+  const [selectedContact, setSelectedContact] = useState("مخاطب مورد نظر");
+  const handleSelectedContact = (v) => {
+    setSelectedContact(v);
+  };
+  const [selectedPhone, setSelectedPhone] = useState("");
+  const handleSelectedPhone = (v) => {
+    setSelectedPhone(v);
+  };
+
+  // send & get chat
+  const [newMessage, setNewMessage] = useState("");
+  const sendText = async () => {
+    const res = await farawin.testAddChat(selectedPhone, newMessage);
+    console.log("code:" + res.code);
+    res.code == 200 ? setNewMessage("") : handelLodinglastMassege(true);
+  };
+
+  const [listMassege, setListMassege] = useState([]);
+
+  useEffect(() => {
+    farawin.getChats((result) => {
+      const listMasseges = result.chatList.filter(
+        (chat) =>
+          chat.receiver == localStorage.username ||
+          chat.sender == localStorage.username
+      );
+      setListMassege(listMasseges);
+    });
+  }, [sendText]);
 
   // last date
   const [currentDate, setCurrentDate] = useState(new Date());
