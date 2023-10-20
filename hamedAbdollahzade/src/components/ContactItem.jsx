@@ -14,9 +14,7 @@ export const ContactItem = (prop) => {
       >
         <div
           className={
-            Math.random() * 1 > 0.4
-              ? "bg-red-400 flex flex-col justify-center items-center w-10 h-10 text-sm mx-1 pt-1 rounded-full "
-              : "bg-amber-400 flex flex-col justify-center items-center w-10 h-10 text-sm mx-1 pt-1 rounded-full "
+            "bg-cyan-500 flex flex-col justify-center items-center w-10 h-10 text-sm mx-1 pt-1 rounded-full "
           }
         >
           {prop.contact.name[0]}
