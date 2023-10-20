@@ -3,13 +3,12 @@ import Sidebar from "./Sidebar";
 import farawin from "farawin";
 import { useState, useEffect } from "react";
 
-export default function Chat() {
+export default function Home() {
   const [contact, setContact] = useState([]);
   const [selectedContact, setSelectedContact] = useState(null);
   const [allChats, setAllChats] = useState([]);
   const [sender, setSender] = useState([]);
   const [receiver, setReceiver] = useState([]);
-  const [openMenu, setOpenMenu] = useState(false);
 
   useEffect(() => {
     getContact();
@@ -61,18 +60,6 @@ export default function Chat() {
     setSender(filteredSender);
     setReceiver(filteredReceiver);
   };
-  //console.log(allChats);
-  // const lastMessageContact = () => {
-  //   const chatMyContact = allChats.filter(
-  //     (chat) =>
-  //       chat.sender === contact.username &&
-  //       chat.receiver === localStorage.myUsername
-  //   );
-
-  //   console.log(contact[1].username);
-  //   return chatMyContact;
-  // };
-  // lastMessageContact();
 
   const handleContactButtonClick = () => {
     getContact();
@@ -83,7 +70,7 @@ export default function Chat() {
   };
 
   return (
-    <div className="box-border bg-[#34393C] w-screen h-screen pl-10 pt-5 pr-10 pb-14 text-white font-mono text-right cursor-default ">
+    <div className="box-border bg-[#34393C] w-screen h-screen pl-10 pt-5 pr-10 pb-14 text-white text-right cursor-default font-sans">
       <div
         id="container"
         className="w-full h-full m-auto mt-5 p-2 rounded-3xl flex flex-row bg-[#202329] max-lg:relative relative "
@@ -94,14 +81,15 @@ export default function Chat() {
           receiver={receiver}
           handleContactButtonClick={handleChatBoxButtonClick}
           openMenu={handleOpenMenu}
+          setSelectedContact={setSelectedContact}
         />
         <Sidebar
-          openMenu={openMenu}
           closeMenu={handleCloseMenu}
           contact={contact}
           setSelectedContact={setSelectedContact}
           handleContactButtonClick={handleContactButtonClick}
           allChats={allChats}
+          selectedContact={selectedContact}
         />
       </div>
     </div>

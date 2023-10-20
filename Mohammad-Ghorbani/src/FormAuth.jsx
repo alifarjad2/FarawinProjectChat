@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Login from "./Login";
 import Register from "./Register";
-import Chat from "./Chat";
+import Home from "./Home";
 
 export default function FormAuth() {
   const [formType, setFormType] = useState("Login");
@@ -21,7 +21,7 @@ export default function FormAuth() {
       return <Register changeForm={switchForm} />;
     }
   }
-  if (formType === "Chat" || localStorage.token) {
-    return <Chat changeForm={switchForm} />;
+  if (formType === "Home" || localStorage.token) {
+    return <Home changeForm={switchForm} />;
   }
 }
