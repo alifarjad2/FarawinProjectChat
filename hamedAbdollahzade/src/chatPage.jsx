@@ -9,7 +9,7 @@ export const ChatPage = () => {
   const [getAllChat, setGetAllChat] = useState("");
   const [sender, setSender] = useState("");
   const [reciver, setReciver] = useState("");
-  const [f,force] = useState(0);
+  const [f, force] = useState(0);
 
   const creatAllChats = async () => {
     const chatAll = await farawin.getChats();
@@ -52,7 +52,7 @@ export const ChatPage = () => {
     {
       selectedItem ? callCreatFunctions() : "";
     }
-  }, [selectedItem,f]);
+  }, [selectedItem, f]);
 
   const selectedHandler = (item) => {
     setSelectedItem(item.contact);
@@ -67,7 +67,12 @@ export const ChatPage = () => {
         <DrawerChat selectedItem={selectedHandler} />
 
         {/*  این کامپوننت مربوط به کانتینر قسمت چت ک شامل هدر و صفحه چت و اینپوت ارسال پیام  */}
-        <ChatContainer item={selectedItem} sender={sender} reciver={reciver} force={force}  />
+        <ChatContainer
+          item={selectedItem}
+          sender={sender}
+          reciver={reciver}
+          force={force}
+        />
       </div>
     </div>
   );
