@@ -1,4 +1,3 @@
-import { useEffect, useRef } from "react";
 import Profile from "./Profile";
 
 export default function Contact({
