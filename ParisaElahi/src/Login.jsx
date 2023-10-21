@@ -15,6 +15,7 @@ export const Login = (props) => {
     alert(res.message);
     console.log(res);
     if (res.code === "200") {
+      localStorage.username = phone;
       props.switchForm("Chat");
     }
     setIsLoading(false);
@@ -124,7 +125,8 @@ export const Login = (props) => {
           </button>
 
           <button
-            className="rounded-full h-10 p-2 m-8 text-ml text-white "
+            className="rounded-full h-10 p-2 m-8 text-ml text-white disabled:cursor-not-allowed only: "
+            disabled={phone.length == 11 && pass.length >= 8 ? false : true}
             onClick={validForm}
             type="button"
             style={{
