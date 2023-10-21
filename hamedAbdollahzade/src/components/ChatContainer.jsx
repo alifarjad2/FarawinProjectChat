@@ -4,14 +4,13 @@ import imageSend from "../../img/send.png";
 import imageRefresh from "../../img/refresh.png";
 import { ChatBoxReciver } from "./ChatBoxReciver";
 import { ChatBoxSender } from "./ChatBoxSender";
-import menuVertical from "../../img/menu-vertical.png"
+import menuVertical from "../../img/menu-vertical.png";
 
 export const ChatContainer = (prop) => {
   const enterSend = (e) => {
     if (e.key === "Enter") {
       ersalPayam();
       refreshHandler();
-      setinputSendMessege("");
     }
   };
 
@@ -22,8 +21,10 @@ export const ChatContainer = (prop) => {
   //! ------------------------------------------------------------------------------------
   const [inputSendMessege, setinputSendMessege] = useState("");
   const ref = useRef();
+
   if (ref.current) {
-    ref.current.scrollTop = ref.current.scrollHeight ;
+    ref.current.scrollTop = ref.current.scrollHeight;
+    console.log(ref.current);
   }
   const sortChat = [...prop.sender, ...prop.reciver].sort((a, b) => {
     return new Date(a.date) - new Date(b.date);
@@ -33,6 +34,7 @@ export const ChatContainer = (prop) => {
   const ersalPayam = async () => {
     const res = await farawin.testAddChat(prop.item.username, inputSendMessege);
     res.code == 200 ? setinputSendMessege("") : "";
+    refreshHandler();
   };
   //! --------------------------------------------------------------------------------------
   return (
@@ -61,11 +63,15 @@ export const ChatContainer = (prop) => {
           />
         </div>
         {/* ------------------------------------------------ قسمت نمایش چت ----------------------------------------------------- */}
-        <div ref={ref}  className="grow overflow-y-auto p-2 scroll-smooth  ">
+        <div ref={ref} className="grow overflow-y-auto p-2 scroll-smooth  ">
           {sortChat.length != 0
-            ? sortChat.map((sortedItem , i) =>
+            ? sortChat.map((sortedItem, i) =>
                 sortedItem.sender != localStorage.userMobile ? (
-                  <ChatBoxReciver key={i} item={prop.item} reciver={sortedItem} />
+                  <ChatBoxReciver
+                    key={i}
+                    item={prop.item}
+                    reciver={sortedItem}
+                  />
                 ) : (
                   <ChatBoxSender key={i} sender={sortedItem} />
                 )
@@ -84,30 +90,28 @@ export const ChatContainer = (prop) => {
         </div>
         {/* ----------------------------------------------------------- این قسمت هم برای اینپوت ارسال پیام ------------------------------------------------------------- */}
         <div className=" flex flex-row justify-center items-center">
-        <div className="flex-1 mx-3">
-          <input
-            type="text"
-            value={inputSendMessege}
-            onChange={(e) => {
-              setinputSendMessege(e.target.value);
-            }}
-            onKeyDown={enterSend}
-            placeholder="پیام شما ..."
-            className="bg-[rgba(100,211,255,0.4)]  text-lg w-full h-10 pl-10 pr-2 rounded-lg outline-none"
-          />
+          <div className="flex-1 mx-3">
+            <input
+              type="text"
+              value={inputSendMessege}
+              onChange={(e) => {
+                setinputSendMessege(e.target.value);
+              }}
+              onKeyDown={enterSend}
+              placeholder="پیام شما ..."
+              className="bg-[rgba(100,211,255,0.4)]  text-lg w-full h-10 pl-10 pr-2 rounded-lg outline-none"
+            />
           </div>
-         <div>
-         <img
-         className="w-8 mx-1 cursor-pointer"
-            src={imageSend}
-            alt="attachment"
-            onClick={() => {
-              ersalPayam();
-            }}
-          />
-         </div>
-          
-         
+          <div>
+            <img
+              className="w-8 mx-1 cursor-pointer"
+              src={imageSend}
+              alt="attachment"
+              onClick={() => {
+                ersalPayam();
+              }}
+            />
+          </div>
         </div>
       </div>
 

@@ -164,8 +164,13 @@ export const Register = (props) => {
           </button>
 
           <button
-            className="rounded-full h-10 p-2 m-8 text-ml text-white"
+            className="rounded-full h-10 p-2 m-8 text-ml text-white disabled:cursor-not-allowed only: "
             onClick={validForm}
+            disabled={
+              phone.length == 11 && pass.length >= 8 && repassword == pass
+                ? false
+                : true
+            }
             type="button"
             style={{
               background: `-webkit-linear-gradient(right,#FDA7DF,#D980FA,#686de0,#9980FA,#7ed6df)`,

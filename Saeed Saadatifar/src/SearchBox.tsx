@@ -113,7 +113,7 @@ const SearchBox: React.FC<Props> = ({
     >
       <div className="relative ">
         <div
-          className="h-24 border-b mx-1 border-gray-600 flex overflow-auto gap-1"
+          className="h-24 mx-1 mb-3 flex overflow-auto gap-1"
           ref={scrollBox}
           onScroll={(e) => {
             if (
@@ -135,7 +135,7 @@ const SearchBox: React.FC<Props> = ({
                   if (0 >= scrollBox.current.scrollLeft)
                     scrollBox.current.scrollLeft += 70;
                 }}
-                className="absolute flex transition items-center h-full text-5xl text-[#1e1b4b90] hover:text-[#1e1b4b] bg-gradient-to-r from-transparent to-[#fef9c370] hover:to-[#fef9c3] cursor-pointer"
+                className="absolute flex transition items-center right-0 h-full text-5xl text-[#1e1b4b90] hover:text-[#1e1b4b] bg-gradient-to-r from-transparent to-[#fef9c370] hover:to-[#fef9c3] cursor-pointer"
               >
                 <p>➧</p>
               </div>
@@ -208,7 +208,7 @@ const SearchBox: React.FC<Props> = ({
         </div>
       </div>
 
-      <div className="relative">
+      {/* <div className="relative">
         {searchInp &&
           (scrollTop.current && scrollTop.current.scrollTop) > 0 &&
           hideToptArrow && (
@@ -236,7 +236,6 @@ const SearchBox: React.FC<Props> = ({
             else setHideBottomArrow(true);
             if (e.target.scrollTop != 0) setHidetopArrow(true);
             else setHidetopArrow(false);
-            console.log(hideBottomArrow);
           }}
         >
           {searchInp && chatList ? (
@@ -246,19 +245,15 @@ const SearchBox: React.FC<Props> = ({
                   key={item.id}
                   id={
                     item.receiver == localStorage.username
-                      ? contacts.filter((e) => e.username.match(item.sender))[0]
-                          .username
-                      : contacts.filter((e) =>
-                          e.username.match(item.receiver)
-                        )[0].username
+                      ? item.sender
+                      : item.receiver
                   }
                   title={
                     item.receiver == localStorage.username
                       ? contacts.filter((e) => e.username.match(item.sender))[0]
-                          .name
                       : contacts.filter((e) =>
                           e.username.match(item.receiver)
-                        )[0].name
+                        )[0]
                   }
                   className={`flex flex-row-reverse relative hover:bg-[#21242B] ${
                     selectedContact != null &&
@@ -281,7 +276,7 @@ const SearchBox: React.FC<Props> = ({
                   onClick={(e) => {
                     set([
                       e.target.id,
-                      e.target.title,
+                      e.target.title.name,
                       createImageProfile(
                         item.receiver == localStorage.username
                           ? contacts.filter((e) =>
@@ -297,24 +292,6 @@ const SearchBox: React.FC<Props> = ({
                   }}
                 >
                   <div
-                    id={
-                      item.receiver == localStorage.username
-                        ? contacts.filter((e) =>
-                            e.username.match(item.sender)
-                          )[0].username
-                        : contacts.filter((e) =>
-                            e.username.match(item.receiver)
-                          )[0].username
-                    }
-                    title={
-                      item.receiver == localStorage.username
-                        ? contacts.filter((e) =>
-                            e.username.match(item.sender)
-                          )[0].name
-                        : contacts.filter((e) =>
-                            e.username.match(item.receiver)
-                          )[0].name
-                    }
                   >
                     <Profile
                       id={
@@ -581,7 +558,7 @@ const SearchBox: React.FC<Props> = ({
             <p className="rotate-[90deg]">➧</p>
           </div>
         )}
-      </div>
+      </div> */}
     </div>
   );
 };

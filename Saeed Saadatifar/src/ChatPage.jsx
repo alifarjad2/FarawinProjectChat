@@ -83,15 +83,23 @@ export default function ChatPage() {
     let lastChats = new Map();
     if (chatList && contactList) {
       for (let i = contactList.length - 1; i >= 0; i--) {
-        for (let j = chatList.length - 1; j >= 0; j--) {
-          if (
-            chatList[j].sender == contactList[i].username ||
-            chatList[j].receiver == contactList[i].username
-          ) {
-            lastChats.set(contactList[i], chatList[j]);
-            break;
-          }
-        }
+        let arr = chatList.filter(
+          (chat) =>
+            chat.sender == contactList[i].username ||
+            chat.receiver == contactList[i].username
+        );
+        arr.length > 0
+          ? lastChats.set(contactList[i], arr[arr.length - 1])
+          : lastChats.set(contactList[i], null);
+        // for (let j = chatList.length - 1; j >= 0; j--) {
+        //   if (
+        //     chatList[j].sender == contactList[i].username ||
+        //     chatList[j].receiver == contactList[i].username
+        //   ) {
+        //     lastChats.set(contactList[i], chatList[j]);
+        //     break;
+        //   }
+        // }
       }
     }
     return lastChats;
