@@ -1,3 +1,4 @@
+// #region Ipmorts
 // import sections : import is for having a file in this file that we have opened and use them here like css styles other components etc.
 
 import farawin from "farawin";
@@ -9,12 +10,14 @@ import Popup from "./popup";
 import SearchBar from "./searchbar";
 import RecieverChatMassage from "./resieverChatMassage";
 import { useRef } from "react";
+// #endregion
 
 // this is the Main function of this component and I exported to the other component
 // we have the whole component of this page in this function
 // passing props in the function means I can use passed values from other components in this componenet
 
 export default function ChatPage(props) {
+  // #region States
   // state sections : we have many states like useState useRef and Effect to control or saving something or getting nonReact informations from the outside of the React with useEffect
   const [filteredContacts, setFilteredContacts] = useState(null);
   const [buttonToggle, setButtonToggle] = useState(null);
@@ -36,17 +39,21 @@ export default function ChatPage(props) {
   const [contactEditName, setContactEditName] = useState("");
   const contactListController = useRef(null);
 
-  console.log(buttonToggle2);
-  console.log(filteredContacts);
-  console.log(sendText);
+  // console.log(buttonToggle2);
+  // console.log(filteredContacts);
+  // console.log(sendText);
+  // #endregion
 
+  // #region IfUseRefController
   // this condition is for controling useRef state
   //در اینجا من یک اینتروال برای کنترل کردن مقدار یک استیت ساختم تا هر یک ثانیه اجرا شود و برای متوقف کردن آن در از حلقه شرط زیر استفاده کردم تا با چک کردن مقدار یوز رف که مقدار استیت را گرفته است شرط را کنترل کند و اینترل وال را متوقف کند
 
   if (contactListController?.current) {
     clearInterval(contactListController.current);
   }
+  // #endregion
 
+  // #region UseEffect Controller
   // در اینجا یک اینتروال درست کردم تا مقدار متغیر مورد نظر را تورو فالس کند تا با استفاده از این متغیر در دپندنسی یک یوز افکت آن را هم کنترل میکند که دوباره اجرا شود
   // ست اینتروال یک تابع تایم دار برای کنترل استیت های تکرار شونده است تا از ری رندر زیاد آن ها جلوگیری کرد
 
@@ -57,7 +64,9 @@ export default function ChatPage(props) {
       setControl(true);
     }
   }, 1000);
+  // #endregion
 
+  // #region Use Effect
   // یوز افکت یک استیت برای گرفتن یک مقدار خارج از ری اکت است مانند فچ یا اطلاعات سرور
   // در دپندنسی آن میتوان مقادیری قرار داد تا ری رندر آن را بتوان کنترل کرد
 
@@ -81,8 +90,10 @@ export default function ChatPage(props) {
     };
   }, [buttonToggle]);
 
-  console.info(selectedNumber);
+  // console.info(selectedNumber);
+  // #endregion
 
+  // #region Handle Functions
   // a function for refresh chat control the useEffects when you press the refresh buttons for chats
   const handleRefreshChat = () => {
     setButtonToggle2(Math.random());
@@ -234,7 +245,7 @@ export default function ChatPage(props) {
   };
   //  this is a function for getting value from send chat input and we get the text that user wants to send it by pressing Enter key
   const handleTextSendByEnter = async (event) => {
-    if (event.key === "Enter") {
+    if (event.key == "Enter") {
       const toUser = selectedNumber;
       const textSend = sendText;
       const resultSend = await farawin.testAddChat(toUser, textSend);
@@ -243,6 +254,8 @@ export default function ChatPage(props) {
       } else {
         alert(resultSend.message);
       }
+      setButtonToggle2(Math.random());
+      setSendText("");
     }
   };
   // we have 3 variable that control the buttons in the pop ups by filling the inputs in the right way by the chat laws
@@ -282,6 +295,8 @@ export default function ChatPage(props) {
     contactMenu.style.display = "none";
     closeContactMenu.style.display = "none";
   };
+  // #endregion
+
   // returning section in the main function is for returning elemnts that we want to show to the user by the conditions or other things that we want
   return (
     <div dir="rtl" lang="fa">
@@ -348,6 +363,7 @@ export default function ChatPage(props) {
           }
         />
       )}
+
       {/* pop up for delete contact */}
       {isOpenDelete && (
         <Popup
@@ -389,6 +405,7 @@ export default function ChatPage(props) {
           }
         />
       )}
+
       {/* pop up for adding contact */}
       {isOpenAdd && (
         <Popup
@@ -450,6 +467,7 @@ export default function ChatPage(props) {
           }
         />
       )}
+
       {/* main container for the whole chat page */}
       <div className="bg-[#34393C]">
         <section
@@ -480,6 +498,7 @@ export default function ChatPage(props) {
                   <path d="M 7 4 C 6.744125 4 6.4879687 4.0974687 6.2929688 4.2929688 L 4.2929688 6.2929688 C 3.9019687 6.6839688 3.9019687 7.3170313 4.2929688 7.7070312 L 11.585938 15 L 4.2929688 22.292969 C 3.9019687 22.683969 3.9019687 23.317031 4.2929688 23.707031 L 6.2929688 25.707031 C 6.6839688 26.098031 7.3170313 26.098031 7.7070312 25.707031 L 15 18.414062 L 22.292969 25.707031 C 22.682969 26.098031 23.317031 26.098031 23.707031 25.707031 L 25.707031 23.707031 C 26.098031 23.316031 26.098031 22.682969 25.707031 22.292969 L 18.414062 15 L 25.707031 7.7070312 C 26.098031 7.3170312 26.098031 6.6829688 25.707031 6.2929688 L 23.707031 4.2929688 C 23.316031 3.9019687 22.682969 3.9019687 22.292969 4.2929688 L 15 11.585938 L 7.7070312 4.2929688 C 7.5115312 4.0974687 7.255875 4 7 4 z" />
                 </svg>
               </button>
+
               {/* button for refreshing contact lists */}
               <button
                 id="refresh-contact"
@@ -488,6 +507,7 @@ export default function ChatPage(props) {
               >
                 <img className="w-[22px] h-[22px]" src={Refresh} alt="" />
               </button>
+
               {/* button for adding contacts  */}
               <button
                 onClick={handleAddContact}
@@ -495,6 +515,7 @@ export default function ChatPage(props) {
               >
                 Add
               </button>
+
               {/* button for deleting contacts */}
               <button
                 onClick={handleDeleteContact}
@@ -502,6 +523,7 @@ export default function ChatPage(props) {
               >
                 Del
               </button>
+
               {/* button for editing contacts  */}
               <button
                 className="hover:bg-blue-400 w-fit rounded-lg p-1"
@@ -510,6 +532,7 @@ export default function ChatPage(props) {
                 Edit
               </button>
             </div>
+
             {/* search bar section with calling back a component for searching contacts */}
             <div id="search-bar" className="flex pt-4 mb-5 pl-2">
               <SearchBar
@@ -517,6 +540,7 @@ export default function ChatPage(props) {
                 set={setSelectedContact}
                 number={setSelectedNumber}
               />
+
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 50 50"
@@ -525,6 +549,7 @@ export default function ChatPage(props) {
                 <path d="M 21 3 C 11.601563 3 4 10.601563 4 20 C 4 29.398438 11.601563 37 21 37 C 24.355469 37 27.460938 36.015625 30.09375 34.34375 L 42.375 46.625 L 46.625 42.375 L 34.5 30.28125 C 36.679688 27.421875 38 23.878906 38 20 C 38 10.601563 30.398438 3 21 3 Z M 21 7 C 28.199219 7 34 12.800781 34 20 C 34 27.199219 28.199219 33 21 33 C 13.800781 33 8 27.199219 8 20 C 8 12.800781 13.800781 7 21 7 Z" />
               </svg>
             </div>
+
             {/* this section is contained the contact lists that we get from server */}
             <div className="overflow-scroll overflow-x-hidden h-[70%]">
               {!controlContact ? (
@@ -561,6 +586,7 @@ export default function ChatPage(props) {
               )}
             </div>
           </div>
+
           {/* chat page main container */}
           <div
             id="chat-container"
@@ -590,6 +616,7 @@ export default function ChatPage(props) {
                     <path d="M5 19.9998C4.44772 19.9998 4 20.4475 4 20.9998C4 21.552 4.44772 21.9997 5 21.9997H22C22.5523 21.9997 23 21.552 23 20.9998C23 20.4475 22.5523 19.9998 22 19.9998H5Z" />
                   </svg>
                 </button>
+
                 {/* refresh button for showing chats and update them by every tap */}
                 <button
                   onClick={handleRefreshChat}
@@ -597,6 +624,7 @@ export default function ChatPage(props) {
                 >
                   Refresh Chat
                 </button>
+
                 {/* header element for showing contact's name */}
                 <h1
                   id="chat-header-title"
@@ -606,9 +634,10 @@ export default function ChatPage(props) {
                 </h1>
               </div>
             </div>
+
             <div
               id="chat-body"
-              className=" mx-auto p-5 h-3/4 w-full overflow-scroll overflow-x-hidden"
+              className=" mx-auto p-5 h-3/4 w-full overflow-scroll overflow-x-hidden "
             >
               {/* a component for getting and sorting chats coming from the server */}
               <div className="p-2 mr-5 h-full w-full">
@@ -622,23 +651,23 @@ export default function ChatPage(props) {
                 )}
               </div>
             </div>
+
             {/* chat sender input section */}
             <div id="chat-sender" className="w-full p-3 flex justify-center">
               <input
                 onChange={handleSendTextsChange}
-                onKeyDown={() => {
-                  handleTextSendByEnter(event);
-                  setButtonToggle2(Math.random());
-                }}
+                onKeyDown={handleTextSendByEnter}
                 value={sendText}
                 type="text"
                 placeholder="پیغام خود را بنویسید ... "
                 className="w-9/12 p-2 text-white outline-none rounded-r-lg border-none bg-[#2E333D]"
               />
+
               <button
                 onClick={() => {
                   handleTextSender();
                   setButtonToggle2(Math.random());
+                  setSendText("");
                 }}
                 className="bg-[#2E333D] text-white hover:bg-blue-400 w-fit rounded-l-lg rounded-r-none p-1"
               >

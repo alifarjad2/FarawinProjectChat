@@ -93,7 +93,7 @@ export default function RecieverChatMassage(props) {
         ) : (
           Object.entries(groupedChats).map(([monthDayYear, chats]) => (
             <div key={monthDayYear}>
-              <h2 className="text-violet-400 text-lg shadow-lg w-1/3 m-auto shadow-violet-400 text-center rounded-lg ">
+              <h2 className="text-violet-400 text-lg shadow-lg w-1/2 m-auto shadow-violet-400 text-center rounded-lg ">
                 {monthDayYear}
               </h2>
               {chats.map((chat) => {
