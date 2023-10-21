@@ -106,7 +106,7 @@ export default function Home() {
 
   useEffect(() => {
     const socket = new WebSocket(
-      "wss://farawin.iran.liara.run/api/ws/eyJ1c2VybmFtZSI6IjA5MzkzMDEzMzk3IiwicGFzc3dvcmQiOiIxMjMxMjMxMjMiLCJuYW1lIjoiRmFyYXdpbiIsImRhdGUiOiIyMDIzLTA3LTA1VDE3OjU0OjMwLjcwM1oifQ=="
+      "wss://farawin.iran.liara.run/api/ws/" + localStorage.token
     );
     socket.addEventListener("message", (e) => {
       const newChat = JSON.parse(e.data);
@@ -235,7 +235,7 @@ function ContactsSection() {
       </div>
       {/* فسمت لیست کانتک ها */}
       <div className="listPerson my-4 pr-2  overflow-auto pl-2">
-        {!contactLoading &&
+        {(true || !contactLoading) &&
           filteredContactList?.map((contact, index) => {
             return (
               <div
