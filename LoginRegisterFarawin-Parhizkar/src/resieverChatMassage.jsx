@@ -1,6 +1,5 @@
 import farawin from "farawin";
 import { useEffect, useState } from "react";
-import { useRef } from "react";
 import "./App.css";
 
 // main component function that get an export of it
@@ -8,8 +7,6 @@ export default function RecieverChatMassage(props) {
   // 2 states for filtering chats and control it for being empty or not
   // and a useref for saving control state and pass it to the interval for make a control state to check if we have any chat for the specific contact or not
   const [filteredChats, setFilteredChats] = useState([]);
-  const [control, setControl] = useState(false);
-  const chatController = useRef(null);
   // useEffect is for getting chats from the server and a prop that I get it from chat to control the re render of this state
   useEffect(() => {
     let ignore = false;
@@ -38,18 +35,7 @@ export default function RecieverChatMassage(props) {
 
   console.log(senderChats);
   console.log(receiverChats);
-  // a condition for interval to stop it by checking the useref value with the last saved value
-  if (chatController?.current) {
-    clearInterval(chatController.current);
-  }
-  // making an interval for chats to check if its empty or not by every 1 sec
-  chatController.current = setInterval(() => {
-    if (receiverChats == "" && senderChats == "") {
-      setControl(false);
-    } else {
-      setControl(true);
-    }
-  }, 1000);
+  
   // sort whole texts from me and contact in a single array by date of texts
   const sortedChats = [...senderChats, ...receiverChats].sort((a, b) => {
     return new Date(a.date) - new Date(b.date);
@@ -88,7 +74,7 @@ export default function RecieverChatMassage(props) {
   return (
     <div>
       <div className=" flex flex-col">
-        {props.toggle && !control ? (
+        {!sortedChats ? (
           <p className="text-white font-bold">پیغامی وجود ندارد</p>
         ) : (
           Object.entries(groupedChats).map(([monthDayYear, chats]) => (

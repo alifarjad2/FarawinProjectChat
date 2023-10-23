@@ -2,21 +2,20 @@
 // import sections : import is for having a file in this file that we have opened and use them here like css styles other components etc.
 
 import farawin from "farawin";
-import Input from "postcss/lib/input";
 import { useEffect, useState } from "react";
 import "./App.css";
 import Refresh from "./assets/refresh-svgrepo-com.png";
 import Popup from "./popup";
 import SearchBar from "./searchbar";
 import RecieverChatMassage from "./resieverChatMassage";
-import { useRef } from "react";
+
 // #endregion
 
 // this is the Main function of this component and I exported to the other component
 // we have the whole component of this page in this function
 // passing props in the function means I can use passed values from other components in this componenet
 
-export default function ChatPage(props) {
+export default function ChatPage() {
   // #region States
   // state sections : we have many states like useState useRef and Effect to control or saving something or getting nonReact informations from the outside of the React with useEffect
   const [filteredContacts, setFilteredContacts] = useState(null);
@@ -31,40 +30,19 @@ export default function ChatPage(props) {
   const [isValidName, setIsValidName] = useState(null);
   const [selectedContact, setSelectedContact] = useState("");
   const [selectedNumber, setSelectedNumber] = useState("");
-  const [controlChats, setControlChats] = useState(false);
-  const [controlContact, setControl] = useState(false);
   const [sendText, setSendText] = useState("");
   const [isOpenEdit, setIsOpenEdit] = useState(false);
   const [editPhoneNumber, setEditPhoneNumber] = useState("");
   const [contactEditName, setContactEditName] = useState("");
-  const contactListController = useRef(null);
+ 
 
   // console.log(buttonToggle2);
   // console.log(filteredContacts);
   // console.log(sendText);
   // #endregion
 
-  // #region IfUseRefController
-  // this condition is for controling useRef state
-  //در اینجا من یک اینتروال برای کنترل کردن مقدار یک استیت ساختم تا هر یک ثانیه اجرا شود و برای متوقف کردن آن در از حلقه شرط زیر استفاده کردم تا با چک کردن مقدار یوز رف که مقدار استیت را گرفته است شرط را کنترل کند و اینترل وال را متوقف کند
-
-  if (contactListController?.current) {
-    clearInterval(contactListController.current);
-  }
-  // #endregion
-
   // #region UseEffect Controller
-  // در اینجا یک اینتروال درست کردم تا مقدار متغیر مورد نظر را تورو فالس کند تا با استفاده از این متغیر در دپندنسی یک یوز افکت آن را هم کنترل میکند که دوباره اجرا شود
-  // ست اینتروال یک تابع تایم دار برای کنترل استیت های تکرار شونده است تا از ری رندر زیاد آن ها جلوگیری کرد
-
-  contactListController.current = setInterval(() => {
-    if (buttonToggle == null) {
-      setControl(false);
-    } else {
-      setControl(true);
-    }
-  }, 1000);
-  // #endregion
+  
 
   // #region Use Effect
   // یوز افکت یک استیت برای گرفتن یک مقدار خارج از ری اکت است مانند فچ یا اطلاعات سرور
@@ -74,16 +52,16 @@ export default function ChatPage(props) {
     let ignore = false;
 
     // getting contacts from api
-
+if (!ignore) {
     farawin.getContacts((res) => {
-      if (!ignore) {
+      
         setFilteredContacts(
           res.contactList.filter(
             (contact) => contact.ref === localStorage.username
           )
         );
-      }
-    });
+      
+    });}
     // for controlling useEffect run or not
     return () => {
       ignore = true;
@@ -97,7 +75,7 @@ export default function ChatPage(props) {
   // a function for refresh chat control the useEffects when you press the refresh buttons for chats
   const handleRefreshChat = () => {
     setButtonToggle2(Math.random());
-    setControlChats(true);
+    
   };
   // a function for refresh chat control the useEffects when you press the refresh buttons for contacts
   const handleRefresh = () => {
@@ -552,11 +530,11 @@ export default function ChatPage(props) {
 
             {/* this section is contained the contact lists that we get from server */}
             <div className="overflow-scroll overflow-x-hidden h-[70%]">
-              {!controlContact ? (
+              {!filteredContacts ? (
                 <p className="text-white font bold">مخاطبی وجود ندارد</p>
               ) : (
                 <div>
-                  {buttonToggle &&
+                  {
                     filteredContacts &&
                     filteredContacts.map((contact) => (
                       <div
@@ -641,14 +619,14 @@ export default function ChatPage(props) {
             >
               {/* a component for getting and sorting chats coming from the server */}
               <div className="p-2 mr-5 h-full w-full">
-                {controlChats && (
+                {
                   // passing 3 porps for the reciver chat component
                   <RecieverChatMassage
                     toggle={buttonToggle2}
                     number={selectedNumber}
                     contactName={selectedContact}
                   />
-                )}
+                }
               </div>
             </div>
 
