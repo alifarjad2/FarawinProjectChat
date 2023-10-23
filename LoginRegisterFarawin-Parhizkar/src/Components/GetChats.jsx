@@ -9,6 +9,7 @@ const GetChats = () => {
   const refreshChat = useStore((state) => state.refreshChat);
   const lastMessageRef = useRef(null);
   const scrollChat = useStore((state) => state.scrollChat);
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     if (lastMessageRef.current) {
       lastMessageRef.current.scrollIntoView({ behavior: "smooth" });
@@ -28,8 +29,11 @@ const GetChats = () => {
       let data = await chatData.json();
       return data;
     }
-    getChats().then((chat) => setChat(chat.chatList));
-    console.log(scrollChat);
+    getChats().then((chat) => {
+      setChat(chat.chatList);
+      setLoading(false);
+    });
+
     return () => {
       ignore = true;
     };
@@ -85,7 +89,9 @@ const GetChats = () => {
   return (
     <div>
       <div className=" flex flex-col">
-        {!sortedChats ? (
+        {loading ? (
+          <p className="text-white font-bold">بارگذاری ...</p>
+        ) : sortedChats.length === 0 ? (
           <p className="text-white font-bold">پیغامی وجود ندارد</p>
         ) : (
           Object.entries(groupedChats).map(([monthDayYear, chats]) => (
