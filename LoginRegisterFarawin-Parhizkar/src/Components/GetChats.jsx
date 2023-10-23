@@ -1,46 +1,57 @@
-import farawin from "farawin";
-import { useEffect, useState } from "react";
-import "./App.css";
+import React from "react";
+import { useStore } from "./Zustand/useStore";
+import { useState, useEffect, useRef } from "react";
 
-// main component function that get an export of it
-export default function RecieverChatMassage(props) {
-  // 2 states for filtering chats and control it for being empty or not
-  // and a useref for saving control state and pass it to the interval for make a control state to check if we have any chat for the specific contact or not
-  const [filteredChats, setFilteredChats] = useState([]);
-  // useEffect is for getting chats from the server and a prop that I get it from chat to control the re render of this state
+const GetChats = () => {
+  const [chat, setChat] = useState([]);
+  const sharedNumber = useStore((state) => state.sharedNumber);
+  const sharedName = useStore((state) => state.sharedName);
+  const refreshChat = useStore((state) => state.refreshChat);
+  const lastMessageRef = useRef(null);
+  const scrollChat = useStore((state) => state.scrollChat);
+  useEffect(() => {
+    if (lastMessageRef.current) {
+      lastMessageRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [scrollChat]);
   useEffect(() => {
     let ignore = false;
-
-    farawin.getChats((res) => {
-      if (!ignore) {
-        setFilteredChats(res.chatList);
-      }
-    });
-
+    async function getChats() {
+      const chatData = await fetch("https://farawin.iran.liara.run/api/chat", {
+        headers: {
+          accept: "application/json",
+          authorization: localStorage.token,
+        },
+        body: null,
+        method: "GET",
+      });
+      let data = await chatData.json();
+      return data;
+    }
+    getChats().then((chat) => setChat(chat.chatList));
+    console.log(scrollChat);
     return () => {
       ignore = true;
     };
-  }, [props.toggle]);
-  // filtering chats by senders and reciever of that text
-  const senderChats = filteredChats.filter((res) => {
+  }, [refreshChat]);
+
+  const userChat = chat.filter((res) => {
     if (res.receiver == localStorage.username) {
-      return res.sender == props.number;
+      return res.sender == sharedNumber;
     }
   });
-  const receiverChats = filteredChats.filter((res) => {
-    if (res.receiver == props.number) {
+  const contactChat = chat.filter((res) => {
+    if (res.receiver == sharedNumber) {
       return res.sender == localStorage.username;
     }
   });
-
-  console.log(senderChats);
-  console.log(receiverChats);
-  
-  // sort whole texts from me and contact in a single array by date of texts
-  const sortedChats = [...senderChats, ...receiverChats].sort((a, b) => {
+  let sortedChats = [...userChat, ...contactChat];
+  sortedChats.sort((a, b) => {
     return new Date(a.date) - new Date(b.date);
   });
-  // A function for getting dat obj and extracting months and days and full years
+  //   console.log(userChat);
+  //   console.log(contactChat);
+  //   console.log(sharedNumber);
   function getMonthDayYearFromDate(date) {
     const monthNames = [
       "January",
@@ -60,7 +71,7 @@ export default function RecieverChatMassage(props) {
       monthNames[date.getMonth()]
     } ${date.getDate()}, ${date.getFullYear()}`;
   }
-  // Adding chats with the same date of sent to an array with the reduser and show them in a groupe chats with each other and use this array to show chats in the chat section 
+  // Adding chats with the same date of sent to an array with the reduser and show them in a groupe chats with each other and use this array to show chats in the chat section
   const groupedChats = sortedChats.reduce((groups, chat) => {
     const dateObj = new Date(chat.date);
     const monthDayYear = getMonthDayYearFromDate(dateObj);
@@ -82,7 +93,7 @@ export default function RecieverChatMassage(props) {
               <h2 className="text-violet-400 text-lg shadow-lg w-1/2 m-auto shadow-violet-400 text-center rounded-lg ">
                 {monthDayYear}
               </h2>
-              {chats.map((chat) => {
+              {chats.map((chat, index) => {
                 // Convert chat.date to a Date object
                 const dateObj = new Date(chat.date);
 
@@ -95,6 +106,7 @@ export default function RecieverChatMassage(props) {
                 return (
                   // in this returning elements i check the chats by the sender and styling it to show the texts in the left or right of the screen .
                   <div
+                    ref={index === chats.length - 1 ? lastMessageRef : null}
                     className={`w-full p-2  h-fit rounded-lg flex items-end gap-1 ${
                       isSender ? "direction2" : "direction"
                     } my-5`}
@@ -111,7 +123,7 @@ export default function RecieverChatMassage(props) {
                       {isSender ? (
                         <p>User</p>
                       ) : (
-                        <p> {props.contactName.slice(0, 2)} </p>
+                        <p> {sharedName.slice(0, 2)} </p>
                       )}
                     </div>
                     <div
@@ -121,10 +133,12 @@ export default function RecieverChatMassage(props) {
                           : "bg-[#2E333D] rounded-r-lg rounded-tl-lg"
                       }`}
                     >
-                      <p className=" text-white p-2 ">{chat.text}</p>
+                      <p className=" text-white p-2 break-words">{chat.text}</p>
                       <div
                         className={`text-white flex ${
-                          isSender ? "direction " : "direction2 flex-row-reverse justify-end"
+                          isSender
+                            ? "direction "
+                            : "direction2 flex-row-reverse justify-end"
                         }`}
                       >
                         <p>{hour > 9 ? <p>{hour}</p> : <p>0{hour}</p>}</p>
@@ -141,4 +155,6 @@ export default function RecieverChatMassage(props) {
       </div>
     </div>
   );
-}
+};
+
+export default GetChats;

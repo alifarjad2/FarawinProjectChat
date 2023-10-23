@@ -4,16 +4,15 @@
 import farawin from "farawin";
 import Input from "postcss/lib/input";
 import { useState } from "react";
-import "./App.css";
+import "../App.css";
 // 1- کاربر بتونه درست لاگین و رجیستر کنه
 // ۲- کارکرد صحیح سناریو های گفته شده
 // #endregion
 
-
 // Export defaults are used to export a single module, variable, expression, or function from a JavaScript file so that it can be used in any other file of either the same program or even in an entirely different program.
 // مرحله 1 : یک فانکشن اصلی که دارنده تمام کامپوننت هاست را به داخل فایل اصلی جی اس ایکس خود صادر میکنم
 
-export default function FormAuth() {
+export default function LoginRegister() {
   // #region States
   // مرحله 3 : در اینجا با استفاده از هوک چک و تابع زیرش چک میکنیم آیا صفحه در لاگین است یا ریجیستر که بتوانیم وجود یک سری المنت ها و رفتار هارا کم یا اضافه کنیم
   const [isLoginPage, setIsLoginPage] = useState(true);
@@ -30,7 +29,7 @@ export default function FormAuth() {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [isValid, setIsValid] = useState(null);
   // #endregion
-  
+
   // #region Handle Functions
   // مرحله 2 : در این قسمت یک تابع تعریف کردم تا با استفاده از یوز استیت های بالا 3 شرط را برای درستی شماره تلفن و نشان دادن پیغام مربوطه چک بکند
   const handleChange = (event) => {
@@ -137,7 +136,6 @@ export default function FormAuth() {
   };
   // #endregion
 
-
   // The return method in React is a way to return data from a component. It returns the data that was passed into the component, which the parent component can then use. The return method is generally used when you want to return a single value from a component.
   // مرحله 1 : نوشتن ریترن برای گرفتن خروجی و ساختن دام ری اکت در اینجا ما کار بادی را شبیه سازی میکنیم و ری اکت خروجی های مارا به دام اچ تی ام ال منتقل میکند
   return (
@@ -154,25 +152,21 @@ export default function FormAuth() {
         backgroundPosition: `center`,
       }}
     >
-
       {/* مرحله 1 : در اینجا بخشی برای کنترل جایگیری و چیدمان باکس نگه دارنده فیلد های پر شونده ساخته ام */}
       <div>
-
         {/* مرحله 1 : این قسمت نیز بخشی برای کنترل اجزای داخلی باکس است از نظر چیدمان و اندازه های باکس در اسکرین های مختلف */}
         <div className="bg-white rounded-lg p-5 flex flex-col gap-4 md:w-[400px]  overflow-hidden max-[425px]:w-[300px] min-[375px]:w-[300px] min-[320px]:w-[250px] items-center ">
-         
           {/* مرحله 1 : با یک تگ اچ وان که تگ هدر است و به مرورگر میفهماند محتویات این صفحه برای چه چیزیست به آن گفته ام که این صفحه برای لاگین کردن است و هم یک یوایکس برا مخاطب است تا متوجه شود اینجا برای ورود کردن به جاییست */}
           <h1 className="font-bold">{isLoginPage ? "Login" : "Regsiter"}</h1>
-        
+
           {/* مرحله : 1 ساختن بخشی برای کنترل جایگیری فیلد ها نسبت به خودشان و لیبلشان */}
           <div className="flex flex-col items-start gap-1 w-11/12">
-           
             {/* The <label> element is used to associate a text label with a form <input> field. The label is used to tell users the value that should be entered in the associated input field. Display inline. */}
             {/* مرحله 1 : ساختن یک لیبل برای قسمت شماره تلفن */}
             <label htmlFor="phonenumber" className="">
               Telephone :{" "}
             </label>
-           
+
             {/* The <input> HTML element is used to create interactive controls for web-based forms in order to accept data from the user; a wide variety of types of input data and control widgets are available, depending on the device and user agent. */}
             {/* مرحله 1 : در اینجا یک اینپوت برا گرفتن شماره تلفن از مخاطب ساختم که در ادامه توسط ری اکت چک میشود تا درست وارد شده باشد */}
             <input
@@ -183,7 +177,7 @@ export default function FormAuth() {
               name="phonenumber"
               placeholder="09123456789"
             />
-           
+
             {/* مرحله 2 : توسط توابع ری اکت انتخاب میشود که در صورت درست بودن یا غلط بودن شماره تلفن توسط یه شرط چه پیغامی نشان داده شود */}
             {/* در این شرط خالی بودن هم چک میشود */}
             {isValid === null ? null : isValid ? (
@@ -196,13 +190,12 @@ export default function FormAuth() {
               </p>
             )}
           </div>
-      
+
           {/* مرحله : 1 ساختن بخشی برای کنترل جایگیری فیلد ها نسبت به خودشان و لیبلشان */}
           <div className="flex flex-col items-start  w-11/12">
-           
             {/* مرحله 1 : ساختن یک لیبل برای قسمت شماره تلفن */}
             <label htmlFor="pass">Password : </label>
-            
+
             {/* مرحله 1 : در اینجا یک اینپوت برا گرفتن رمز عبور از مخاطب ساختم که در ادامه توسط ری اکت چک میشود تا درست وارد شده باشد */}
             <input
               className="w-full p-1 outline-none border-b-2 border-b-zinc-300"
@@ -212,7 +205,7 @@ export default function FormAuth() {
               onChange={handleChangePass}
               placeholder="********"
             />
-           
+
             {/* مرحله 2 : توسط توابع ری اکت انتخاب میشود که در صورت درست بودن یا غلط بودن شماره تلفن توسط یه شرط چه پیغامی نشان داده شود */}
             {/* در این شرط خالی بودن هم چک میشود */}
             {isValidPass === null ? null : isValidPass ? (
@@ -223,7 +216,7 @@ export default function FormAuth() {
               </p>
             )}
           </div>
-         
+
           {/* مرحله 3 : چونکه دو صفحه لاگین ریجیستر در یک پیج وحود دارند و سوییچ میشوند وجود المنت های مربوط به صفحه ریجیستر را شرطی کرده ام تا در صورت بودن در صفحه ریجیستر نمایش داده شوند */}
           {/* توسط مقدار ایز لاگین که متعلق به استیت کنترل وجود صفحه لاگین ریجیستر است و بوجود آوردن یک شرط گفته ام در صورت نبودن در ریجیستر یا بودن در آن فیلد مورد نظر را نمایش یا مخفی کن */}
           {isLoginPage ? null : (
@@ -248,7 +241,7 @@ export default function FormAuth() {
               )}
             </div>
           )}
-         
+
           {/* مرحله 3 : مانند سکشن تکرار رمز عبور در اینجا با استفاده از استیت های مربوطه شرطب گذاشتم تا در صورت بودن در صفحه ریجیستر فیلد نام کاربر نمایش داده شود یا مخفی شود */}
           {isLoginPage ? null : (
             <div className="flex flex-col items-start w-11/12">
@@ -263,7 +256,7 @@ export default function FormAuth() {
               />
             </div>
           )}
-          
+
           {/* تگ اسپن نوعی تگ بخش بندی کردن است که توانایی نشان دادن متن مثل بقیه تگ های بخش بندی کردن را داراست */}
           {/* مرحله 1 : ساختن بخشی برای فراموشی رمز عبور که رفتار آن را در مراحل بعدی توسط ری اکت مشخص میکنم تا پیغمای مبنی بر در حال ساختن نشان دهد  */}
           <span
@@ -273,7 +266,7 @@ export default function FormAuth() {
             {/* مرحله 3 : در اینجا توسط شرط چک میشود که در صورت بودن در صفحه ریجیستر فراموشی رمز عبور پنهان شود */}
             {isLoginPage ? "Forget Password ?" : ""}
           </span>
-         
+
           {/* مرحله 3 : در اینجا توسط شرط و یوز استیت مربوطه چک میشود بنا به بودن در کدام صفحه نام دکمه و رفتار آن برای ثبت اطالاعات تغییر کند و به لاگین یا ریجیستر تبدیل شود */}
           {isLoginPage ? (
             //  The <button> tag is used to create a clickable button within HTML form on your webpage. You can put content like text or image within the <button>........ </button> tag. You should always specify the type attribute for a <button> tag. Different browsers use different default type for the button element.
@@ -296,12 +289,12 @@ export default function FormAuth() {
               Register
             </button>
           )}
-         
+
           {/* مرحله 3 : بنا به یوز استیت بودن در کدام صفحه متن این تگ پی تغییر میکند توسط یک شرط */}
           <p className="text-base text-[#646cff] font-medium ">
             {isLoginPage ? "Or Sign Up Using" : "Or Login Using"}
           </p>
-        
+
           {/* مرحله 3 : قسمت اصلی این مرحله ساخت این دکمه است تا با استفاده از یک سری یوز استیت و شروط صفحه را تبدیل به ریجیستر یا لاگین کند که بنا به آن متن داخل دکمه نیز توسط شروط تغییر میکند */}
           {isLoginPage ? (
             <button
@@ -321,10 +314,7 @@ export default function FormAuth() {
             </button>
           )}
         </div>
-    
       </div>
-
     </div>
-    
   );
 }
