@@ -30,7 +30,7 @@ function App() {
             <SideBar closeMenu={setSidebarOpen} />
           </div>
         )}
-        <div className="p-2 w-9/12 max-lg:w-full max-lg:absolute max-lg:top-0 max-lg:bottom-0 max-lg:left-0 max-lg:right-0">
+        <div className="p-2 w-9/12 max-lg:w-full max-lg:h-full max-lg:absolute max-lg:top-0 max-lg:bottom-0 max-lg:left-0 max-lg:right-0">
           <ChatBox openMenu={setSidebarOpen} />
         </div>
       </div>

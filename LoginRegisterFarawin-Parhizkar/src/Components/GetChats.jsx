@@ -34,12 +34,12 @@ const GetChats = () => {
       setChat(chat.chatList);
       setLoading(false);
     });
-
+    
     return () => {
       ignore = true;
     };
   }, [refreshChat]);
-
+  setsharedLastMessage(chat);
   const userChat = chat.filter((res) => {
     if (res.receiver == localStorage.username) {
       return res.sender == sharedNumber;
@@ -54,13 +54,7 @@ const GetChats = () => {
   sortedChats.sort((a, b) => {
     return new Date(a.date) - new Date(b.date);
   });
-  let lastMessages = {};
-  chat.forEach((chat) => {
-    // Assuming chat.sender is the username of the contact
-    lastMessages[chat.receiver] = chat.text;
-  });
-  console.log(lastMessages)
-  setsharedLastMessage(lastMessages);
+
   // Adding chats with the same date of sent to an array with the reduser and show them in a groupe chats with each other and use this array to show chats in the chat section
   const groupedChats = sortedChats.reduce((groups, chat) => {
     const dateObj = new Date(chat.date);
