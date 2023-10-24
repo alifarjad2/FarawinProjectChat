@@ -13,4 +13,6 @@ export const useStore = create((set) => ({
   setRefreshChat: (value) => set(() => ({ refreshChat: value })),
   scrollChat: "",
   setScrollChat: (value) => set(() => ({ scrollChat: value })),
+  sharedLastMessage: "",
+  setsharedLastMessage: (value) => set(() => ({ sharedLastMessage: value })),
 }));

@@ -10,8 +10,11 @@ const SideBar = ({ closeMenu }) => {
   const [isAddContactPopupOpen, setAddContactPopupOpen] = useState(false);
   return (
     <div className="flex flex-col gap-5 h-full">
-      <div className="flex justify-between items-center gap-1 w-full">
-        <h1 className="bg-violet-400 p-[5px] rounded-lg">فراوین</h1>
+      <div className="flex items-center w-full">
+        <div className="flex flex-1 gap-1">
+          <button onClick={()=>{return localStorage.clear() , location.reload()}} className="p-1 border-2 rounded-lg hover:bg-red-500 transition-all duration-300">Exit</button>
+          <h1 className="bg-violet-400 p-[5px] rounded-lg">فراوین</h1>
+        </div>
         <div className="flex gap-1">
           <button
             onClick={() => {
