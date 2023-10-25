@@ -68,12 +68,15 @@ export const DrawerChat = (prop) => {
       }
     >
       <div className="flex justify-start items-center  h-9 mt-1 ">
+        
+      <button onClick={()=>{return localStorage.clear() , location.reload()}} className="border border-red-700 hover:bg-red-600 rounded-lg h-9 shrink-0 w-10 p-1">Exit</button>
+        
         <img
           src={imageAddContact}
           className={
             showAddContact
-              ? " bg-slate-300 rounded-full h-10 mr-2   cursor-pointer"
-              : " bg-slate-500 rounded-full h-10 mr-2  hover:bg-green-500  cursor-pointer"
+              ? " bg-slate-300 rounded-full h-8 mr-2   cursor-pointer"
+              : " bg-slate-500 rounded-full h-8 mr-2  hover:bg-white  cursor-pointer"
           }
           onClick={() => {
             setShowAddContact(!showAddContact);
@@ -83,7 +86,7 @@ export const DrawerChat = (prop) => {
         <img
           src={imageRefresh}
           className={
-            " bg-cyan-500 hover:bg-white rounded-full h-10  mr-2 text-xs cursor-pointer"
+            " bg-slate-500 hover:bg-white rounded-full h-8  mr-2 text-xs cursor-pointer"
           }
           onClick={() => {
             setReloadComponent(!reloadComponent);
@@ -94,8 +97,8 @@ export const DrawerChat = (prop) => {
           src={imageDeleteContact}
           className={
             showRemoveContact
-              ? " bg-slate-300 rounded-full h-10 mr-2  text-xs mx-1 cursor-pointer"
-              : " bg-slate-500 rounded-full h-10 mr-2  hover:bg-red-500 text-xs mx-1 cursor-pointer"
+              ? " bg-slate-300 rounded-full h-8 mr-2  text-xs mx-1 cursor-pointer"
+              : " bg-slate-500 rounded-full h-8 mr-2  hover:bg-white text-xs mx-1 cursor-pointer"
           }
           onClick={() => {
             setshowRemoveContact(!showRemoveContact);
@@ -109,6 +112,7 @@ export const DrawerChat = (prop) => {
           className=" w-10 mx-1 cursor-pointer"
           alt="editContact"
         />
+        
         <img
           src={imageDrawerMenu}
           onClick={() => {
@@ -117,8 +121,8 @@ export const DrawerChat = (prop) => {
           alt="menu"
           className={
             showDrawer
-              ? "w-10 mr-9 hover:cursor-pointer "
-              : "w-10 mt-2  hover:cursor-pointer fixed right-6 rotate-90  "
+              ? "w-8 mr-2   hover:cursor-pointer "
+              : "w-8 mt-2  hover:cursor-pointer fixed right-6 rotate-90  "
           }
         />
       </div>

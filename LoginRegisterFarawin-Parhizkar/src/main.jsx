@@ -1,9 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import FormAuthComponent from "./FormAuth";
+import App from "./App.jsx";
+import LoginRegister from "./Components/LoginRegister.jsx";
 import "./index.css";
-import ChatPage from "./Chat";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  !localStorage.token ? <FormAuthComponent /> : <ChatPage />
+  <React.StrictMode>
+    {!localStorage.token ? <LoginRegister /> : <App />}
+  </React.StrictMode>
 );

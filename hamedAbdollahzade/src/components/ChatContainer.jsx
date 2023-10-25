@@ -30,6 +30,7 @@ export const ChatContainer = (prop) => {
     return new Date(a.date) - new Date(b.date);
   });
   // console.log(sortChat);
+  
 
   const ersalPayam = async () => {
     const res = await farawin.testAddChat(prop.item.username, inputSendMessege);
@@ -51,13 +52,13 @@ export const ChatContainer = (prop) => {
           <div className="text-xl">{prop.item.name}</div>
           <img
             onClick={() => alert(" اینم قراره کار کنه ؟ |: ")}
-            className="h-8 absolute left-2 top-0 cursor-pointer "
+            className="h-8 absolute left-2 top-1 cursor-pointer "
             src={menuVertical}
             alt="menu-vertical"
           />
           <img
             onClick={() => refreshHandler()}
-            className="h-8 mx-6  bg-blue-400 rounded-full hover:bg-white  cursor-pointer"
+            className="h-7 mx-6  bg-blue-400 rounded-full   cursor-pointer"
             src={imageRefresh}
             alt="Refresh"
           />
@@ -89,8 +90,8 @@ export const ChatContainer = (prop) => {
           </div>
         </div>
         {/* ----------------------------------------------------------- این قسمت هم برای اینپوت ارسال پیام ------------------------------------------------------------- */}
-        <div className=" flex flex-row justify-center items-center">
-          <div className="flex-1 mx-3">
+        <div className="sticky bottom-0  flex flex-row justify-center items-center">
+          <div className="w-full mx-2">
             <input
               type="text"
               value={inputSendMessege}
@@ -99,12 +100,12 @@ export const ChatContainer = (prop) => {
               }}
               onKeyDown={enterSend}
               placeholder="پیام شما ..."
-              className="bg-[rgba(100,211,255,0.4)]  text-lg w-full h-10 pl-10 pr-2 rounded-lg outline-none"
+              className="bg-[#191923]  text-lg w-full h-12 pl-10 pr-4 rounded-full outline-none"
             />
           </div>
           <div>
             <img
-              className="w-8 mx-1 cursor-pointer"
+              className="w-6 absolute left-3 top-3 mx-1 cursor-pointer"
               src={imageSend}
               alt="attachment"
               onClick={() => {
