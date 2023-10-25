@@ -1,8 +1,7 @@
-import AddContact from "./AddContact";
 import { useState } from "react";
 
+import AddContact from "./AddContact";
 import ImageSearch from "./Assets/search-48.png";
-import ImageClose from "./Assets/close-48.png";
 import ImageAddContact from "./Assets/add-contact-48.png";
 import ImageRef from "./Assets/refresh-48.png";
 
