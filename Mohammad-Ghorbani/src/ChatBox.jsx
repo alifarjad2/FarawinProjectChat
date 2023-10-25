@@ -9,7 +9,6 @@ import ImageEditContact from "./Assets/edit-50.png";
 import EditContact from "./EditContact";
 import ImageDelete from "./Assets/delete-50.png";
 import ImageEditMessageWhite from "./Assets/edit-message-50-w.png";
-import ImageEditMessageBlack from "./Assets/edit-message-50-b.png";
 
 function ChatBox({
   selectedContact,
@@ -267,26 +266,16 @@ function ChatBox({
                           <img src={ImageDelete} alt="delete" />
                         </button>
                       )}
+                      {message.sender === localStorage.myUsername &&
                       <button
                         onClick={() => {
                           setSelectedChat(message);
                           editChat();
                         }}
-                        className={
-                          message.sender === localStorage.myUsername
-                            ? `w-5 absolute left-5 -bottom-1`
-                            : `w-5 absolute right-0 -bottom-1`
-                        }
+                        className={`w-5 absolute left-5 -bottom-1`}
                       >
-                        <img
-                          src={
-                            message.sender === localStorage.myUsername
-                              ? ImageEditMessageWhite
-                              : ImageEditMessageBlack
-                          }
-                          alt="editMessage"
-                        />
-                      </button>
+                        <img src={ImageEditMessageWhite} alt="editMessage" />
+                      </button>}
                     </div>
                   </div>
                 </div>
