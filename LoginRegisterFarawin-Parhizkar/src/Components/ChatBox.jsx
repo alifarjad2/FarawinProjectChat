@@ -8,7 +8,7 @@ const ChatBox = ({ openMenu }) => {
       <div>
         <Header openMenu={openMenu} />
       </div>
-      <div className=" overflow-y-scroll w-full flex-1">
+      <div className=" overflow-y-scroll flex-1 ">
         <GetChats />
       </div>
       <div>

@@ -212,7 +212,7 @@ export default function LoginRegister() {
               <p className="text-green-500 text-xs">Good password</p>
             ) : (
               <p className="text-xs text-red-500">
-                Invalid password. Please enter a stronger password.
+                Invalid password.Must Have 8 char and A-z and !@#$%^... .
               </p>
             )}
           </div>
@@ -261,7 +261,7 @@ export default function LoginRegister() {
           {/* مرحله 1 : ساختن بخشی برای فراموشی رمز عبور که رفتار آن را در مراحل بعدی توسط ری اکت مشخص میکنم تا پیغمای مبنی بر در حال ساختن نشان دهد  */}
           <span
             onClick={forgetPasword}
-            className="cursor-pointer text-[#646cff] place-self-end mr-3"
+            className="cursor-pointer text-[#646cff] place-self-start text-right mr-3"
           >
             {/* مرحله 3 : در اینجا توسط شرط چک میشود که در صورت بودن در صفحه ریجیستر فراموشی رمز عبور پنهان شود */}
             {isLoginPage ? "Forget Password ?" : ""}
