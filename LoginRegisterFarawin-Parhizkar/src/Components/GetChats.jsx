@@ -10,6 +10,7 @@ const GetChats = () => {
   const lastMessageRef = useRef(null);
   const scrollChat = useStore((state) => state.scrollChat);
   const [loading, setLoading] = useState(true);
+  const setsharedLastMessage = useStore((state) => state.setsharedLastMessage);
   useEffect(() => {
     if (lastMessageRef.current) {
       lastMessageRef.current.scrollIntoView({ behavior: "smooth" });
@@ -33,12 +34,12 @@ const GetChats = () => {
       setChat(chat.chatList);
       setLoading(false);
     });
-
+    
     return () => {
       ignore = true;
     };
   }, [refreshChat]);
-
+  setsharedLastMessage(chat);
   const userChat = chat.filter((res) => {
     if (res.receiver == localStorage.username) {
       return res.sender == sharedNumber;
@@ -53,32 +54,15 @@ const GetChats = () => {
   sortedChats.sort((a, b) => {
     return new Date(a.date) - new Date(b.date);
   });
-  //   console.log(userChat);
-  //   console.log(contactChat);
-  //   console.log(sharedNumber);
-  function getMonthDayYearFromDate(date) {
-    const monthNames = [
-      "January",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December",
-    ];
-    return `${
-      monthNames[date.getMonth()]
-    } ${date.getDate()}, ${date.getFullYear()}`;
-  }
+
   // Adding chats with the same date of sent to an array with the reduser and show them in a groupe chats with each other and use this array to show chats in the chat section
   const groupedChats = sortedChats.reduce((groups, chat) => {
     const dateObj = new Date(chat.date);
-    const monthDayYear = getMonthDayYearFromDate(dateObj);
+    const monthDayYear = dateObj.toLocaleDateString("fa-IR", {
+      month: "long",
+      day: "numeric",
+      year: "numeric",
+    });
     if (!groups[monthDayYear]) {
       groups[monthDayYear] = [];
     }
@@ -101,11 +85,15 @@ const GetChats = () => {
               </h2>
               {chats.map((chat, index) => {
                 // Convert chat.date to a Date object
-                const dateObj = new Date(chat.date);
+                const dateObj = new Date(chat.date).toLocaleTimeString(
+                  "fa-IR",
+                  {
+                    hourCycle: "h24",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  }
+                );
 
-                // Extract the hour from the Date object
-                const hour = dateObj.getHours();
-                const minute = dateObj.getMinutes();
                 // control is massage is for localstorage usernam or not
                 const isSender = chat.sender === localStorage.username;
 
@@ -133,7 +121,7 @@ const GetChats = () => {
                       )}
                     </div>
                     <div
-                      className={`w-1/3 p-1 ${
+                      className={` w-1/3 p-1 ${
                         isSender
                           ? "bg-blue-400 rounded-l-lg rounded-tr-lg"
                           : "bg-[#2E333D] rounded-r-lg rounded-tl-lg"
@@ -147,9 +135,10 @@ const GetChats = () => {
                             : "direction2 flex-row-reverse justify-end"
                         }`}
                       >
-                        <p>{hour > 9 ? <p>{hour}</p> : <p>0{hour}</p>}</p>
+                        {/* <p>{hour > 9 ? <p>{hour}</p> : <p>0{hour}</p>}</p>
                         <p>:</p>
-                        <p>{minute > 9 ? <p>{minute}</p> : <p>0{minute}</p>}</p>
+                        <p>{minute > 9 ? <p>{minute}</p> : <p>0{minute}</p>}</p> */}
+                        <p>{dateObj}</p>
                       </div>
                     </div>
                   </div>

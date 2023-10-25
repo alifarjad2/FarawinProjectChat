@@ -42,7 +42,7 @@ export default function ChatSender() {
   const handleSend = () => {
     setRefSendText(Math.random());
   };
-  console.log(sendText);
+  // console.log(sendText);
   return (
     <div className="flex">
       <input

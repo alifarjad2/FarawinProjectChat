@@ -18,7 +18,7 @@ export default function SearchBar() {
     );
   }
   setSearchedContact(foundedContact);
-  console.log(foundedContact);
+  // console.log(foundedContact);
   return (
     <div>
       <div>

@@ -10,6 +10,7 @@ export default function GetContacts({ Toggle }) {
   const [selectedNumber, setSelectedNumber] = useState("");
   const setSharedNumber = useStore((state) => state.setSharedNumber);
   const setScrollChat = useStore((state) => state.setScrollChat);
+  const sharedLastMessage = useStore((state) => state.sharedLastMessage);
 
   useEffect(() => {
     let ignore = false;
@@ -43,12 +44,19 @@ export default function GetContacts({ Toggle }) {
       })
       .catch((error) => console.log("There was an error!", error));
 
-    console.log(filteredContacts);
+    // console.log(sharedLastMessage);
     return () => {
       ignore = true;
     };
   }, [Toggle]);
 
+  const contactChatList = (username) => {
+    return sharedLastMessage.filter(
+      (chat) =>
+        (chat.sender == username && chat.receiver == localStorage.username) ||
+        (chat.receiver == username && chat.sender == localStorage.username)
+    );
+  };
   setSharedName(selectedName);
   setSharedNumber(selectedNumber);
 
@@ -75,7 +83,9 @@ export default function GetContacts({ Toggle }) {
                   </div>
                   <div className="flex flex-col">
                     <p>{contact.name}</p>
-                    <p>{contact.username}</p>
+                    <p className="text-xs text-violet-400">
+                      {contact.username}
+                    </p>
                   </div>
                 </div>
               ))}
@@ -95,9 +105,18 @@ export default function GetContacts({ Toggle }) {
                 <div className="w-10 h-10 bg-violet-500 text-center rounded-xl py-1 text-sm">
                   {contact.name.split("").slice(0, 2).join(" ")}
                 </div>
-                <div className="flex flex-col">
+                <div className="flex flex-col items-start">
                   <p>{contact.name}</p>
-                  <p>{contact.username}</p>
+                  <p className="text-xs text-violet-400">
+                    {contactChatList(contact.username)?.slice(-1)[0]?.text
+                      ? contactChatList(contact.username)?.slice(-1)[0]?.text
+                          .length > 10
+                        ? contactChatList(contact.username)
+                            ?.slice(-1)[0]
+                            ?.text.substring(0, 10) + "..."
+                        : contactChatList(contact.username)?.slice(-1)[0]?.text
+                      : "پیامی نیست ... "}
+                  </p>
                 </div>
               </div>
             ))
