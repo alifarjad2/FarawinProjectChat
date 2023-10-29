@@ -14,7 +14,7 @@ import FormAuth from "./FormAuth.jsx";
 import ChatPage from './ChatPage.jsx';
 import toast, { Toaster } from 'react-hot-toast';
 export default function App() {
-  const [namePage, setNamePage] = useState('Chat');
+  const [namePage, setNamePage] = useState('FormAuth');
   const handleChangePage = (value) => {
     setNamePage(value);
   };
