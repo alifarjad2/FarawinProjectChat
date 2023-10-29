@@ -92,34 +92,66 @@ export default function GetContacts({ Toggle }) {
             </div>
           ) : (
             filteredContacts &&
-            filteredContacts.map((contact, index) => (
-              <div
-                key={index}
-                onClick={() => {
-                  setSelectedName(contact.name),
-                    setSelectedNumber(contact.username);
-                  setScrollChat((c) => c + 1);
-                }}
-                className="cursor-pointer flex gap-2 p-2 items-center transition-all duration-300 hover:bg-[#2E333D] rounded-lg w-full"
-              >
-                <div className="w-10 h-10 bg-violet-500 text-center rounded-xl py-1 text-sm">
-                  {contact.name.split("").slice(0, 2).join(" ")}
+            filteredContacts.map((contact, index) => {
+              let now = new Date();
+              let lastChatTime = new Date(
+                contactChatList(contact.username)?.slice(-1)[0]?.date
+              );
+              let lastChatTimeShow = new Date(lastChatTime).toLocaleTimeString(
+                "fa-ir",
+                { day: "numeric", month: "short" }
+              );
+              let diffInMilliseconds = now - lastChatTime;
+              let diffInMinutes = Math.floor(diffInMilliseconds / 1000 / 60);
+              let show =
+                50 > diffInMinutes > 0
+                  ? `${diffInMinutes} min`
+                  : diffInMinutes > 50
+                  ? `${lastChatTimeShow}`
+                  : contactChatList(contact.username)?.slice(-1)[0]?.text != ""
+                  ? null
+                  : "Just now";
+              return (
+                <div
+                  key={index}
+                  onClick={() => {
+                    setSelectedName(contact.name),
+                      setSelectedNumber(contact.username);
+                    setScrollChat((c) => c + 1);
+                  }}
+                  className="cursor-pointer flex justify-between gap-1 p-2 items-center transition-all duration-300 hover:bg-[#2E333D] rounded-lg w-full"
+                >
+                  <div className="flex gap-[3px] ">
+                    <div className="w-10 h-10 bg-violet-500 text-center rounded-xl py-1 text-sm">
+                      {contact.name.split("").slice(0, 2).join(" ")}
+                    </div>
+                    <div className="flex flex-col items-start">
+                      <p className="text-sm">{contact.name}</p>
+                      <p className="text-xs text-violet-400">
+                        {contactChatList(contact.username)?.slice(-1)[0]?.text
+                          ? contactChatList(contact.username)?.slice(-1)[0]
+                              ?.text.length > 10
+                            ? contactChatList(contact.username)
+                                ?.slice(-1)[0]
+                                ?.text.substring(0, 10) + "..."
+                            : contactChatList(contact.username)?.slice(-1)[0]
+                                ?.text
+                          : "پیامی نیست ... "}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="w-1/4">
+                    {contactChatList(contact.username)?.slice(-1)[0]?.text !=
+                    "" ? (
+                      <p className="text-xs">{show}</p>
+                    ) : (
+                      <p>empty</p>
+                    )}
+                  </div>
                 </div>
-                <div className="flex flex-col items-start">
-                  <p>{contact.name}</p>
-                  <p className="text-xs text-violet-400">
-                    {contactChatList(contact.username)?.slice(-1)[0]?.text
-                      ? contactChatList(contact.username)?.slice(-1)[0]?.text
-                          .length > 10
-                        ? contactChatList(contact.username)
-                            ?.slice(-1)[0]
-                            ?.text.substring(0, 10) + "..."
-                        : contactChatList(contact.username)?.slice(-1)[0]?.text
-                      : "پیامی نیست ... "}
-                  </p>
-                </div>
-              </div>
-            ))
+              );
+            })
           )}
         </div>
       )}
